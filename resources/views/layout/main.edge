@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+@include('layout.head')
+@!section('head')
+</head>
+
+<body>
+
+<div class="super_container">
+
+	<!-- Header -->
+
+	@include('layout.header')
+
+	<!-- Menu -->
+	@include('layout.menu')
+	
+
+	<!-- Shows -->
+
+	@!section('content')
+
+	<!-- Footer -->
+
+	@include('layout.footer')
+</div>
+
+@include('layout.script')
+
+@!section('script')
+
+</body>
+</html>
