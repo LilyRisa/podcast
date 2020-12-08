@@ -30,4 +30,5 @@ Route.post('post-login', 'AuthorController.PostLogin').as('login.post').middlewa
 Route.group(() => {
     Route.get('podcast', 'PodcastController.index').as('podcast.index')
     Route.post('audio_podcast', 'PodcastController.put_audio').as('podcast.audio')
+    Route.post('podcast_submit','PodcastController.SubmitAudio').as('podcast.submit')
 }).middleware(['auth'])

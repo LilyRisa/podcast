@@ -3,17 +3,17 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
 
-class Category extends Model {
+class Episode extends Model {
     static get table () {
-        return 'categories' // Your table name
+        return 'episode' // Your table name
     }
     user () {
         return this.belongsTo('App/Models/User')
     }
-    episode () {
-        return this.hasOne('App/Models/Episode')
+    category () {
+        return this.belongsTo('App/Models/Category')
     }
     
 }
 
-module.exports = Category
+module.exports = Episode

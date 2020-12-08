@@ -37,6 +37,9 @@ class User extends Model {
   category () {
     return this.hasOne('App/Models/Category')
   }
+  episode () {
+    return this.hasOne('App/Models/Episode')
+  }
 }
 
 module.exports = User
