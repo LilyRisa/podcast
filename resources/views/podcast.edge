@@ -56,22 +56,39 @@
                             </div>
 
                             <div class="upload_info" id="upload_form62b88" style="margin-top: 10px; border: none;">
-                                <form name="linkUploadForm62b88" class="upload_form" id="linkUploadForm62b88" method="post" action="https://mangxahoi.club/upload.php#currnet_" enctype="multipart/form-data">
+                                <form name="linkUploadForm62b88">
                                     <h3>upload audio</h3>
                                     <div class="form-group">
-                                      <label for="file_audio">Video file</label>
+                                      <label for="file_audio">Audio file</label>
                                       <input type="file" name="file_audio" id="file_audio"  class="form-control" accept="audio/*"/>
                                       <div>can be mp3</div>
                                   </div>
                                     <div class="form-group">
-                                        <label for="remote_play_url">Video URL</label>
-                                        <input type="text" name="remote_play_url" id="remote_play_url" size="15" class="form-control" value="" />
+                                        <label for="remote_play_url">Audio Token</label>
+                                        <input type="text" name="remote_play_url" id="remote_play_url" size="15" class="form-control" value="" disabled />
                                         <div>can be mp3</div>
                                     </div>
-
+                                    
+                                    <div class="form-group" id="pre_audio" style="display:none">
+                                    <label for="remote_play_url">Audio preview</label>
+                                        <span class="btn-success" style="padding: 5px 5px 5px 5px;
+                                        border: 1px solid #666;
+                                        color: #000000;
+                                        /* text-decoration: none; */
+                                        background: #d1ecf1 url(icon.png) no-repeat scroll 5px center;
+                                        cursor: pointer;" id="ware_start" onclick="wavesurfer.play();">Start</span>
+                                        <span class="btn-danger" style="padding: 5px 5px 5px 5px;
+                                        border: 1px solid #666;
+                                        color: #000;
+                                        /* text-decoration: none; */
+                                        background: #dcdcdc url(icon.png) no-repeat scroll 5px center;
+                                        cursor: pointer;" id="ware_pause" onclick="wavesurfer.pause();">Pause</span>
+                                        <div id="ware_audio"></div>
+                                    </div>
                                     <div class="form-group">
                                         <label for="thumb_file">Thumb file</label>
-                                        <input name="thumb_file" type="file" class="filefield" id="thumb_file" />
+                                        <input name="thumb_file" type="file" class="filefield" id="thumb_file" accept="image/*"/>
+                                        <img class="img-responsive" src="" style="display: none; max-width: 10%;" id="thumb_url"/>
                                     </div>
 
                                     <fieldset>
@@ -195,6 +212,18 @@
 
 @section('script')
 <script>
+ 
+    $('ware_pause').on('click',function(e){
+        console.log('sdsad');
+        e.preventDefault();
+    });
+
+    var wavesurfer = WaveSurfer.create({
+        container: '#ware_audio',
+        waveColor: '#5de2fb',
+        progressColor: '#0087a0',
+        mediaControls : true
+    });
   //$('#tags').tagsinput('items')
   $('#file_audio').on('change',function(){
     var file = $('#file_audio').prop('files')[0];
@@ -213,7 +242,7 @@
   }else{
       data.append('file', file);
     $.ajax({
-      url: '{{route('podcast.audio')}}',
+      url: '{{storage}}',
       type:'POST',
       dataType: 'text',
       data: data,
@@ -222,12 +251,88 @@
       contentType: false,
       headers: {
           'x-csrf-token': '{{ csrfToken }}',
+          'Authorization': '{{token}}'
       }
     }).done((result) =>{
+        result = JSON.parse(result);
+        if(result.result.status == 'success'){
+            $('#remote_play_url').val(result.result.token_file);
+            $('#pre_audio').show();
+            // $('#pre_audio').find('source').attr('src','{{getfile}}'+result.result.token_file);
+            // $('#pre_audio').find('iframe').attr('src','{{getfile}}'+result.result.token_file);
+            wavesurfer.load('{{getfile}}'+result.result.token_file);
+            wavesurfer.on('ready', function () {
+                wavesurfer.play();
+            });
+        }else{
+            $.MessageBox({
+                buttonDone: "OK",
+                buttonFail : undefined,
+                top: "25%",
+                input: false,
+                message: "Server error",
+                queue: true,
+                speed: 200,
+            });
+        }
       console.log(result);
     });
   }
   });
 
+  $('#thumb_file').on('change',function(){
+    var file = $('#thumb_file').prop('files')[0];
+    console.log(file);
+    var data = new FormData();
+    if (file.size > 4002400) {
+      $.MessageBox({
+        buttonDone: "OK",
+        buttonFail : undefined,
+        top: "25%",
+        input: false,
+        message: "File upload max size 30MB",
+        queue: true,
+        speed: 200,
+    });
+  }else{
+      data.append('file', file);
+    $.ajax({
+      url: '{{storage}}',
+      type:'POST',
+      dataType: 'text',
+      data: data,
+      cache: false,
+      processData: false,
+      contentType: false,
+      headers: {
+          'x-csrf-token': '{{ csrfToken }}',
+          'Authorization': '{{token}}'
+      }
+    }).done((result) =>{
+        result = JSON.parse(result);
+        if(result.result.status == 'success'){
+            $('#thumb_url').show();
+            $('#thumb_url').attr('src','{{getfile}}'+result.result.token_file);
+        }else{
+            $.MessageBox({
+                buttonDone: "OK",
+                buttonFail : undefined,
+                top: "25%",
+                input: false,
+                message: "Server error",
+                queue: true,
+                speed: 200,
+            });
+        }
+      console.log(result);
+    });
+  }
+  });
+    $('#embed_video').on('click',function(e){
+        e.preventDefault();
+        let data = {
+
+        }
+    });
 </script>
 @endsection
