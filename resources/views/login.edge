@@ -3604,7 +3604,7 @@ $('#form_log').on('submit',function(e){
         password: $('#pass').val(),
         _csrf: '{{ csrfToken }}'
     };
-    if( data.email == '' && data.password == ''){
+    if( data.email == '' || data.password == ''){
         $('#log_mess').text('vui lòng không để trống các trường yêu cầu');
     }else{
         $.ajax({
@@ -3633,12 +3633,13 @@ $('#form_reg').on('submit',function(e){
         password: $('#c_pass').val(),
         _csrf: '{{ csrfToken }}'
     };
-    if(data.username == '' && data.email == '' && data.fullname == '' && data.password == ''){
+	console.log(data);
+    if(data.username == '' || data.email == '' || data.fullname == '' || data.password == '' || data.username == null || data.email == null || data.fullname == null || data.password == null){
         $('#reg_mess').text('vui lòng không để trống các trường yêu cầu');
     }else{
         $.ajax({
             url: "{{route('register')}}",
-            method: 'post',
+            type: 'post',
             data: data,
             headers: {
                 'csrf-token': '{{ csrfToken }}'

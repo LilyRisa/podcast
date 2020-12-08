@@ -16,6 +16,7 @@ class EpisodeSchema extends Schema {
       table.text('path_audio','longtext').notNullable()
       table.text('tags')
       table.text('images','longtext')
+      table.text('policy')
       table.timestamps()
     })
   }

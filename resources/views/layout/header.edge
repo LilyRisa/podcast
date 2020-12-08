@@ -27,9 +27,10 @@
 		<div class="header_right d-flex flex-row align-items-start justify-content-start">
 
 			<!-- Submit -->
-			<div class="submit"><a href="#">Submit a Podcast</a></div>
+			
 			@loggedIn
 				@if(username != null)
+				<div class="submit"><a href="{{route('podcast.index')}}">Submit a Podcast</a></div>
 				<div class="submit" id="login"><a href="#">{{ username }}</a></div>
 				@endif
 			@else

@@ -25,4 +25,9 @@ Route.get('episode', 'EpisodeController.index').as('episode.index')
 
 Route.get('login', 'AuthorController.index').as('login.index').middleware('guest')
 Route.post('register', 'AuthorController.register').as('register').middleware('guest')
-Route.post('post-login', 'AuthorController.PostLogin').as('login.post').middleware('guest')
+Route.post('post-login', 'AuthorController.PostLogin').as('login.post').middleware(['verifyPassword'])
+
+Route.group(() => {
+    Route.get('podcast', 'PodcastController.index').as('podcast.index')
+    Route.post('audio_podcast', 'PodcastController.put_audio').as('podcast.audio')
+}).middleware(['auth'])

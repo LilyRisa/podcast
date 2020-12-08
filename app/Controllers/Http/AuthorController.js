@@ -18,10 +18,17 @@ class AuthorController {
     }
     async PostLogin({response, request, auth}){
         const { email, password } = request.all()
+        console.log(email, password);
         try{
-            await auth.attempt(email, password)
-            return response.type('application/json')
+            if(await auth.attempt(email, password)) {
+                let user = await User.findBy('email', email)
+                console.log(user);
+                return response.type('application/json')
                         .send({result: true})
+            }else{
+                return response.type('application/json')
+                        .send({result: true})
+            }
         }catch(error){
             return response.type('application/json')
                         .send({result: false})

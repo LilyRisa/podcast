@@ -52,7 +52,7 @@ module.exports = {
     serializer: 'lucid',
     model: 'App/Models/User',
     scheme: 'basic',
-    uid: 'username',
+    uid: 'email',
     password: 'password'
   },
 
