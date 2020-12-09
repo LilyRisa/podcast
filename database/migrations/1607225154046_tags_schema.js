@@ -7,7 +7,7 @@ class TagsSchema extends Schema {
   up () {
     this.create('tags', (table) => {
       table.increments().primary()
-      table.string('name',100)
+      table.string('name',100).unique()
       table.timestamps()
     })
   }

@@ -14,7 +14,6 @@ class EpisodeSchema extends Schema {
       table.integer('user_create').unsigned().notNullable()
       table.foreign('user_create').references('id').inTable('users')
       table.text('path_audio','longtext').notNullable()
-      table.text('tags')
       table.text('images','longtext')
       table.text('policy')
       table.timestamps()

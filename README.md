@@ -20,7 +20,8 @@ adonis new yardstick
 ```
 
 or manually clone the repo and then run `npm install`.
-
+don't run `npm audit fix`
+This is a bug in adonisjs@ace than 5.0.8 onwards
 
 ### Migrations
 

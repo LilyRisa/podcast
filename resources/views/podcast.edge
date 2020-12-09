@@ -207,12 +207,17 @@
 
     </div>
 </div>
+<div id="loading" class="messagebox_overlay" style="box-sizing: border-box; display: flex; flex-flow: column nowrap; align-items: center; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; justify-content: flex-start;">
+    <div style="position:absolute; top:40%; border-box; flex: 0 1 auto; display: flex; flex-flow: column nowrap; overflow: hidden; width: auto; max-height: 62.5%;">
+    <img src="{{assetsUrl('images/autoload.svg')}}"/>
+    </div>
+</div>
 
 @endsection
 
 @section('script')
 <script>
- 
+    $('#loading').hide();
     $('ware_pause').on('click',function(e){
         console.log('sdsad');
         e.preventDefault();
@@ -226,6 +231,7 @@
     });
   //$('#tags').tagsinput('items')
   $('#file_audio').on('change',function(){
+    $('#loading').show();
     var file = $('#file_audio').prop('files')[0];
     console.log(file);
     var data = new FormData();
@@ -254,6 +260,7 @@
           'Authorization': '{{token}}'
       }
     }).done((result) =>{
+        $('#loading').hide();
         result = JSON.parse(result);
         if(result.result.status == 'success'){
             $('#remote_play_url').val(result.result.token_file);
@@ -281,6 +288,7 @@
   });
 
   $('#thumb_file').on('change',function(){
+    $('#loading').show();
     var file = $('#thumb_file').prop('files')[0];
     console.log(file);
     var data = new FormData();
@@ -309,6 +317,7 @@
           'Authorization': '{{token}}'
       }
     }).done((result) =>{
+        $('#loading').hide();
         result = JSON.parse(result);
         if(result.result.status == 'success'){
             $('#thumb_url').show();
@@ -358,6 +367,17 @@
                 data:data
             }).done((result) => {
                 console.log(result);
+                $.MessageBox({
+                    buttonDone: "OK",
+                    buttonFail : undefined,
+                    top: "25%",
+                    input: false,
+                    message: "Submit thành công",
+                    queue: true,
+                    speed: 200,
+                }).done(()=>{
+                    window.location.href = '{{route('home.index')}}';
+                });
             });
         }else{
             $.MessageBox({

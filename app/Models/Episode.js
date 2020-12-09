@@ -13,6 +13,9 @@ class Episode extends Model {
     category () {
         return this.belongsTo('App/Models/Category')
     }
+    tag () {
+        return this.belongsToMany('App/Models/Tags').pivotTable('episode_tags')
+     }
     
 }
 

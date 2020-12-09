@@ -33,7 +33,7 @@ $(document).ready(function()
 	initFavs();
 	initSvg();
 	initIsotope();
-	initSinglePlayer();
+	//initSinglePlayer();
 	initGallery();
 
 	$(window).on('resize', function()
@@ -201,156 +201,156 @@ $(document).ready(function()
 
 	*/
 
-	function initSinglePlayer()
-	{
-		if($(".jp-jplayer").length)
-		{
-			$("#jplayer_1").jPlayer({
-				ready: function () {
-					$(this).jPlayer("setMedia", {
-						title:"Better Days",
-							artist:"Bensound",
-							mp3:"files/bensound-betterdays.mp3"
-					});
-				},
-				play: function() { // To avoid multiple jPlayers playing together.
-					$(this).jPlayer("pauseOthers");
-				},
-				swfPath: "plugins/jPlayer",
-				supplied: "mp3",
-				cssSelectorAncestor: "#jp_container_1",
-				wmode: "window",
-				globalVolume: false,
-				useStateClassSkin: true,
-				autoBlur: false,
-				smoothPlayBar: true,
-				keyEnabled: true,
-				solution: 'html',
-				preload: 'metadata',
-				volume: 0.2,
-				muted: false,
-				backgroundColor: '#000000',
-				errorAlerts: false,
-				warningAlerts: false
-			});
+	// function initSinglePlayer()
+	// {
+	// 	if($(".jp-jplayer").length)
+	// 	{
+	// 		$("#jplayer_1").jPlayer({
+	// 			ready: function () {
+	// 				$(this).jPlayer("setMedia", {
+	// 					title:"Better Days",
+	// 						artist:"Bensound",
+	// 						mp3:"files/bensound-betterdays.mp3"
+	// 				});
+	// 			},
+	// 			play: function() { // To avoid multiple jPlayers playing together.
+	// 				$(this).jPlayer("pauseOthers");
+	// 			},
+	// 			swfPath: "plugins/jPlayer",
+	// 			supplied: "mp3",
+	// 			cssSelectorAncestor: "#jp_container_1",
+	// 			wmode: "window",
+	// 			globalVolume: false,
+	// 			useStateClassSkin: true,
+	// 			autoBlur: false,
+	// 			smoothPlayBar: true,
+	// 			keyEnabled: true,
+	// 			solution: 'html',
+	// 			preload: 'metadata',
+	// 			volume: 0.2,
+	// 			muted: false,
+	// 			backgroundColor: '#000000',
+	// 			errorAlerts: false,
+	// 			warningAlerts: false
+	// 		});
 
-			$("#jplayer_2").jPlayer({
-				ready: function () {
-					$(this).jPlayer("setMedia", {
-						title:"Better Days",
-							artist:"Bensound",
-							mp3:"files/bensound-betterdays.mp3"
-					});
-				},
-				play: function() { // To avoid multiple jPlayers playing together.
-					$(this).jPlayer("pauseOthers");
-				},
-				swfPath: "plugins/jPlayer",
-				supplied: "mp3",
-				cssSelectorAncestor: "#jp_container_2",
-				wmode: "window",
-				globalVolume: false,
-				useStateClassSkin: true,
-				autoBlur: false,
-				smoothPlayBar: true,
-				keyEnabled: true,
-				solution: 'html',
-				preload: 'metadata',
-				volume: 0.2,
-				muted: false,
-				backgroundColor: '#000000',
-				errorAlerts: false,
-				warningAlerts: false
-			});
+	// 		$("#jplayer_2").jPlayer({
+	// 			ready: function () {
+	// 				$(this).jPlayer("setMedia", {
+	// 					title:"Better Days",
+	// 						artist:"Bensound",
+	// 						mp3:"files/bensound-betterdays.mp3"
+	// 				});
+	// 			},
+	// 			play: function() { // To avoid multiple jPlayers playing together.
+	// 				$(this).jPlayer("pauseOthers");
+	// 			},
+	// 			swfPath: "plugins/jPlayer",
+	// 			supplied: "mp3",
+	// 			cssSelectorAncestor: "#jp_container_2",
+	// 			wmode: "window",
+	// 			globalVolume: false,
+	// 			useStateClassSkin: true,
+	// 			autoBlur: false,
+	// 			smoothPlayBar: true,
+	// 			keyEnabled: true,
+	// 			solution: 'html',
+	// 			preload: 'metadata',
+	// 			volume: 0.2,
+	// 			muted: false,
+	// 			backgroundColor: '#000000',
+	// 			errorAlerts: false,
+	// 			warningAlerts: false
+	// 		});
 
-			$("#jplayer_3").jPlayer({
-				ready: function () {
-					$(this).jPlayer("setMedia", {
-						title:"Better Days",
-							artist:"Bensound",
-							mp3:"files/bensound-betterdays.mp3"
-					});
-				},
-				play: function() { // To avoid multiple jPlayers playing together.
-					$(this).jPlayer("pauseOthers");
-				},
-				swfPath: "plugins/jPlayer",
-				supplied: "mp3",
-				cssSelectorAncestor: "#jp_container_3",
-				wmode: "window",
-				globalVolume: false,
-				useStateClassSkin: true,
-				autoBlur: false,
-				smoothPlayBar: true,
-				keyEnabled: true,
-				solution: 'html',
-				preload: 'metadata',
-				volume: 0.2,
-				muted: false,
-				backgroundColor: '#000000',
-				errorAlerts: false,
-				warningAlerts: false
-			});
+	// 		$("#jplayer_3").jPlayer({
+	// 			ready: function () {
+	// 				$(this).jPlayer("setMedia", {
+	// 					title:"Better Days",
+	// 						artist:"Bensound",
+	// 						mp3:"files/bensound-betterdays.mp3"
+	// 				});
+	// 			},
+	// 			play: function() { // To avoid multiple jPlayers playing together.
+	// 				$(this).jPlayer("pauseOthers");
+	// 			},
+	// 			swfPath: "plugins/jPlayer",
+	// 			supplied: "mp3",
+	// 			cssSelectorAncestor: "#jp_container_3",
+	// 			wmode: "window",
+	// 			globalVolume: false,
+	// 			useStateClassSkin: true,
+	// 			autoBlur: false,
+	// 			smoothPlayBar: true,
+	// 			keyEnabled: true,
+	// 			solution: 'html',
+	// 			preload: 'metadata',
+	// 			volume: 0.2,
+	// 			muted: false,
+	// 			backgroundColor: '#000000',
+	// 			errorAlerts: false,
+	// 			warningAlerts: false
+	// 		});
 
-			$("#jplayer_4").jPlayer({
-				ready: function () {
-					$(this).jPlayer("setMedia", {
-						title:"Better Days",
-							artist:"Bensound",
-							mp3:"files/bensound-betterdays.mp3"
-					});
-				},
-				play: function() { // To avoid multiple jPlayers playing together.
-					$(this).jPlayer("pauseOthers");
-				},
-				swfPath: "plugins/jPlayer",
-				supplied: "mp3",
-				cssSelectorAncestor: "#jp_container_4",
-				wmode: "window",
-				globalVolume: false,
-				useStateClassSkin: true,
-				autoBlur: false,
-				smoothPlayBar: true,
-				keyEnabled: true,
-				solution: 'html',
-				preload: 'metadata',
-				volume: 0.2,
-				muted: false,
-				backgroundColor: '#000000',
-				errorAlerts: false,
-				warningAlerts: false
-			});
+	// 		$("#jplayer_4").jPlayer({
+	// 			ready: function () {
+	// 				$(this).jPlayer("setMedia", {
+	// 					title:"Better Days",
+	// 						artist:"Bensound",
+	// 						mp3:"files/bensound-betterdays.mp3"
+	// 				});
+	// 			},
+	// 			play: function() { // To avoid multiple jPlayers playing together.
+	// 				$(this).jPlayer("pauseOthers");
+	// 			},
+	// 			swfPath: "plugins/jPlayer",
+	// 			supplied: "mp3",
+	// 			cssSelectorAncestor: "#jp_container_4",
+	// 			wmode: "window",
+	// 			globalVolume: false,
+	// 			useStateClassSkin: true,
+	// 			autoBlur: false,
+	// 			smoothPlayBar: true,
+	// 			keyEnabled: true,
+	// 			solution: 'html',
+	// 			preload: 'metadata',
+	// 			volume: 0.2,
+	// 			muted: false,
+	// 			backgroundColor: '#000000',
+	// 			errorAlerts: false,
+	// 			warningAlerts: false
+	// 		});
 
-			$("#jplayer_5").jPlayer({
-				ready: function () {
-					$(this).jPlayer("setMedia", {
-						title:"Better Days",
-							artist:"Bensound",
-							mp3:"files/bensound-betterdays.mp3"
-					});
-				},
-				play: function() { // To avoid multiple jPlayers playing together.
-					$(this).jPlayer("pauseOthers");
-				},
-				swfPath: "plugins/jPlayer",
-				supplied: "mp3",
-				cssSelectorAncestor: "#jp_container_5",
-				wmode: "window",
-				globalVolume: false,
-				useStateClassSkin: true,
-				autoBlur: false,
-				smoothPlayBar: true,
-				keyEnabled: true,
-				solution: 'html',
-				preload: 'metadata',
-				volume: 0.2,
-				muted: false,
-				backgroundColor: '#000000',
-				errorAlerts: false,
-				warningAlerts: false
-			});
-		}
-	}
+	// 		$("#jplayer_5").jPlayer({
+	// 			ready: function () {
+	// 				$(this).jPlayer("setMedia", {
+	// 					title:"Better Days",
+	// 						artist:"Bensound",
+	// 						mp3:"files/bensound-betterdays.mp3"
+	// 				});
+	// 			},
+	// 			play: function() { // To avoid multiple jPlayers playing together.
+	// 				$(this).jPlayer("pauseOthers");
+	// 			},
+	// 			swfPath: "plugins/jPlayer",
+	// 			supplied: "mp3",
+	// 			cssSelectorAncestor: "#jp_container_5",
+	// 			wmode: "window",
+	// 			globalVolume: false,
+	// 			useStateClassSkin: true,
+	// 			autoBlur: false,
+	// 			smoothPlayBar: true,
+	// 			keyEnabled: true,
+	// 			solution: 'html',
+	// 			preload: 'metadata',
+	// 			volume: 0.2,
+	// 			muted: false,
+	// 			backgroundColor: '#000000',
+	// 			errorAlerts: false,
+	// 			warningAlerts: false
+	// 		});
+	// 	}
+	// }
 
 	/* 
 
