@@ -17,7 +17,6 @@ class UserSeeder {
   async run () {
     const user = await Factory.model('App/Models/User').create()
     await user.save()
-    console.log('sadsadsa');
   }
 }
 

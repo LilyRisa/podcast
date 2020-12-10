@@ -12,6 +12,7 @@ class UserSchema extends Schema {
       table.string('password', 60).notNullable()
       table.string('fullname', 35).notNullable()
       table.text('address')
+      table.text('avatar')
       table.text('descriptions','longtext')
       table.boolean('authority')
       table.timestamps()

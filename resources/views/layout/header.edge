@@ -2,7 +2,7 @@
 
 		<!-- Logo -->
 		<div class="logo">
-			<a href="{{route('home.index')}}"><span>my</span>podcast<img src="images/play.png" alt=""></a>
+			<a href="{{route('home.index')}}"><span>podcast</span>me<img src="images/play.png" alt=""></a>
 		</div>
 
 		<div class="container">
@@ -31,7 +31,8 @@
 			@loggedIn
 				@if(username != null)
 				<div class="submit"><a href="{{route('podcast.index')}}">Submit a Podcast</a></div>
-				<div class="submit" id="login"><a href="#">{{ username }}</a></div>
+		<div class="submit" id="login"><a href="{{route('profile.index')}}">{{ username }}</a></div>
+				<div class="submit" id="logout"><a href="#">Logout</a></div>
 				@endif
 			@else
 			<div class="submit" id="login"><a href="{{route('login.index')}}">Login</a></div>
@@ -47,6 +48,21 @@
 					<li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
 				</ul>
 			</div>
+			<script>
+				$(document).ready(function(){
+					$('#logout').on('click',function(){
+						$.MessageBox({
+							buttonDone  : "Yes",
+							buttonFail  : "No",
+							message     : "Are you sure you want to log out?"
+						}).done(function(){
+							window.location.href = '/logout'
+						}).fail(function(){
+							$.MessageBox("Yeah, sure... ");
+						});
+					});
+				});
+			</script>
 
 			<!-- Hamburger -->
 			<div class="hamburger"><i class="fa fa-bars" aria-hidden="true"></i></div>

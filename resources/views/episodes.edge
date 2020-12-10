@@ -85,7 +85,7 @@
 						<div class="episode d-flex flex-row align-items-start justify-content-start s{{epi.category.id}}">
 							<div>
 								<div class="episode_image">
-								<img src="{{getfile}}{{epi.images}}" alt="">
+								<img src="{{getfile}}{{epi.images}}" alt="" style="height: 163px;object-fit: cover;">
 									<div class="tags">
 										<ul class="d-flex flex-row align-items-start justify-content-start">		
 											<li><a href="#">{{epi.category.name}}</a></li>										
@@ -94,8 +94,8 @@
 								</div>
 							</div>
 							<div class="episode_content">
-								<div class="episode_name"><a href="#">{{epi.title}}</a></div>
-								<div class="episode_date"><a href="#">{{epi.created_at}}</a></div>
+								<div class="episode_name"><a href="{{ route('episode.index', { id: epi.id }) }}">{{epi.title}}</a></div>
+								<div class="episode_date"><a href="{{ route('episode.index', { id: epi.id }) }}">{{epi.created_at}}</a></div>
 								<div class="show_info d-flex flex-row align-items-start justify-content-start">
 									<div class="show_fav d-flex flex-row align-items-center justify-content-start">
 										<div class="show_fav_icon show_info_icon"><img class="svg" src="images/heart.svg" alt=""></div>
@@ -138,6 +138,13 @@
 																	barWidth: 0.5,
 																	barHeight: 1,
 																	height: 35
+																});
+																wavesurfer{{epi.id}}.on('ready', function () {
+																	const volumn = getVolumn();
+																	if(volumn != null){
+																		wavesurfer{{epi.id}}.setVolume(volumn);
+																		$('#myRange_{{epi.id}}').val(volumn*100);
+																	}
 																});
 																wavesurfer{{epi.id}}.on('pause', function () {
 																	$('#seticon_{{epi.id}}').attr('class','jp-audio');

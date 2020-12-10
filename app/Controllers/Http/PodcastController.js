@@ -18,7 +18,6 @@ class PodcastController {
     }
     async put_audio({ request, response }){
         const audio = request.all()
-        console.log(audio);
         return response.type('application/json')
                         .send(audio)
     }
@@ -26,9 +25,7 @@ class PodcastController {
     async SubmitAudio({ request, response, auth}){
         let requesttags = request.input('tags')
         const user = await auth.getUser()
-        requesttags = requesttags.split(',');
-        console.log(requesttags)
-        
+        requesttags = requesttags.split(',')
         const policy = request.input('policy')
         let episode = new Episode();
         episode.title = request.input('title')

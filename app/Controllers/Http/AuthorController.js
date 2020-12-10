@@ -5,7 +5,6 @@ class AuthorController {
         return view.render('login')
     }
     async register({response, request}){
-        console.log('hihi');
         const user = new User()
         user.username = request.input('username')
         user.fullname = request.input('fullname')
@@ -18,11 +17,9 @@ class AuthorController {
     }
     async PostLogin({response, request, auth}){
         const { email, password } = request.all()
-        console.log(email, password);
         try{
             if(await auth.attempt(email, password)) {
                 let user = await User.findBy('email', email)
-                console.log(user);
                 return response.type('application/json')
                         .send({result: true})
             }else{

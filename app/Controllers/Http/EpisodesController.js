@@ -8,7 +8,7 @@ class EpisodesController {
     async index({view, auth}){
         const category = await Category.all()
         let tags = await Tags.all()
-        let episode = await Episode.query().with('category').fetch()
+        let episode = await Episode.query().with('category').orderBy('id','desc').fetch()
         const listcategory = category.toJSON()
         tags = tags.toJSON()
         episode = episode.toJSON()

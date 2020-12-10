@@ -11,6 +11,7 @@ class CategorySchema extends Schema {
       table.foreign('user_create').references('id').inTable('users')
       table.string('name',254).notNullable().unique()
       table.text('descriptions','longtext').notNullable()
+      table.text('thumb')
       table.timestamps()
     })
   }

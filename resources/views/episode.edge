@@ -1,18 +1,19 @@
 @layout('layout.main')
 
-
+@section('head')
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episode.css')}}">
+@endsection
 
 @section('content')
-@include('layout.home_episode')
 <div class="home">
-		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="images/episode.jpg" data-speed="0.8"></div>
+	<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{{getfile}}{{episode.images}}" data-speed="0.8"></div>
 		<div class="home_container">
 			<div class="container">
 				<div class="row">
 					<div class="col">
 						<div class="home_content text-center">
-							<div class="home_title"><h1>Audio - Lorem ipsum dolor sit amet consectetur</h1></div>
-							<div class="home_subtitle text-center">24 September, 2018</div>
+						<div class="home_title"><h1>{{episode.title}}</h1></div>
+							<div class="home_subtitle text-center">{{episode.created_at}}</div>
 						</div>
 					</div>
 				</div>
@@ -32,40 +33,33 @@
 									
 									<div class="single_player d-flex flex-row align-items-center justify-content-start">
 										<div id="jplayer_1" class="jp-jplayer"></div>
-										<div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
+										<div class="jp-audio" id="seticon" role="application" aria-label="media player">
 											<div class="jp-type-single">
 												<div class="player_controls">
 													<div class="jp-gui jp-interface d-flex flex-row align-items-center justify-content-start">
 														<div class="jp-controls-holder time_controls d-flex flex-row align-items-center justify-content-between">
 															<div>
 																<div class="jp-controls-holder play_button ml-auto">
-																	<button class="jp-play" tabindex="0"></button>
+																	<button class="jp-play" id="jplay" tabindex="0"></button>
 																</div>
 															</div>
 															<div>
-																<div class="jp-progress">
-																	<div class="jp-seek-bar">
-																		<div class="jp-play-bar"></div>
-																	</div>
-																</div>
+																<div class="audio_pro" id="episode"></div>
 															</div>
 														</div>
 														<div class="jp-volume-controls d-flex flex-row align-items-center justify-content-between ml-auto">
 															<div class="d-flex flex-row align-items-center justify-content-start">
-																<button class="jp-mute" tabindex="0"></button>
+																<button class="jp-mute" id="jpmute" tabindex="0"></button>
 															</div>
 															<div class="d-flex flex-row align-items-center justify-content-start">
-																<div class="jp-volume-bar">
-																	<div class="jp-volume-bar-value"></div>
-																</div>
+																<div class="slidecontainer">
+																	<input type="range" min="1" max="100" value="100" class="slider" id="myRange"  style="cursor: pointer;width: 65px;margin-left: 6px;margin-top: 4px;">
+																  </div>
 															</div>
 														</div>
 													</div>
 												</div>
-												<div class="jp-no-solution">
-													<span>Update Required</span>
-													To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>
-												</div>
+									
 											</div>
 										</div>
 									</div>
@@ -74,13 +68,13 @@
 
 								<div class="show_info d-flex flex-row align-items-start justify-content-start">
 									<div class="show_fav d-flex flex-row align-items-center justify-content-start">
-										<div class="show_fav_icon show_info_icon"><img class="svg" src="images/heart.svg" alt=""></div>
+										<div class="show_fav_icon show_info_icon"><img class="svg" src="{{assetsUrl('images/heart.svg')}}" alt=""></div>
 										<div class="show_fav_count">2371</div>
 									</div>
 									<div class="show_comments">
 										<a href="#">
 											<div class="d-flex flex-row align-items-center justify-content-start">
-												<div class="show_comments_icon show_info_icon"><img class="svg" src="images/speech-bubble.svg" alt=""></div>
+												<div class="show_comments_icon show_info_icon"><img class="svg" src="{{assetsUrl('images/speech-bubble.svg')}}" alt=""></div>
 												<div class="show_comments_count">88 Comments</div>
 											</div>
 										</a>	
@@ -105,7 +99,7 @@
 				<div class="row">
 					<div class="col-lg-3">
 						<!-- Episode Image -->
-						<div class="episode_image"><img src="images/episode_2.jpg" alt=""></div>
+						<div class="episode_image"><img src="{{getfile}}{{episode.images}}" alt=""></div>
 					</div>
 				</div>
 			</div>
@@ -122,13 +116,7 @@
 						<div class="sidebar_list">
 							<div class="sidebar_title">Categories</div>
 							<ul>
-								<li><a href="#">Travel</a></li>
-								<li><a href="#">Music</a></li>
-								<li><a href="#">Lifestyle</a></li>
-								<li><a href="#">Social Media</a></li>
-								<li><a href="#">Art</a></li>
-								<li><a href="#">Audiobooks</a></li>
-								<li><a href="#">Documentaries</a></li>
+								<li><a href="#" title="{{episode.category.descriptions}}">{{episode.category.name}}</a></li>
 							</ul>
 						</div>
 
@@ -137,17 +125,9 @@
 							<div class="sidebar_title">Tags</div>
 							<div class="tags">
 								<ul class="d-flex flex-row align-items-start justify-content-start flex-wrap">
-									<li><a href="#">music</a></li>
-									<li><a href="#">art</a></li>
-									<li><a href="#">technology</a></li>
-									<li><a href="#">travel & food</a></li>
-									<li><a href="#">viral</a></li>
-									<li><a href="#">interview</a></li>
-									<li><a href="#">social media</a></li>
-									<li><a href="#">development</a></li>
-									<li><a href="#">success</a></li>
-									<li><a href="#">did you know?</a></li>
-									<li><a href="#">live</a></li>
+									@each(tag in episode.tag)
+									<li><a href="#">{{tag.name}}</a></li>
+									@endeach
 								</ul>
 							</div>
 						</div>
@@ -174,9 +154,9 @@
 				<!-- Episode -->
 				<div class="col-lg-9 episode_col order-lg-2 order-1">
 					<div class="intro">
-						<div class="section_title">Audio Podcast - New Technologies that will rule the word</div>
+						<div class="section_title">{{episode.title}}</div>
 						<div class="intro_text">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec bibendum malesuada tellus a pretium. Proin quam nisi, maximus in pulvinar sed, viverra vitae est. Ut nibh nisl, malesuada nec massa nec, molestie varius lorem. Mauris aliquet eros eu luctus pulvinar. Suspendisse dapibus iaculis tellus, dignissim posuere felis elementum a. Curabitur a nibh vel eros accumsan semper vitae quis enim. Vivamus id leo a ante cursus semper. Suspendisse sit amet mattis mi. Pellentesque tellus diam, vehicula nec felis ut, suscipit porttitor nisl. Nam sit amet consequat nulla, ut mollis dolor. Vivamus id tristique tortor. Quisque ultrices odio urna, a maximus dui tincidunt sit amet. Morbi sagittis ipsum nec sem egestas congue.</p>
+							<p>{{episode.descriptions}}</p>
 						</div>
 					</div>
 					<div class="guests">
@@ -186,7 +166,7 @@
 							<!-- Guest -->
 							<div class="guest_container">
 								<div class="guest">
-									<div class="guest_image"><img src="images/guest_1.jpg" alt="https://unsplash.com/@stairhopper"></div>
+									<div class="guest_image"><img src="{{assetsUrl('images/guest_1.jpg')}}" alt="https://unsplash.com/@stairhopper"></div>
 									<div class="guest_content text-center">
 										<div class="guest_name"><a href="#">Michael Smith</a></div>
 										<div class="guest_title">Developer</div>
@@ -197,7 +177,7 @@
 							<!-- Guest -->
 							<div class="guest_container">
 								<div class="guest">
-									<div class="guest_image"><img src="images/guest_2.jpg" alt="https://unsplash.com/@eyeforebony"></div>
+									<div class="guest_image"><img src="{{assetsUrl('images/guest_2.jpg')}}" alt="https://unsplash.com/@eyeforebony"></div>
 									<div class="guest_content text-center">
 										<div class="guest_name"><a href="#">Samantha Doe</a></div>
 										<div class="guest_title">Developer</div>
@@ -208,7 +188,7 @@
 							<!-- Guest -->
 							<div class="guest_container">
 								<div class="guest">
-									<div class="guest_image"><img src="images/guest_3.jpg" alt="https://unsplash.com/@onurozkardes"></div>
+									<div class="guest_image"><img src="{{assetsUrl('images/guest_3.jpg')}}" alt="https://unsplash.com/@onurozkardes"></div>
 									<div class="guest_content text-center">
 										<div class="guest_name"><a href="#">James Williams</a></div>
 										<div class="guest_title">Developer</div>
@@ -228,7 +208,7 @@
 								<!-- Comment -->
 								<li class="d-flex flex-row">
 									<div>
-										<div class="comment_image"><img src="images/user_1.jpg" alt=""></div>
+										<div class="comment_image"><img src="{{assetsUrl('images/user_1.jpg')}}" alt=""></div>
 									</div>
 									<div class="comment_content">
 										<div class="user_name"><a href="#">Michael Smith</a></div>
@@ -241,7 +221,7 @@
 								<!-- Comment -->
 								<li class="d-flex flex-row">
 									<div>
-										<div class="comment_image"><img src="images/user_2.jpg" alt=""></div>
+										<div class="comment_image"><img src="{{assetsUrl('images/user_1.jpg')}}" alt=""></div>
 									</div>
 									<div class="comment_content">
 										<div class="user_name"><a href="#">Christinne Doe</a></div>
@@ -276,4 +256,70 @@
 			</div>
 		</div>
 	</div>
+@endsection
+
+@section('script')
+<script src="{{assetsUrl('js/episode.js')}}"></script>
+<script>
+	$(document).ready(function(){
+		var wavesurfer = WaveSurfer.create({
+			container: '#episode',
+			waveColor: '#5de2fb',
+			progressColor: '#0087a0',
+			mediaControls : true,
+			barWidth: 0.5,
+			barHeight: 1,
+			height: 35
+		});
+		wavesurfer.on('ready', function () {
+			const volumn = getVolumn();
+			if(volumn != null){
+				wavesurfer.setVolume(volumn);
+				$('#myRange').val(volumn*100);
+			}
+			$('#jplay').click();
+		});
+		wavesurfer.on('pause', function () {
+			$('#seticon').attr('class','jp-audio');
+		});
+		wavesurfer.on('finish', function () {
+			$('#seticon').attr('class','jp-audio');
+		});
+		wavesurfer.on('play', function () {
+			$('#seticon').attr('class','jp-audio jp-state-playing');
+		});
+		$('#myRange').val(wavesurfer.getVolume()*100);
+		wavesurfer.load('{{getfile}}'+'{{episode.path_audio}}');
+		$('#jplay').on('click',function(){
+			if($(this).hasClass("clicked")){
+				$('#seticon').attr('class','jp-audio');
+				wavesurfer.playPause();
+				$(this).removeClass("clicked");
+			}else{
+				$('#seticon').attr('class','jp-audio jp-state-playing');
+				wavesurfer.playPause();
+				$( this).addClass( "clicked" );
+			}		
+												
+			
+		});
+		$('#myRange').on('change',function(){
+			let voluum = $(this).val() / 100;
+			wavesurfer.setVolume(voluum);
+		});
+		$('#jpmute').on('click',function(){
+			if($(this).hasClass("clicked")){
+				wavesurfer.setMute(false);
+				wavesurfer.setVolume(1);
+				$('#myRange').val('100');
+				$(this).removeClass("clicked");
+			}else{
+				wavesurfer.setMute(true);
+				$('#myRange').val('1');
+				$( this).addClass( "clicked" );
+			}
+		});
+	});
+	
+</script>
 @endsection
