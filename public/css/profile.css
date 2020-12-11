@@ -1,0 +1,56 @@
+#description{
+    height:100px;
+    display:block;
+    overflow:hidden;
+}
+#readmore{
+    padding: 3px;
+    background: aliceblue;
+    cursor: pointer;
+    border-radius: 12%;
+    display: inline-block;
+    margin-top: 10px;
+}
+#readmore:hover{
+    background: #b2d8f9;
+}
+.column{
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+.main_menu{
+    position:relative
+}
+.main_menu:hover{
+    background: aliceblue;
+}
+.dot{
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.online{
+    background: greenyellow;
+    -webkit-box-shadow: 0px 0px 15px 4px rgb(173 255 47);
+    -moz-box-shadow: 0px 0px 15px 4px rgb(173 255 47);
+    box-shadow: 0px 0px 15px 4px rgb(173 255 47);
+}
+.s_warning{
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    display: inline-block;
+    background: red;
+    position: absolute;
+    top: -12px;
+}
+.comment_input:hover, .comment_input:focus {
+    border-bottom: solid 3px #00d0ff !important;
+}
+.comment_button:hover, .comment_button:focus{
+    background-color: #00d0ff !important;
+}
+.p_select{
+    background:azure
+}

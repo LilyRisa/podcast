@@ -2,61 +2,7 @@
 
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episode.css')}}">
-<style>
-	#description{
-		height:100px;
-		display:block;
-		overflow:hidden;
-	}
-	#readmore{
-		padding: 3px;
-    	background: aliceblue;
-		cursor: pointer;
-		border-radius: 12%;
-		display: inline-block;
-		margin-top: 10px;
-	}
-	#readmore:hover{
-		background: #b2d8f9;
-	}
-	.column{
-		margin-bottom: 20px;
-    	margin-top: 20px;
-	}
-	.main_menu{
-		position:relative
-	}
-	.main_menu:hover{
-		background: aliceblue;
-	}
-	.dot{
-		height: 25px;
-		width: 25px;
-		border-radius: 50%;
-		display: inline-block;
-	}
-	.online{
-		background: greenyellow;
-		-webkit-box-shadow: 0px 0px 15px 4px rgb(173 255 47);
-		-moz-box-shadow: 0px 0px 15px 4px rgb(173 255 47);
-		box-shadow: 0px 0px 15px 4px rgb(173 255 47);
-	}
-	.s_warning{
-		height: 20px;
-    	width: 20px;
-    	border-radius: 50%;
-    	display: inline-block;
-		background: red;
-		position: absolute;
-		top: -12px;
-	}
-	.comment_input:hover, .comment_input:focus {
-		border-bottom: solid 3px #00d0ff !important;
-	}
-	.comment_button:hover, .comment_button:focus{
-		background-color: #00d0ff !important;
-	}
-</style>
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/profile.css')}}">
 @endsection
 
 @section('content')
@@ -76,11 +22,11 @@
 								
 								<!-- Player -->
 								<div class="single_player_container">
-									<h2>{{profile.fullname}} <span class="dot online"></span></h2>
+									<h2 style="color:white">{{profile.fullname}} <span class="dot online"></span></h2>
 								</div>
 
 								<div class="show_info d-flex flex-row align-items-start justify-content-start" style="margin-top: 12px;">
-									<p style="text-shadow: rgba(0,0,0,.01) 0 0 1px;font-size: 17px;color: #a5a5a5;font-weight: 600;">({{profile.username}})</p>
+									<p style="color:white;text-shadow: rgba(0,0,0,.01) 0 0 1px;font-size: 17px;font-weight: 600;">({{profile.username}})</p>
 								</div>
 
 							</div>
@@ -99,18 +45,21 @@
 		<!-- Episode Image -->
 		<div class="episode_image_container">
 			<div class="container">
-				<div class="row" style="background: #ababab;">
+				<div class="row" style="background: #ababab;max-height: 38px;">
 					<div class="col-lg-3">
 						<!-- Episode Image -->
-						<div class="episode_image" style="width: 115%;margin-left: -22px;"><img src="{{getfile}}{{profile.avatar}}" alt=""></div>
+						<div class="episode_image" style="width: 115%;margin-left: -22px; height: 262px;"><img src="{{getfile}}{{profile.avatar}}" alt="" class="img-fluid img-thumbnail" style="object-fit:cover"></div>
 					</div>
 					<div class="col-lg-8">
 						<div class="row">
 							<div class="col-lg-4">
-								<button class="btn btn-pimary main_menu" style="width:100%"><i class="fa fa-pencil"></i> Edit infomation</button>
+								<button class="btn btn-pimary main_menu p_select" style="width:100%"><i class="fa fa-align-left"></i> Timeline</button>
 							</div>
 							<div class="col-lg-4">
-								<button class="btn btn-pimary main_menu" style="width:100%"><i class="fa fa-envelope"></i> Messenger <span class="s_warning">1</span></button>
+								<button class="btn btn-pimary main_menu" style="width:100%" onclick="window.location.href='{{route('profile.information')}}'"><i class="fa fa-pencil"></i> Edit infomation</button>
+							</div>
+							<div class="col-lg-4">
+								<button class="btn btn-pimary main_menu" style="width:100%" onclick="window.location.href='{{route('profile.information')}}'"><i class="fa fa-envelope"></i> Messenger <span class="s_warning">1</span></button>
 							</div>
 						</div>
 						
@@ -136,6 +85,10 @@
 								<h4>Descriptions:</h4>
 								<div id="description">{{profile.descriptions}}</div>
 								<span id="readmore">read more</span>
+							</div>
+							<div class="column">
+								<h4>Joined:</h4>
+								<div id="description">{{profile.created_at}}</div>
 							</div>
 								
 						</div>
@@ -170,12 +123,18 @@
 			</div>
 		</div>
 	</div>
+	<div id="loading" class="messagebox_overlay" style="box-sizing: border-box; display: flex; flex-flow: column nowrap; align-items: center; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; justify-content: flex-start;">
+		<div style="position:absolute; top:40%; border-box; flex: 0 1 auto; display: flex; flex-flow: column nowrap; overflow: hidden; width: auto; max-height: 62.5%;">
+		<img src="{{assetsUrl('images/autoload.svg')}}"/>
+		</div>
+	</div>
 @endsection
 
 @section('script')
 <script src="{{assetsUrl('js/episode.js')}}"></script>
 <script>
 	$(document).ready(function(){
+		$('#loading').hide();
 		$('#readmore').click(function(e) {
 			if($(this).hasClass("clicked")){
 				$('#description').css({

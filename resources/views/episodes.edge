@@ -29,10 +29,12 @@
 						<!-- Search -->
 						<div class="sidebar_search">
 							<div class="sidebar_title">Search</div>
-							<form action="#" class="search_form" id="search_form">
-								<input type="text" class="search_input" placeholder="Search here" required="required">
-								<button class="search_button"><img src="images/search.png" alt=""></button>
-							</form>
+							<div class="ui search">
+								<div class="ui icon input">
+								  <input class="prompt" type="text" placeholder="search episode..." id="search_episode">
+								  <i class="search icon"></i>
+								</div>		
+							  </div>
 						</div>
 
 						<!-- Categories -->
@@ -233,6 +235,35 @@
 	@endsection
 	@section('script')
 	<script>
-	
+	$(document).ready(function(){
+		$('.ui.search')
+			.search({
+				type: 'category',
+				source: [
+					{ category: 'South America', title: '<a href="/home">Brazil</a>' },
+					{ category: 'South America', title: 'Peru' },
+					{ category: 'North America', title: 'Canada' },
+					{ category: 'Asia', title: 'South Korea' },
+					{ category: 'Asia', title: 'Japan' },
+					{ category: 'Asia', title: 'China' },
+					{ category: 'Europe', title: 'Denmark' },
+					{ category: 'Europe', title: 'England' },
+					{ category: 'Europe', title: 'France' },
+					{ category: 'Europe', title: 'Germany' },
+					{ category: 'Africa', title: 'Ethiopia' },
+					{ category: 'Africa', title: 'Nigeria' },
+					{ category: 'Africa', title: 'Zimbabwe' },
+				]
+			});
+		$('#search_episode').on('input',function(){
+			$.ajax({
+				url: '/search/'+$(this).val(),
+				type:'get',
+			}).done(result => {
+				console.log(result);
+				
+			});
+		});
+	});
 	</script>
 	@endsection

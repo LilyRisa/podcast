@@ -18,6 +18,13 @@ class EpisodesController {
         return view.render('episodes',{username: username, category: listcategory, getfile: getfile, episode: episode, tags: tags})
     }
 
+    async search({response, params}){
+        let search_with_title = await Episode.query().where('title','LIKE', '%'+params.id+'%').with('category').with('tag').fetch()
+        search_with_title = search_with_title.toJSON()
+        return response.type('application/json')
+                        .send(search_with_title)
+    }
+
 }
 
 module.exports = EpisodesController

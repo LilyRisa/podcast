@@ -27,6 +27,7 @@ Route.get('home_pagination/:id', 'HomeController.pagination').as('episode.pagina
 Route.get('login', 'AuthorController.index').as('login.index').middleware('guest')
 Route.post('register', 'AuthorController.register').as('register').middleware('guest')
 Route.post('post-login', 'AuthorController.PostLogin').as('login.post').middleware(['verifyPassword'])
+Route.get('search/:id', 'EpisodesController.search').as('episodes.search')
 
 
 Route.group(() => {
@@ -39,4 +40,6 @@ Route.group(() => {
     })
     // profile
     Route.get('profile', 'ProfileController.index').as('profile.index')
+    Route.get('profile_information', 'ProfileController.information').as('profile.information')
+    Route.post('profile/information/post', 'ProfileController.SaveInfor').as('profile.SaveInfor')
 }).middleware(['auth'])
