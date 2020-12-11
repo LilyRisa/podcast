@@ -236,32 +236,28 @@
 	@section('script')
 	<script>
 	$(document).ready(function(){
-		$('.ui.search')
-			.search({
-				type: 'category',
-				source: [
-					{ category: 'South America', title: '<a href="/home">Brazil</a>' },
-					{ category: 'South America', title: 'Peru' },
-					{ category: 'North America', title: 'Canada' },
-					{ category: 'Asia', title: 'South Korea' },
-					{ category: 'Asia', title: 'Japan' },
-					{ category: 'Asia', title: 'China' },
-					{ category: 'Europe', title: 'Denmark' },
-					{ category: 'Europe', title: 'England' },
-					{ category: 'Europe', title: 'France' },
-					{ category: 'Europe', title: 'Germany' },
-					{ category: 'Africa', title: 'Ethiopia' },
-					{ category: 'Africa', title: 'Nigeria' },
-					{ category: 'Africa', title: 'Zimbabwe' },
-				]
-			});
 		$('#search_episode').on('input',function(){
 			$.ajax({
 				url: '/search/'+$(this).val(),
 				type:'get',
 			}).done(result => {
-				console.log(result);
-				
+				let data = [];
+				let item = {};
+				for(let i =0; i< result.length; i++){
+					item = {};
+					result[i].descriptions = result[i].descriptions.substr(0, 40)+'...'
+					item.category = result[i].category.name;
+					item.image = '{{getfile}}'+result[i].images;
+					item.title = '<h5>'+result[i].title+'</h5>'+'<br/>'+'<p style="font-size: 13px;margin-top: -20px;">'+result[i].descriptions+'</p>';
+					item.url = '/episode/'+result[i].id
+					data.push(item);
+				}
+				console.log(data);
+				$('.ui.search')
+					.search({
+						type: 'category',
+						source: data
+					});
 			});
 		});
 	});
