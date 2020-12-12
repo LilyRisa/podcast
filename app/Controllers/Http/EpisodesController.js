@@ -12,7 +12,6 @@ class EpisodesController {
         const listcategory = category.toJSON()
         tags = tags.toJSON()
         episode = episode.toJSON()
-        console.log(episode)
         const username = auth.user != null ? auth.user.username : 'underfine';
         const getfile = StorageApi.GetPathApi('/api/getfile/');
         return view.render('episodes',{username: username, category: listcategory, getfile: getfile, episode: episode, tags: tags})

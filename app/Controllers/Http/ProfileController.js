@@ -13,8 +13,6 @@ class ProfileController {
         if(profile.avatar == null){
             profile.avatar = 'VanMin-file--75dc18d3411fcef1fda07d98375a2906-jpg-1607595072'
         }
-        
-        console.log(profile);
         return view.render('profile',{username,username, token: token, storage: storage, getfile: getfile, profile: profile})
     }
     async information({view, auth}){

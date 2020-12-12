@@ -41,7 +41,7 @@
             <h4>Hello {{username}}</h4> 
             </div>
             <div class="srch_bar">
-              <p>status </p><span class="dot online"></span>
+              <p></p><span class="dot online"></span>
             </div>
           </div>
         <div class="mesgs">
@@ -76,7 +76,7 @@
             startChat();
         })
         function startChat () {
-            ws = adonis.Ws('ws://127.0.0.1:3333').connect()
+            ws = adonis.Ws().connect()
 
             ws.on('open', () => {
                 $('.dot').addClass('online')
@@ -137,7 +137,6 @@
                     created_at: new Date().toISOString().slice(0, 19).replace('T', ' '),
                 });
                 postmess(message);
-                return
             }
             });
             $('#submit').on('click',function (e) {
@@ -151,8 +150,7 @@
                     user: {{user.id}},
                     body: message,
                     created_at: new Date().toISOString().slice(0, 19).replace('T', ' '),
-                })
-                return
+                },'all sockets');
             }
             });
         function postmess(data){
@@ -198,7 +196,7 @@
         $('#form_mess').on('scroll',function(){
             if($('#form_mess').scrollTop() <= 0){
                 $('#form_mess').prepend('<div id="loading"><img src="{{assetsUrl('images/autoload.svg')}}"/></div>');
-                limit = 1;
+
                 page++;
                 $.ajax({
                     url:'room/'+page+'/'+limit,
@@ -221,7 +219,7 @@
                             $('#form_mess .incoming_msg:first-child').hide();
                             $('#form_mess .incoming_msg:first-child').fadeIn('slow');
                         }
-                        $('#form_mess').scrollTop(100);
+                        $('#form_mess').scrollTop(500);
                         //console.log(temp);
                     });
         });

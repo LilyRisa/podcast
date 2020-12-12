@@ -24,7 +24,7 @@ class AuthorController {
                         .send({result: true})
             }else{
                 return response.type('application/json')
-                        .send({result: true})
+                        .send({result: false})
             }
         }catch(error){
             return response.type('application/json')
