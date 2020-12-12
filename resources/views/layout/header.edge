@@ -2,7 +2,7 @@
 
 		<!-- Logo -->
 		<div class="logo">
-			<a href="{{route('home.index')}}"><span>podcast</span>me<img src="images/play.png" alt=""></a>
+			<a href="{{route('home.index')}}"><span>podcast</span>me<img src="{{assetsUrl('images/play.png')}}" alt=""></a>
 		</div>
 
 		<div class="container">
@@ -12,7 +12,7 @@
 						<nav class="main_nav">
 							<ul class="d-flex flex-row align-items-start justify-content-start">
 								<li><a href="{{route('home.index')}}">Home</a></li>
-								<li><a href="about.html">About</a></li>
+								<li><a href="{{route('chatroom.index')}}">Room chat</a></li>
 								<li><a href="{{route('episodes.index')}}">Episodes</a></li>
 								<li><a href="blog.html">Blog</a></li>
 								<li><a href="contact.html">Contact</a></li>

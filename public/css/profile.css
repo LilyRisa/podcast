@@ -36,6 +36,12 @@
     -moz-box-shadow: 0px 0px 15px 4px rgb(173 255 47);
     box-shadow: 0px 0px 15px 4px rgb(173 255 47);
 }
+.offline{
+    background: red;
+    -webkit-box-shadow: 0px 0px 15px 4px rgb(247 115 115);
+    -moz-box-shadow: 0px 0px 15px 4px rgb(247 115 115);
+    box-shadow: 0px 0px 15px 4px rgb(247 115 115);
+}
 .s_warning{
     height: 20px;
     width: 20px;

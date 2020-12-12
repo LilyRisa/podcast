@@ -34,7 +34,7 @@ Route.group(() => {
     Route.get('podcast', 'PodcastController.index').as('podcast.index')
     Route.post('audio_podcast', 'PodcastController.put_audio').as('podcast.audio')
     Route.post('podcast_submit','PodcastController.SubmitAudio').as('podcast.submit')
-    Route.get('logout', async ({ response })=>{
+    Route.get('logout', async ({ auth, response })=>{
         await auth.logout()
         response.redirect('home', true)
     })
@@ -42,4 +42,9 @@ Route.group(() => {
     Route.get('profile', 'ProfileController.index').as('profile.index')
     Route.get('profile_information', 'ProfileController.information').as('profile.information')
     Route.post('profile/information/post', 'ProfileController.SaveInfor').as('profile.SaveInfor')
+    //chat room
+    Route.get('room', 'ChatRoomController.index').as('chatroom.index')
+    Route.get('room/:page/:limit', 'ChatRoomController.getmess').as('chatroom.getmess')
+    Route.post('mess/post', 'ChatRoomController.Save').as('chatroom.save')
+    Route.post('get_user', 'ChatRoomController.getuser').as('chatroom.getuser')
 }).middleware(['auth'])
