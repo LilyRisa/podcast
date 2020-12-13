@@ -583,86 +583,29 @@
 				</div>
 			</div>
 			<div class="row shows_2_row">
-				
+				@each(cate_item in cate_item)
 				<!-- Show -->
 				<div class="col-xl-3 col-md-6">
 					<div class="show">
-						<div class="show_image">
-							<a href="episode.html">
-								<img src="images/show_4.jpg" alt="https://unsplash.com/@h4rd3n">
+						<div class="show_image" style="height: 145px;">
+							<a href="#">
+								<img src="{{getfile}}{{cate_item.episode.images}}" alt="https://unsplash.com/@h4rd3n">
 								<div class="show_play_icon"><img src="images/play.svg" alt="https://www.flaticon.com/authors/cole-bemis"></div>
-								<div class="show_title_2">Cras malesuada ipsum sapien.</div>
+								<!-- <div class="show_title_2">{{cate_item.name}}</div> -->
 							</a>
-							<div class="show_tags">
+							 <div class="show_tags">
 								<div class="tags">
 									<ul class="d-flex flex-row align-items-start justify-content-start">
-										<li><a href="#">travel</a></li>
+										<li><a href="#">{{cate_item.name}}</a></li>
 									</ul>
 								</div>
-							</div>
+							</div> 
 						</div>
 					</div>
 				</div>
 
 				<!-- Show -->
-				<div class="col-xl-3 col-md-6">
-					<div class="show">
-						<div class="show_image">
-							<a href="episode.html">
-								<img src="images/show_5.jpg" alt="https://unsplash.com/@gohobo">
-								<div class="show_play_icon"><img src="images/play.svg" alt="https://www.flaticon.com/authors/cole-bemis"></div>
-								<div class="show_title_2">Cras malesuada ipsum sapien.</div>
-							</a>
-							<div class="show_tags">
-								<div class="tags">
-									<ul class="d-flex flex-row align-items-start justify-content-start">
-										<li><a href="#">lifestyle</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Show -->
-				<div class="col-xl-3 col-md-6">
-					<div class="show">
-						<div class="show_image">
-							<a href="episode.html">
-								<img src="images/show_6.jpg" alt="https://unsplash.com/@zacharykeimig">
-								<div class="show_play_icon"><img src="images/play.svg" alt="https://www.flaticon.com/authors/cole-bemis"></div>
-								<div class="show_title_2">Cras malesuada ipsum sapien.</div>
-							</a>
-							<div class="show_tags">
-								<div class="tags">
-									<ul class="d-flex flex-row align-items-start justify-content-start">
-										<li><a href="#">music</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Show -->
-				<div class="col-xl-3 col-md-6">
-					<div class="show">
-						<div class="show_image">
-							<a href="episode.html">
-								<img src="images/show_7.jpg" alt="https://unsplash.com/@bkview">
-								<div class="show_play_icon"><img src="images/play.svg" alt="https://www.flaticon.com/authors/cole-bemis"></div>
-								<div class="show_title_2">Cras malesuada ipsum sapien.</div>
-							</a>
-							<div class="show_tags">
-								<div class="tags">
-									<ul class="d-flex flex-row align-items-start justify-content-start">
-										<li><a href="#">travel</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				@endeach
 
 			</div>
 			<div class="row">

@@ -140,18 +140,15 @@
             }
             });
             $('#submit').on('click',function (e) {
-            if (e.which === 13) {
                 e.preventDefault()
-
-                const message = $(this).val()
-                $(this).val('')
+                const message = $('#msg_text').val()
+                $('#msg_text').val('')
                 postmess(message);
                 ws.getSubscription('chatroom').emit('message', {
                     user: {{user.id}},
                     body: message,
                     created_at: new Date().toISOString().slice(0, 19).replace('T', ' '),
                 },'all sockets');
-            }
             });
         function postmess(data){
             $.ajax({

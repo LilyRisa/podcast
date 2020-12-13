@@ -14,8 +14,10 @@ class HomeController {
         episode.descriptions = episode.descriptions.substr(0, 100)+'...'
         const username = auth.user != null ? auth.user.username : 'underfine';
         const getfile = StorageApi.GetPathApi('/api/getfile/');
-    
-        return view.render('home', {username: username, category: listcategory, getfile: getfile, episode: episode})
+        let cate_item = await Category.query().with('episode').fetch()
+        cate_item = cate_item.toJSON()
+        // console.log(cate_item[0].episode)
+        return view.render('home', {username: username, category: listcategory, getfile: getfile, episode: episode, cate_item: cate_item})
     }
     async pagination ({response , params}) {
         const page = params.id

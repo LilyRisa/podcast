@@ -50,6 +50,9 @@ class User extends Model {
   publicmess () {
     return this.hasOne('App/Models/PublicMess')
   }
+  blog () {
+    return this.hasOne('App/Models/Blog')
+  }
 }
 
 module.exports = User

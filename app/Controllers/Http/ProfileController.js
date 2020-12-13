@@ -1,5 +1,6 @@
 'use strict'
 const User = use('App/Models/User')
+const Blog = use('App/Models/Blog')
 const StorageApi = use('App/Service/StorageApi')
 const Env = use('Env')
 class ProfileController {
@@ -8,8 +9,8 @@ class ProfileController {
         const username = user != null ? user.username : 'underfine';
         const profile = user.toJSON()
         const token = Env.get('ETOKEN', '')
-        const storage = StorageApi.GetPathApi('/api/upload');
-        const getfile = StorageApi.GetPathApi('/api/getfile/');
+        const storage = StorageApi.GetPathApi('/api/upload')
+        const getfile = StorageApi.GetPathApi('/api/getfile/')
         if(profile.avatar == null){
             profile.avatar = 'VanMin-file--75dc18d3411fcef1fda07d98375a2906-jpg-1607595072'
         }
@@ -45,6 +46,21 @@ class ProfileController {
         await user.save()
         return response.type('application/json')
                         .send(user)
+    }
+    async post({ request, response}){
+        let blog = new Blog()
+        blog.merge(request.all())
+        let result = await blog.save()
+        return response.type('application/json')
+                        .send({status:result})
+    }
+
+    async ListPost({ request, response , params}){
+        const limit = 3
+        let post = await Blog.query().where('user_create',params.user).with('user').orderBy('id','desc').paginate(params.page, limit)
+        post = post.toJSON()
+        return response.type('application/json')
+                        .send(post)
     }
 }
 

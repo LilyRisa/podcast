@@ -24,3 +24,26 @@
 <script src="{{assetsUrl('semantic/semantic.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>   
 <script src="https://unpkg.com/@adonisjs/websocket-client@1.0.9/dist/Ws.browser.js"></script>   
+<script>
+var icon_text = {
+   ":HEAD": "\u2764\uFE0F",
+   ":UNHEAD": "\uD83D\uDC94",
+   ":D": "\uD83D\uDE00",
+   ":SMILE": "\uD83D\uDE03",
+   ";)": "\uD83D\uDE09",
+   ":SAD": "\uD83D\uDE12",
+   ":p": "\uD83D\uDE1B",
+   ";p": "\uD83D\uDE1C",
+   ":CRY": "\uD83D\uDE22"
+ };
+ function escapeSpecialChars(regex) {
+   return regex.replace(/:|;([A-Z0-9]+)/gmi, '\\$1');
+ }
+ document.getElementById('post').oninput = function() {
+   for (var i in icon_text) {
+     var regex = new RegExp(escapeSpecialChars(i), 'gim');
+     this.value = this.value = this.value.replace(regex, icon_text[i]);
+   }
+ };
+
+</script>

@@ -34,6 +34,8 @@
 					</div>
 					
 				</div>
+				
+
 			</div>
 		</div>
 	</div>
@@ -115,12 +117,28 @@
 
 				<!-- Episode -->
 				<div class="col-lg-9 episode_col order-lg-2 order-1">
-					<div class="intro">
-						<div><textarea class="comment_input comment_textarea" placeholder="Message" required="required"></textarea></div>
-							<button class="comment_button" style="background: black;">send</button>
+					<div class="intro" style="position:relative">
+						<div><textarea id="post" class="comment_input comment_textarea" placeholder="Message" required="required"></textarea></div>
+						<div><label for="cover">
+							<button class="btn btn-primary" id="upload_img">
+								<i class="fa fa-camera"></i></button>
+								<div class="lds-ring" style="display: none" id="loading_upload_img"><div></div><div></div><div></div><div></div></div>
+							</label>
+							<div class="img_cover" style="display:none">
+								<img src="" class="img-fluid rounded float-left" alt="" id="img_cover">
+								<button class="btn cancel" id="cancel"><i class="fa fa-times-circle"></i></button>
+							</div>
+							
+							<input type="file" id="cover" class="form-control comment_input" style="display: none" accept="image/*"></div>
+							<button class="comment_button" id="post_submit" style="background: black;margin-top: 0px;">send</button>
+					</div>
+					<div id="post_list">
+						
 					</div>
 				</div>
+				
 			</div>
+			
 		</div>
 	</div>
 	<div id="loading" class="messagebox_overlay" style="box-sizing: border-box; display: flex; flex-flow: column nowrap; align-items: center; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; justify-content: flex-start;">
@@ -132,8 +150,141 @@
 
 @section('script')
 <script src="{{assetsUrl('js/episode.js')}}"></script>
+<script src="{{assetsUrl('js/profile.js')}}"></script>
 <script>
 	$(document).ready(function(){
+		//load post 
+		var con = 1;
+		$.ajax({
+			url: '/profile/list_post/'+{{profile.id}}+'/'+con,
+			type:'get',
+		}).done(result => {
+			let template;
+			result = result.data;
+			result.forEach( item => {
+				template = '';
+				template = template_profile('{{getfile}}',item);
+				$('#post_list').append(template);
+				txttolink();
+			});
+			
+		});
+		//scroll foooter
+		$(window).on('scroll',function(){
+			if($(window).scrollTop() + $(window).height() == $(document).height()) {
+				$('#loading').show();
+				con++;
+				$.ajax({
+					url: '/profile/list_post/'+{{profile.id}}+'/'+con,
+					type:'get',
+				}).done(result => {
+					$('#loading').hide();
+					let template;
+					result = result.data;
+					result.forEach( item => {
+						template = '';
+						template = template_profile('{{getfile}}',item);
+						$('#post_list').append(template);
+						txttolink();
+					});
+					
+				});
+			}
+		});
+		$('#post_submit').on('click',function(){
+			let post = $('#post').val();
+			let img = $('#img_cover').attr('src');
+			if(img == ''){
+				img = null;
+			}else{
+				img = img.split('/')[5];
+			}
+			if(post != ''){
+				let data = {
+					blog: post,
+					cover: img,
+					user_create: {{profile.id}}
+				};
+				$.ajax({
+					url: '{{route('profile.post')}}',
+					type: 'post',
+					headers: {
+						'x-csrf-token': '{{ csrfToken }}',
+					},
+					data: data
+				}).done(result => {
+					if(result.status == true){
+						window.location.reload();
+					}else{
+						$.MessageBox({
+							buttonDone: "OK",
+							buttonFail : undefined,
+							top: "25%",
+							input: false,
+							message: "Lỗi hệ của chúng tối, không phải do bạn!",
+							queue: true,
+							speed: 200,
+						});
+					}
+				});
+			}else{
+				$.MessageBox({
+					buttonDone: "OK",
+					buttonFail : undefined,
+					top: "25%",
+					input: false,
+					message: "Viết một cái gì đó !",
+					queue: true,
+					speed: 200,
+				});
+			}
+		});
+		$('#cancel').on('click',function(){
+			$('.img_cover').hide();
+			$('#img_cover').attr('src','');
+		});
+		$('#upload_img').on('click',function(){
+			$('#cover').click();
+		});
+		$('#cover').on('change',function(){
+			$('#loading_upload_img').show();
+			var file = $(this).prop('files')[0];
+			var data = new FormData();
+			if (file.size > 5000000) {
+			$.MessageBox({
+				buttonDone: "OK",
+				buttonFail : undefined,
+				top: "25%",
+				input: false,
+				message: "Image upload max size 5MB",
+				queue: true,
+				speed: 200,
+			}).done(()=>{
+				$('#loading_upload_img').hide();
+			});
+		}else{
+			data.append('file', file);
+			$.ajax({
+				url: '{{storage}}',
+				type:'POST',
+				dataType: 'text',
+				data: data,
+				cache: false,
+				processData: false,
+				contentType: false,
+				headers: {
+					'x-csrf-token': '{{ csrfToken }}',
+					'Authorization': '{{token}}'
+				}
+				}).done((result) =>{
+					result = JSON.parse(result);
+					result = result.result.token_file;
+					$('#loading_upload_img').hide();
+					$('#img_cover').attr('src','{{getfile}}'+result);
+					$('.img_cover').show();
+				});
+		}
+		});
 		$('#loading').hide();
 		$('#readmore').click(function(e) {
 			if($(this).hasClass("clicked")){
@@ -155,6 +306,30 @@
 		});
 
 	});
+	function txttolink(){
+		let text_to_post = $('#post_list p');
+		for(let i=0; i< text_to_post.length; i++){
+			let tmp = Linkify($(text_to_post).eq(i).text());
+			console.log(tmp);
+			$(text_to_post).eq(i).text();
+		}	
+	}
+	function Linkify(inputText) {
+		//URLs starting with http://, https://, or ftp://
+		var replacePattern1 = new RegExp('(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])','gim');
+		var replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+		//URLs starting with www. (without // before it, or it'd re-link the ones done above)
+		var replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+		var replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+		//Change email addresses to mailto:: links
+		var replacePattern3 = /(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})/gim;
+		var replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+
+		return replacedText;
+	}
+	
 	
 </script>
 @endsection

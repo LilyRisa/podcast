@@ -47,4 +47,8 @@ Route.group(() => {
     Route.get('room/:page/:limit', 'ChatRoomController.getmess').as('chatroom.getmess')
     Route.post('mess/post', 'ChatRoomController.Save').as('chatroom.save')
     Route.post('get_user', 'ChatRoomController.getuser').as('chatroom.getuser')
+    
+    // post blog profile
+    Route.post('profile/post', 'ProfileController.post').as('profile.post')
+    Route.get('profile/list_post/:user/:page', 'ProfileController.ListPost').as('profile.list_post')
 }).middleware(['auth'])
