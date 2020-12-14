@@ -310,7 +310,7 @@
 					user.id = '{{profile.id}}';
 					data.user = user;
 					let tmp = template_comment('{{getfile}}',data);
-					$('#list_comment').prepend(tmp).hide().fadeIn(2000);
+					$('#list_comment').prepend(tmp).children('li:first-child').hide().fadeIn(2000);
 					$('#comment_episode').val('');
 				});
 			}
