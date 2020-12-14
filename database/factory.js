@@ -30,3 +30,10 @@
         messenges: 'W3Schools được tối ưu hóa cho việc học tập và đào tạo. Các ví dụ có thể được đơn giản hóa để cải thiện việc đọc và học. Các hướng dẫn, tài liệu tham khảo và ví dụ được xem xét liên tục để tránh sai sót, nhưng chúng tôi không thể đảm bảo tính đúng đắn hoàn toàn của tất cả nội dung. Trong khi sử dụng W3Schools, bạn đồng ý đã đọc và chấp nhận các điều khoản sử dụng , cookie và chính sách bảo mật của chúng tôi .',
         }
     })
+    Factory.blueprint('App/Models/Comment', async (faker) => {
+        return {
+        user_create: Math.floor(Math.random() * 3) + 1,
+        episode_id: 4,
+        comment: 'W3Schools được tối ưu hóa cho việc học tập và đào tạo. Các ví dụ có thể được đơn giản hóa để cải thiện việc đọc và học. Các hướng dẫn, tài liệu tham khảo và ví dụ được xem xét li.',
+        }
+    })

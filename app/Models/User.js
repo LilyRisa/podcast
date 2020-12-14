@@ -53,6 +53,9 @@ class User extends Model {
   blog () {
     return this.hasOne('App/Models/Blog')
   }
+  comment () {
+    return this.hasOne('App/Models/Comment')
+  }
 }
 
 module.exports = User

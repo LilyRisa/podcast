@@ -39,6 +39,10 @@
         <div class="headind_srch">
             <div class="recent_heading">
             <h4>Hello {{username}}</h4> 
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" name="public" id="connchat">
+                    <label>On or off connect server chat</label>
+                </div>
             </div>
             <div class="srch_bar">
               <p></p><span class="dot online"></span>
@@ -69,6 +73,26 @@
 <script src="{{assetsUrl('js/roomchat.js')}}"></script>
 	<script>
 	$(document).ready(function(){
+        $('#connchat').on('change',function(){
+            if(this.checked) {
+                location.reload();
+            }else{
+                $.MessageBox({
+                    buttonDone: "OK",
+                    buttonFail : 'NO',
+                    top: "25%",
+                    message: "Bạn sẽ bị mất kết nối đến server",
+                    speed: 200,
+                }).done(()=>{
+                    ws.close();
+                    $('.dot').addClass('offline');
+                }).fail(function(){
+                    $('#connchat').prop('checked', true);
+                    $.MessageBox("Yeah, sure... ");
+                });
+            }
+        });
+
         let ws = null;
 
         $(function () {
@@ -79,13 +103,15 @@
             ws = adonis.Ws().connect()
 
             ws.on('open', () => {
-                $('.dot').addClass('online')
+                $('.dot').addClass('online');
+                $('#connchat').prop('checked', true);
                 subscribeToChannel()
             })
 
             ws.on('error', () => {
                 $('.dot').addClass('offline')
-                })
+                $('#connchat').prop('checked', false);
+            })
         }
         function subscribeToChannel () {
             const chat = ws.subscribe('chatroom')

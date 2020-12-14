@@ -54,14 +54,11 @@
 					</div>
 					<div class="col-lg-8">
 						<div class="row">
-							<div class="col-lg-4">
-								<button class="btn btn-pimary main_menu p_select" style="width:100%"><i class="fa fa-align-left"></i> Timeline</button>
+							<div class="col-lg-6">
+								<button class="btn btn-pimary main_menu p_select" style="width:100%"><i class="fa fa-align-left"></i> Timeline <span class="s_warning">{{count_blog}}</span></button>
 							</div>
-							<div class="col-lg-4">
+							<div class="col-lg-6">
 								<button class="btn btn-pimary main_menu" style="width:100%" onclick="window.location.href='{{route('profile.information')}}'"><i class="fa fa-pencil"></i> Edit infomation</button>
-							</div>
-							<div class="col-lg-4">
-								<button class="btn btn-pimary main_menu" style="width:100%" onclick="window.location.href='{{route('profile.information')}}'"><i class="fa fa-envelope"></i> Messenger <span class="s_warning">1</span></button>
 							</div>
 						</div>
 						
@@ -252,7 +249,8 @@
 			var data = new FormData();
 			if (file.size > 5000000) {
 			$.MessageBox({
-				buttonDone: "OK",
+				buttonDone  : "Yes",
+				buttonFail  : "No",
 				buttonFail : undefined,
 				top: "25%",
 				input: false,

@@ -11,10 +11,13 @@ class ProfileController {
         const token = Env.get('ETOKEN', '')
         const storage = StorageApi.GetPathApi('/api/upload')
         const getfile = StorageApi.GetPathApi('/api/getfile/')
+        let blog = await Blog.query().where('user_create',auth.user.id).fetch();
+        blog = blog.toJSON()
+        let count_blog = blog.length
         if(profile.avatar == null){
             profile.avatar = 'VanMin-file--75dc18d3411fcef1fda07d98375a2906-jpg-1607595072'
         }
-        return view.render('profile',{username,username, token: token, storage: storage, getfile: getfile, profile: profile})
+        return view.render('profile',{username,username, token: token, storage: storage, getfile: getfile, profile: profile , count_blog: count_blog})
     }
     async information({view, auth}){
         let user = auth.user
@@ -23,10 +26,13 @@ class ProfileController {
         const token = Env.get('ETOKEN', '')
         const storage = StorageApi.GetPathApi('/api/upload');
         const getfile = StorageApi.GetPathApi('/api/getfile/');
+        let blog = await Blog.query().where('user_create',auth.user.id).fetch();
+        blog = blog.toJSON()
+        let count_blog = blog.length
         if(profile.avatar == null){
             profile.avatar = 'VanMin-file--75dc18d3411fcef1fda07d98375a2906-jpg-1607595072'
         }
-        return view.render('information',{username,username, token: token, storage: storage, getfile: getfile, profile: profile})
+        return view.render('information',{username,username, token: token, storage: storage, getfile: getfile, profile: profile, count_blog: count_blog})
     }
     async SaveInfor({auth, request, response}){
         let id_user = auth.user.id
@@ -55,7 +61,7 @@ class ProfileController {
                         .send({status:result})
     }
 
-    async ListPost({ request, response , params}){
+    async ListPost({ response , params }){
         const limit = 3
         let post = await Blog.query().where('user_create',params.user).with('user').orderBy('id','desc').paginate(params.page, limit)
         post = post.toJSON()

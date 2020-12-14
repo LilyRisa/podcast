@@ -28,7 +28,8 @@ Route.get('login', 'AuthorController.index').as('login.index').middleware('guest
 Route.post('register', 'AuthorController.register').as('register').middleware('guest')
 Route.post('post-login', 'AuthorController.PostLogin').as('login.post').middleware(['verifyPassword'])
 Route.get('search/:id', 'EpisodesController.search').as('episodes.search')
-
+//comment
+Route.get('comment/:episode/:page', 'EpisodeController.comment').as('episode.comment')
 
 Route.group(() => {
     Route.get('podcast', 'PodcastController.index').as('podcast.index')
@@ -51,4 +52,7 @@ Route.group(() => {
     // post blog profile
     Route.post('profile/post', 'ProfileController.post').as('profile.post')
     Route.get('profile/list_post/:user/:page', 'ProfileController.ListPost').as('profile.list_post')
+
+    //comment
+    Route.post('comment', 'EpisodeController.postComment').as('episode.postComment')
 }).middleware(['auth'])

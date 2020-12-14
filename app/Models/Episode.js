@@ -15,7 +15,10 @@ class Episode extends Model {
     }
     tag () {
         return this.belongsToMany('App/Models/Tags').pivotTable('episode_tags')
-     }
+    }
+    comment () {
+        return this.hasOne('App/Models/Comment')
+    }
     
 }
 

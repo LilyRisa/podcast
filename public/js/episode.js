@@ -227,3 +227,36 @@ $(document).ready(function()
 	}
 
 });
+var template_comment = (url, data) =>{
+    let tmp;
+    if(data.user.avatar != null){
+        tmp = `<!-- Comment -->
+        <li class="d-flex flex-row">
+            <div>
+                <div class="comment_image"><img src="${url+data.user.avatar}" alt=""></div>
+            </div>
+            <div class="comment_content">
+                <div class="user_name"><a href="#">${data.user.fullname} (${data.user.username})</a></div>
+                <div class="comment_text">
+                    <p>${data.comment}<br/><i>${data.created_at}</i></p>
+                </div>
+            </div>
+        </li>
+        <!-- Comment -->`;
+    }else{
+        tmp = `<!-- Comment -->
+        <li class="d-flex flex-row">
+            <div>
+                <div class="comment_image"><img src="/images/user_1.jpg" alt=""></div>
+            </div>
+            <div class="comment_content">
+                <div class="user_name"><a href="#">${data.user.fullname} (${data.user.username})</a></div>
+                <div class="comment_text">
+                    <p>${data.comment}<br/><i>${data.created_at}</i></p>
+                </div>
+            </div>
+        </li>
+        <!-- Comment -->`;
+    }
+    return tmp
+}

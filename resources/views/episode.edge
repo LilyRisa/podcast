@@ -159,11 +159,11 @@
 							<p>{{episode.descriptions}}</p>
 						</div>
 					</div>
-					<div class="guests">
+					<!--  <div class="guests">
 						<div class="section_title">Guests</div>
 						<div class="guests_container d-flex flex-md-row flex-column align-items-md-start align-items-center justify-content-start">
 							
-							<!-- Guest -->
+							
 							<div class="guest_container">
 								<div class="guest">
 									<div class="guest_image"><img src="{{assetsUrl('images/guest_1.jpg')}}" alt="https://unsplash.com/@stairhopper"></div>
@@ -174,7 +174,7 @@
 								</div>
 							</div>
 
-							<!-- Guest -->
+							
 							<div class="guest_container">
 								<div class="guest">
 									<div class="guest_image"><img src="{{assetsUrl('images/guest_2.jpg')}}" alt="https://unsplash.com/@eyeforebony"></div>
@@ -185,7 +185,7 @@
 								</div>
 							</div>
 
-							<!-- Guest -->
+							
 							<div class="guest_container">
 								<div class="guest">
 									<div class="guest_image"><img src="{{assetsUrl('images/guest_3.jpg')}}" alt="https://unsplash.com/@onurozkardes"></div>
@@ -197,41 +197,18 @@
 							</div>
 
 						</div>
-					</div>
+					</div>  -->
 
 					<!-- Comments -->
 					<div class="comments">
 						<div class="section_title">Comments</div>
 						<div class="comments_container">
-							<ul>
+							<ul id="list_comment">
 
-								<!-- Comment -->
-								<li class="d-flex flex-row">
-									<div>
-										<div class="comment_image"><img src="{{assetsUrl('images/user_1.jpg')}}" alt=""></div>
-									</div>
-									<div class="comment_content">
-										<div class="user_name"><a href="#">Michael Smith</a></div>
-										<div class="comment_text">
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec bibendum malesuada tellus a pretium. Proin quam nisi, maximus in pulvinar sed, viverra vitae es.</p>
-										</div>
-									</div>
-								</li>
-
-								<!-- Comment -->
-								<li class="d-flex flex-row">
-									<div>
-										<div class="comment_image"><img src="{{assetsUrl('images/user_1.jpg')}}" alt=""></div>
-									</div>
-									<div class="comment_content">
-										<div class="user_name"><a href="#">Christinne Doe</a></div>
-										<div class="comment_text">
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec bibendum malesuada tellus a pretium. Proin quam nisi, maximus in pulvinar sed, viverra vitae es.</p>
-										</div>
-									</div>
-								</li>
-
+								
+								
 							</ul>
+							<button class="btn " id="load_more">Load more</button>
 						</div>
 					</div>
 
@@ -241,15 +218,18 @@
 						<form action="#" id="comment_form" class="comment_form">
 							<div class="row">
 								<div class="col-md-6">
-									<input type="text" class="comment_input" placeholder="Name" required="required">
-								</div>
-								<div class="col-md-6">
-									<input type="email" class="comment_input" placeholder="E-mail" required="required">
+									<li class="d-flex flex-row">
+										<div>
+											<div class="comment_image"><img src="{{getfile}}{{profile.avatar}}" alt="" style="vertical-align: middle; width: 50px; height: 50px; border-radius: 50%;"></div>
+										</div>
+										<div style="margin-top: 18px; margin-left: -10px;">
+											<div class="user_name"><a href="#">{{profile.fullname}} (me)</a></div>
+										</div>
+									</li>
 								</div>
 							</div>
-							<div><input type="text" class="comment_input" placeholder="Subject"></div>
-							<div><textarea class="comment_input comment_textarea" placeholder="Message" required="required"></textarea></div>
-							<button class="comment_button button_fill">send</button>
+							<div><textarea class="comment_input comment_textarea" id="comment_episode" placeholder="Message" required="required"></textarea></div>
+							<button class="comment_button button_fill" id="sent_comment">send</button>
 						</form>
 					</div>
 				</div>
@@ -262,6 +242,82 @@
 <script src="{{assetsUrl('js/episode.js')}}"></script>
 <script>
 	$(document).ready(function(){
+		//load comment
+		var con = 1;
+		$.ajax({
+			url: '/comment/{{episode.id}}/'+con,
+			type: 'get',
+		}).done(result => {
+			let tmp;
+			result = result.data;
+			result.forEach(item => {
+				tmp = '';
+				tmp = template_comment('{{getfile}}',item);
+				$('#list_comment').append(tmp);
+			});
+		});
+		$('#load_more').on('click',function(e){
+			e.preventDefault();
+			con++;
+			$.ajax({
+				url: '/comment/{{episode.id}}/'+con,
+				type: 'get',
+			}).done(result => {
+				let tmp;
+				result = result.data;
+				console.log(result);
+				result.forEach(item => {
+					tmp = '';
+					tmp = template_comment('{{getfile}}',item);
+					$('#list_comment').append(tmp);
+				});
+			});
+		});
+		$('#sent_comment').on('click',function(e){
+			e.preventDefault();
+			if($('#comment_episode').val() == ''){
+				$.MessageBox({
+					buttonDone: "OK",
+					buttonFail : undefined,
+					top: "25%",
+					input: false,
+					message: "Viết một cái gì đó",
+					queue: true,
+					speed: 200,
+				});
+			}else{
+				let data = {
+					comment: $('#comment_episode').val(),
+					user_create: {{profile.id}},
+					episode_id: {{episode.id}}
+				}
+				$.ajax({
+					url: '{{route('episode.postComment')}}',
+					type: 'post',
+					headers: {
+						'x-csrf-token': '{{ csrfToken }}',
+					},
+					data:data
+				}).done(result => {
+					console.log(result);
+					let data = {};	
+					let user = {};	
+					data.comment = result.comment;
+					user.fullname = '{{profile.fullname}}';
+					user.username = '{{profile.username}}';
+					user.avatar = '{{profile.avatar}}';
+					data.created_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
+					user.id = '{{profile.id}}';
+					data.user = user;
+					let tmp = template_comment('{{getfile}}',data);
+					$('#list_comment').prepend(tmp).hide().fadeIn(2000);
+					$('#comment_episode').val('');
+				});
+			}
+			
+		});
+
+
 		var wavesurfer = WaveSurfer.create({
 			container: '#episode',
 			waveColor: '#5de2fb',

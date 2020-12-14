@@ -52,14 +52,11 @@
 					</div>
 					<div class="col-lg-8">
 						<div class="row">
-							<div class="col-lg-4">
-								<button class="btn btn-pimary main_menu" style="width:100%" onclick="window.location.href='{{route('profile.index')}}'"><i class="fa fa-align-left"></i> Timeline</button>
+							<div class="col-lg-6">
+								<button class="btn btn-pimary main_menu" style="width:100%" onclick="window.location.href='{{route('profile.index')}}'"><i class="fa fa-align-left"></i> Timeline <span class="s_warning">{{count_blog}}</span></button>
 							</div>
-							<div class="col-lg-4">
+							<div class="col-lg-6">
 								<button class="btn btn-pimary main_menu p_select" style="width:100%;"><i class="fa fa-pencil"></i> Edit infomation</button>
-							</div>
-							<div class="col-lg-4">
-								<button class="btn btn-pimary main_menu" style="width:100%" onclick="window.location.href='{{route('profile.information')}}'"><i class="fa fa-envelope"></i> Messenger <span class="s_warning">1</span></button>
 							</div>
 						</div>
 						
@@ -126,15 +123,15 @@
 							</div>
 							<div class="form-group">
 								<label for="fullname">Fullname:</label>
-								<input type="text" class="form-control comment_input" id="fullname" name="fullname">
+								<input type="text" class="form-control comment_input" id="fullname" name="fullname" value="{{profile.fullname}}">
 							</div>
 							<div class="form-group">
 								<label for="address">Address:</label>
-								<input type="text" class="form-control comment_input" id="address" name="address">
+								<input type="text" class="form-control comment_input" id="address" name="address" value="{{profile.address}}">
 							</div>
 							<div class="form-group">
 								<label for="address">Address:</label>
-								<textarea class="comment_input comment_textarea" id="des" placeholder="Description" required="required"></textarea>
+								<textarea class="comment_input comment_textarea" id="des" placeholder="Description" required="required">{{profile.descriptions}}</textarea>
 							</div>
 							
 								<button class="comment_button" style="background: black;" id="edit_submit">Submit</button>
