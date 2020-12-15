@@ -233,10 +233,10 @@ var template_comment = (url, data) =>{
         tmp = `<!-- Comment -->
         <li class="d-flex flex-row">
             <div>
-                <div class="comment_image"><img src="${url+data.user.avatar}" alt=""></div>
+                <div class="comment_image"><img src="${url+data.user.avatar}" alt="" style="width: 100px; height: 61px; object-fit: cover;"></div>
             </div>
             <div class="comment_content">
-                <div class="user_name"><a href="#">${data.user.fullname} (${data.user.username})</a></div>
+                <div class="user_name"><a href="/user/${data.user.username}">${data.user.fullname} (${data.user.username})</a></div>
                 <div class="comment_text">
                     <p>${data.comment}<br/><i>${data.created_at}</i></p>
                 </div>
@@ -250,7 +250,7 @@ var template_comment = (url, data) =>{
                 <div class="comment_image"><img src="/images/user_1.jpg" alt=""></div>
             </div>
             <div class="comment_content">
-                <div class="user_name"><a href="#">${data.user.fullname} (${data.user.username})</a></div>
+                <div class="user_name"><a href="/user/${data.user.username}">${data.user.fullname} (${data.user.username})</a></div>
                 <div class="comment_text">
                     <p>${data.comment}<br/><i>${data.created_at}</i></p>
                 </div>

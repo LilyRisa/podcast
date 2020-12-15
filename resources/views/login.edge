@@ -3648,7 +3648,9 @@ $('#form_reg').on('submit',function(e){
             if(result == true){
                 location.reload();
             }
-        });
+        }).fail(reject => {
+			$('#reg_mess').text('Username đã tồn tại, vui lòng chọn một tên khác');
+		});
     }
 
 });

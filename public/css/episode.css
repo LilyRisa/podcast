@@ -1266,7 +1266,7 @@ section
 	display: block;
 	background: #1f2128;
 	padding-top: 48px;
-	padding-bottom: 48px;
+	/* padding-bottom: 48px; */
 }
 .footer .logo
 {

@@ -17,7 +17,7 @@ class ProfileController {
         if(profile.avatar == null){
             profile.avatar = 'VanMin-file--75dc18d3411fcef1fda07d98375a2906-jpg-1607595072'
         }
-        return view.render('profile',{username,username, token: token, storage: storage, getfile: getfile, profile: profile , count_blog: count_blog})
+        return view.render('profile',{username: username, token: token, storage: storage, getfile: getfile, profile: profile , count_blog: count_blog})
     }
     async information({view, auth}){
         let user = auth.user

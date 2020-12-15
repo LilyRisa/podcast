@@ -23,7 +23,7 @@
 
 @section('content')
 <div class="home">
-<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{{assetsUrl('images/show_7.jpg')}}" data-speed="0.8"></div>
+<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{{assetsUrl('images/room2.jpg')}}" data-speed="0.8"></div>
     <div class="home_container d-flex flex-column align-items-center justify-content-center">
         <div class="home_content">
             <div class="home_title"><h1>Room chat</h1></div>
@@ -152,29 +152,50 @@
         }
         $('#msg_text').keyup(function (e) {
             if (e.which === 13) {
-                e.preventDefault();
+                if($(this).val() != ''){
+                    e.preventDefault();
 
-                const message = $(this).val();
-                $(this).val('');
+                    const message = $(this).val();
+                    $(this).val('');
 
-                ws.getSubscription('chatroom').emit('message', {
-                    user: {{user.id}},
-                    body: message,
-                    created_at: new Date().toISOString().slice(0, 19).replace('T', ' '),
-                });
-                postmess(message);
+                    ws.getSubscription('chatroom').emit('message', {
+                        user: {{user.id}},
+                        body: message,
+                        created_at: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                    });
+                    postmess(message);
+                }else{
+                    $.MessageBox({
+                        buttonDone: "OK",
+                        buttonFail : undefined,
+                        top: "25%",
+                        message: "Viết gì đó",
+                        speed: 200,
+                    });
+                }
+                
             }
             });
             $('#submit').on('click',function (e) {
                 e.preventDefault()
-                const message = $('#msg_text').val()
-                $('#msg_text').val('')
-                postmess(message);
-                ws.getSubscription('chatroom').emit('message', {
-                    user: {{user.id}},
-                    body: message,
-                    created_at: new Date().toISOString().slice(0, 19).replace('T', ' '),
-                },'all sockets');
+                if($('#msg_text').val() != ''){
+                    const message = $('#msg_text').val()
+                    $('#msg_text').val('')
+                    postmess(message);
+                    ws.getSubscription('chatroom').emit('message', {
+                        user: {{user.id}},
+                        body: message,
+                        created_at: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                    },'all sockets');
+                }else{
+                    $.MessageBox({
+                        buttonDone: "OK",
+                        buttonFail : undefined,
+                        top: "25%",
+                        message: "Viết gì đó",
+                        speed: 200,
+                    });
+                }
             });
         function postmess(data){
             $.ajax({

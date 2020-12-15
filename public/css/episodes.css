@@ -928,7 +928,9 @@ section
 /*********************************
 7. Episodes
 *********************************/
-
+.episodes .footer{
+	margin-bottom: -99px;
+}
 .episodes
 {
 	background: #FFFFFF;

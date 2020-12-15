@@ -30,6 +30,12 @@ Route.post('post-login', 'AuthorController.PostLogin').as('login.post').middlewa
 Route.get('search/:id', 'EpisodesController.search').as('episodes.search')
 //comment
 Route.get('comment/:episode/:page', 'EpisodeController.comment').as('episode.comment')
+//blog
+Route.get('blog', 'BlogController.index').as('blog.index')
+Route.get('blog/:page', 'BlogController.listPost').as('blog.listPost')
+// public profile
+Route.get('user/:username', 'UserController.user').as('user.index')
+Route.get('user/:username/:page', 'UserController.listPost').as('user.listPost')
 
 Route.group(() => {
     Route.get('podcast', 'PodcastController.index').as('podcast.index')

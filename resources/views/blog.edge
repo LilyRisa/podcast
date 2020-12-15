@@ -1,0 +1,88 @@
+@layout('layout.main')
+
+@section('head')
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episode.css')}}">
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/profile.css')}}">
+@endsection
+
+@section('content')
+<div class="home">
+	<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{{assetsUrl('images/post.jpg')}}" data-speed="0.8"></div>
+		<div class="home_container d-flex flex-column align-items-center justify-content-center">
+			<div class="home_content">
+				<div class="home_title"><h1>New blogs</h1></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Episode -->
+
+	<div class="episode_container">
+
+		<div class="container">
+			<div class="row">		
+				<!-- Episode -->
+				<div class="col-lg-9 episode_col order-lg-2 order-1">
+
+					<div id="post_list">
+						
+					</div>
+				</div>
+				
+			</div>
+			
+		</div>
+	</div>
+	<div id="loading" class="messagebox_overlay" style="box-sizing: border-box; display: flex; flex-flow: column nowrap; align-items: center; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; justify-content: flex-start;">
+		<div style="position:absolute; top:40%; border-box; flex: 0 1 auto; display: flex; flex-flow: column nowrap; overflow: hidden; width: auto; max-height: 62.5%;">
+		<img src="{{assetsUrl('images/autoload.svg')}}"/>
+		</div>
+	</div>
+@endsection
+
+@section('script')
+<script src="{{assetsUrl('js/episode.js')}}"></script>
+<script src="{{assetsUrl('js/profile.js')}}"></script>
+<script>
+	$(document).ready(function(){
+		var con = 1;
+		$.ajax({
+			url: '/blog/'+con,
+			type: 'get'
+		}).done(result => {
+			$('#loading').hide();
+			console.log(result);
+			let template;
+			result = result.data;
+			result.forEach( item => {
+				template = '';
+				template = template_profile('{{getfile}}',item);
+				$('#post_list').append(template);
+			});
+		});
+		//scroll foooter
+		$(window).on('scroll',function(){
+			if($(window).scrollTop() + $(window).height() == $(document).height()) {
+				$('#loading').show();
+				con++;
+				$.ajax({
+					url: '/blog/'+con,
+					type:'get',
+				}).done(result => {
+					$('#loading').hide();
+					let template;
+					result = result.data;
+					result.forEach( item => {
+						template = '';
+						template = template_profile('{{getfile}}',item);
+						$('#post_list').append(template);
+					});
+					
+				});
+			}
+		});
+
+	});
+	
+</script>
+@endsection
