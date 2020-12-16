@@ -211,7 +211,7 @@
 							<button class="btn " id="load_more">Load more</button>
 						</div>
 					</div>
-
+					@if(auth.user != null)
 					<!-- Leave a Comment -->
 					<div class="comment_form_container">
 						<div class="section_title">Leave a comment</div>
@@ -232,6 +232,11 @@
 							<button class="comment_button button_fill" id="sent_comment">send</button>
 						</form>
 					</div>
+					@else
+					<div class="comment_form_container">
+						<div class="section_title">Please login to comment</div>
+					</div>
+					@endif
 				</div>
 			</div>
 		</div>

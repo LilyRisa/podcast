@@ -1,32 +1,12 @@
-# Adonis fullstack application
+# Podcast audio
 
-This is the fullstack boilerplate for AdonisJs, it comes pre-configured with.
 
-1. Bodyparser
-2. Session
-3. Authentication
-4. Web security middleware
-5. CORS
-6. Edge template engine
-7. Lucid ORM
-8. Migrations and seeds
+## Cài đặt
 
-## Setup
-
-Use the adonis command to install the blueprint
-
-```bash
-adonis new yardstick
-```
-
-or manually clone the repo and then run `npm install`.
-don't run `npm audit fix`
-This is a bug in adonisjs@ace than 5.0.8 onwards
-
-### Migrations
-
-Run the following command to run startup migrations.
-
-```js
-adonis migration:run
-```
+- chạy lệnh ```npm install ```
+- ``` cp .env.example .env ``` tạo file môi trường (chú ý biến ```SERVER_IP, ETOKEN```, đây là 2 giá trị để gọi đến api project laravel).
+- https://github.com/LilyRisa/laravel_service_upload_file (đây là project được tạo ra với mục đích lưu trữ file và xác thực thông qua việc tạo ra etoken)
+> Việc cài đặt laravel project phải được thực hiện trước 
+- Tiếp theo chạy lệnh ``` adonis migration:run ``` để khởi tạo database
+- Chạy tiếp lệnh ``` adonis seed --files='UserSeeder.js, CategorySeeder.js ``` để khởi tạo giá trị mặc định
+- ``` adonis serve --dev ``` Run project

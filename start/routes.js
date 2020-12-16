@@ -36,7 +36,9 @@ Route.get('blog/:page', 'BlogController.listPost').as('blog.listPost')
 // public profile
 Route.get('user/:username', 'UserController.user').as('user.index')
 Route.get('user/:username/:page', 'UserController.listPost').as('user.listPost')
-
+// exception
+Route.get('403', 'ExceptionController.403').as('except.403')
+Route.get('404', 'ExceptionController.404').as('except.404')
 Route.group(() => {
     Route.get('podcast', 'PodcastController.index').as('podcast.index')
     Route.post('audio_podcast', 'PodcastController.put_audio').as('podcast.audio')

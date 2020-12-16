@@ -1,0 +1,21 @@
+@layout('layout.main')
+@section('head')
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episodes.css')}}">
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episodes_responsive.css')}}">
+@endsection
+
+@section('content')
+<div class="home">
+<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{{assetsUrl('images/404.jpg')}}" data-speed="0.8"></div>
+    <div class="home_container d-flex flex-column align-items-center justify-content-center">
+        <div class="home_content">
+            <div class="home_title"><h1>404 not found</h1></div>
+        </div>
+    </div>
+</div>
+<div class="episodes">
+    <div class="container">
+        <h3 class=" text-center">Uh oh! Looks like you got lost. Go back to the homepage if you dare!</h3>
+    </div>
+</div>
+@endsection

@@ -23,7 +23,9 @@
 
 @section('content')
 <div class="home">
-<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{{assetsUrl('images/room2.jpg')}}" data-speed="0.8"></div>
+<div class="parallax_background parallax-window" data-parallax="scroll" data-speed="0.8">
+    <canvas id="bgCanvas"></canvas>
+</div>
     <div class="home_container d-flex flex-column align-items-center justify-content-center">
         <div class="home_content">
             <div class="home_title"><h1>Room chat</h1></div>

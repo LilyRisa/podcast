@@ -3,11 +3,14 @@
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episode.css')}}">
 <link rel="stylesheet" type="text/css" href="{{assetsUrl('css/profile.css')}}">
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/nature_svg.css')}}">
 @endsection
 
 @section('content')
 <div class="home">
-	<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{{assetsUrl('images/post.jpg')}}" data-speed="0.8"></div>
+	<div class="parallax_background parallax-window" data-parallax="scroll" data-speed="0.8">
+		@include('layout.nature_svg')
+	</div>
 		<div class="home_container d-flex flex-column align-items-center justify-content-center">
 			<div class="home_content">
 				<div class="home_title"><h1>New blogs</h1></div>
@@ -43,6 +46,7 @@
 @section('script')
 <script src="{{assetsUrl('js/episode.js')}}"></script>
 <script src="{{assetsUrl('js/profile.js')}}"></script>
+<script src="{{assetsUrl('js/nature_svg.js')}}"></script>
 <script>
 	$(document).ready(function(){
 		var con = 1;
