@@ -154,7 +154,7 @@
 				$('#loading').show();
 				con++;
 				$.ajax({
-					url: '/user/{{profile.username}}/'+con,
+					url: '/user/{{profile.username}}/	'+con,
 					type:'get',
 				}).done(result => {
 					$('#loading').hide();
