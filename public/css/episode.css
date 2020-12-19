@@ -964,6 +964,7 @@ section
 	border-radius: 3px;
 	overflow: hidden;
 	margin-top: -146px;
+	max-height: 257px;
 }
 .sidebar_list
 {

@@ -159,6 +159,15 @@
 							<p>{{episode.descriptions}}</p>
 						</div>
 					</div>
+					<div class="intro">
+						<div class="section_title">Identify Song: </div>
+						<p style="color:red"><i>* Trình nhận diện đang trong giai đoạn beta có thể sai lệch kết quả </i></p>
+						<div class="intro_text" id="detect_result" style="margin-bottom: 10px">
+							
+						</div>
+						<button class="btn" style="background-color:hsla(290,100%,70%,0.3)" id="detect">Audio detect</button>
+						<img src="{{assetsUrl('images/search.svg')}}" alt="" id="search_load" style="display: none">
+					</div>
 					<!--  <div class="guests">
 						<div class="section_title">Guests</div>
 						<div class="guests_container d-flex flex-md-row flex-column align-items-md-start align-items-center justify-content-start">
@@ -247,6 +256,40 @@
 <script src="{{assetsUrl('js/episode.js')}}"></script>
 <script>
 	$(document).ready(function(){
+		//load detect audio
+		$('#detect').on('click', function(){
+			$('#search_load').show();
+			$('#detect_result').hide(1000);
+			$('#detect').hide(1000);
+			$.ajax({
+				url: '{{getfile}}detect_audio/{{episode.path_audio}}',
+				type: 'get'
+			}).done(result => {
+				$('#detect').show(1000);
+				let tmp = '<ul class="list-group">';
+				tmp += '<li class="list-group-item">Tên bài hát gốc: '+result.title+'</li>';
+				tmp += '<li class="list-group-item">Năm phát hành: '+result.release_date+'</li>';
+				if(result.title != null){
+					tmp += '<li class="list-group-item">Link video: <a href="https://www.youtube.com/results?search_query='+result.title+'" target="_blank">'+result.title+'</a></li>';
+				}else{
+					tmp += '<li class="list-group-item">Link video: <a href="#">null</a></li>';
+				}
+				tmp += '<li class="list-group-item">Timecode: '+result.timecode+'</li>';
+				tmp += '<li class="list-group-item">Nhãn: '+result.label+'</li>';
+				tmp += '</ul>';
+				$('#detect_result').html(tmp);
+				$('#detect_result').show(1000);
+				$('#search_load').hide();
+			}).fail(() => {
+				let tmp = '<ul class="list-group">';
+				tmp += '<li class="list-group-item"><p style="color:red"><i>* Error: 500 Internal Server Error</i><p></li>';
+				tmp += '</ul>';
+				$('#detect_result').html(tmp);
+				$('#detect_result').show(1000);
+				$('#search_load').hide();
+				$('#detect').show(1000);
+			});
+		});
 		//load comment
 		var con = 1;
 		$.ajax({
