@@ -235,56 +235,61 @@
     var file = $('#file_audio').prop('files')[0];
     console.log(file);
     var data = new FormData();
-    if (file.size > 30000000) {
-      $.MessageBox({
-        buttonDone: "OK",
-        buttonFail : undefined,
-        top: "25%",
-        input: false,
-        message: "File upload max size 30MB",
-        queue: true,
-        speed: 200,
-    });
-  }else{
-      data.append('file', file);
-    $.ajax({
-      url: '{{storage}}',
-      type:'POST',
-      dataType: 'text',
-      data: data,
-      cache: false,
-      processData: false,
-      contentType: false,
-      headers: {
-          'x-csrf-token': '{{ csrfToken }}',
-          'Authorization': '{{token}}'
-      }
-    }).done((result) =>{
-        $('#loading').hide();
-        result = JSON.parse(result);
-        if(result.result.status == 'success'){
-            $('#remote_play_url').val(result.result.token_file);
-            $('#pre_audio').show();
-            // $('#pre_audio').find('source').attr('src','{{getfile}}'+result.result.token_file);
-            // $('#pre_audio').find('iframe').attr('src','{{getfile}}'+result.result.token_file);
-            wavesurfer.load('{{getfile}}'+result.result.token_file);
-            wavesurfer.on('ready', function () {
-                wavesurfer.play();
-            });
-        }else{
+    if(typeof file != 'undefined'){
+        if(file.size > 20000000){
             $.MessageBox({
                 buttonDone: "OK",
                 buttonFail : undefined,
                 top: "25%",
                 input: false,
-                message: "Server error",
+                message: "File upload max size 20MB",
                 queue: true,
                 speed: 200,
             });
+        }else{
+            data.append('file', file);
+            $.ajax({
+            url: '{{storage}}',
+            type:'POST',
+            dataType: 'text',
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            headers: {
+                'x-csrf-token': '{{ csrfToken }}',
+                'Authorization': '{{token}}'
+            }
+            }).done((result) =>{
+                $('#loading').hide();
+                result = JSON.parse(result);
+                if(result.result.status == 'success'){
+                    $('#remote_play_url').val(result.result.token_file);
+                    $('#pre_audio').show();
+                    // $('#pre_audio').find('source').attr('src','{{getfile}}'+result.result.token_file);
+                    // $('#pre_audio').find('iframe').attr('src','{{getfile}}'+result.result.token_file);
+                    wavesurfer.load('{{getfile}}'+result.result.token_file);
+                    wavesurfer.on('ready', function () {
+                        wavesurfer.play();
+                    });
+                }else{
+                    $.MessageBox({
+                        buttonDone: "OK",
+                        buttonFail : undefined,
+                        top: "25%",
+                        input: false,
+                        message: "Server error",
+                        queue: true,
+                        speed: 200,
+                    });
+                }
+            console.log(result);
+            });
         }
-      console.log(result);
-    });
-  }
+    }else{
+        $('#loading').hide();
+    }
+    
   });
 
   $('#thumb_file').on('change',function(){

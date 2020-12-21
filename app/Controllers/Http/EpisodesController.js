@@ -1,6 +1,7 @@
 'use strict'
 const Category = use('App/Models/Category')
 const Episode = use('App/Models/Episode')
+const Comment = use('App/Models/Comment')
 const StorageApi = use('App/Service/StorageApi')
 const Env = use('Env')
 const Tags = use('App/Models/Tags')
@@ -12,6 +13,11 @@ class EpisodesController {
         const listcategory = category.toJSON()
         tags = tags.toJSON()
         episode = episode.toJSON()
+        for(let i=0; i < episode.length; i++){
+            let count_cmt = await Comment.query().where('episode_id',episode[i].id).fetch()
+            count_cmt = count_cmt.toJSON()
+            episode[i].count_cmt = count_cmt.length
+        }
         const username = auth.user != null ? auth.user.username : 'underfine';
         const getfile = StorageApi.GetPathApi('/api/getfile/');
         return view.render('episodes',{username: username, category: listcategory, getfile: getfile, episode: episode, tags: tags})
