@@ -1,37 +1,12 @@
-## Welcome to GitHub Pages
+# Podcast audio
 
-You can use the [editor on GitHub](https://github.com/LilyRisa/podcast/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Cài đặt
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/LilyRisa/podcast/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+- chạy lệnh ```npm install ```
+- ``` cp .env.example .env ``` tạo file môi trường (chú ý biến ```SERVER_IP, ETOKEN```, đây là 2 giá trị để gọi đến api project laravel).
+- https://github.com/LilyRisa/laravel_service_upload_file (đây là project được tạo ra với mục đích lưu trữ file và xác thực thông qua việc tạo ra etoken)
+> Việc cài đặt laravel project phải được thực hiện trước 
+- Tiếp theo chạy lệnh ``` adonis migration:run ``` để khởi tạo database
+- Chạy tiếp lệnh ``` adonis seed --files='UserSeeder.js, CategorySeeder.js ``` để khởi tạo giá trị mặc định
+- ``` adonis serve --dev ``` Run project
