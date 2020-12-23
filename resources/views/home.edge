@@ -260,7 +260,7 @@
 }
 .jp-volume-controls > div:first-child
 {
-	
+
 }
 .jp-mute
 {
@@ -572,7 +572,7 @@
 
 	<!-- Bi Weekly -->
 
-	
+
 	<!-- Shows 2 -->
 
 	<div class="shows_2">
@@ -599,7 +599,7 @@
 										<li><a href="#">{{cate_item.name}}</a></li>
 									</ul>
 								</div>
-							</div> 
+							</div>
 						</div>
 					</div>
 				</div>
@@ -646,7 +646,6 @@ $(document).ready(function(){
 		page++;
 		e.preventDefault();
 		$.ajax({
-			//url: '{{route('episode.pagination', { id: 1 })}}'
 			url: 'home_pagination/'+page,
 			type: 'get',
 		}).done(result => {
