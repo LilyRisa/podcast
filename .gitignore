@@ -15,3 +15,5 @@ database/*.sqlite
 .history
 .idea
 .vscode
+tmp
+tmp/*
