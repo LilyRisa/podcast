@@ -3,14 +3,14 @@ const Category = use('App/Models/Category')
 const Episode = use('App/Models/Episode')
 const Comment = use('App/Models/Comment')
 const StorageApi = use('App/Service/StorageApi')
+const Database = use('Database')
 
 class HomeController {
     async index ({ view, auth}) {
         const category = await Category.all()
-        let count_episode = ((await Episode.all()).toJSON()).length
-        count_episode = Math.floor(Math.random() * count_episode)+1;
-        let episode = await Episode.query().where('id',count_episode).with('category').with('tag').with('comment').first()
+        let episode = await Episode.query().with('category').with('tag').with('comment').orderBy(Database.raw('RAND()')).paginate(1, 1)
         episode = episode.toJSON()
+        episode = episode.data[0];
         let count_cmt = await Comment.query().where('episode_id',episode.id).fetch()
         count_cmt = count_cmt.toJSON()
         const listcategory = category.toJSON()
