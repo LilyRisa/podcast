@@ -4,7 +4,7 @@ var template_profile = (url,data) => {
          tmp = `<div class="col-md-12">
                 <hr class="my-4">
             </div>
-            <div class="col-xs-12 col-sm-12">
+            <div class="col-xs-12 col-sm-12 post">
                 <div class="panel panel-default panel-google-plus">
                     <div class="panel-heading">
                         <img class="img-circle pull-left img-thumbnail" style="width: 70px;height: 70px;object-fit: cover;" src="${url + data.user.avatar}" alt="Mouse0270" />
@@ -23,7 +23,7 @@ var template_profile = (url,data) => {
         tmp = `<div class="col-md-12">
                 <hr class="my-4">
             </div>
-            <div class="col-xs-12 col-sm-12">
+            <div class="col-xs-12 col-sm-12 post">
                 <div class="panel panel-default panel-google-plus">
                     <div class="panel-heading">
                         <img class="img-circle pull-left img-thumbnail" style="width: 70px;height: 70px;object-fit: cover;" src="${url + data.user.avatar}" alt="Mouse0270" />
