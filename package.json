@@ -28,6 +28,7 @@
     "@adonisjs/shield": "^1.0.8",
     "@adonisjs/websocket": "^1.0.12",
     "axios": "^0.21.0",
+    "facebook-nodejs-business-sdk": "^9.0.0",
     "mdbootstrap": "^4.19.2",
     "mysql": "^2.18.1"
   },

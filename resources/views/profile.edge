@@ -3,6 +3,11 @@
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episode.css')}}">
 <link rel="stylesheet" type="text/css" href="{{assetsUrl('css/profile.css')}}">
+<style>
+	.placeload-background{
+		margin-bottom: 30px;
+	}
+</style>
 @endsection
 
 @section('content')
@@ -50,7 +55,7 @@
 				<div class="row" style="background: #ababab;max-height: 38px;">
 					<div class="col-lg-3">
 						<!-- Episode Image -->
-						<div class="episode_image" style="width: 115%;margin-left: -22px; height: 262px;"><img src="{{getfile}}{{profile.avatar}}" alt="" class="img-fluid img-thumbnail" style="object-fit:cover"></div>
+						<div class="episode_image" style="width: 115%;margin-left: -22px; height: 262px;"><img src="{{getfile}}{{profile.avatar}}" alt="" class="img-fluid img-thumbnail avatar" style="object-fit:cover"></div>
 					</div>
 					<div class="col-lg-8">
 						<div class="row">
@@ -150,19 +155,67 @@
 <script src="{{assetsUrl('js/profile.js')}}"></script>
 <script>
 	$(document).ready(function(){
+		//load avatar
+		$('.avatar').hide();
+		$('.avatar').imagesLoaded()
+		.done(function(instance) {
+			$('.avatar').show();
+			$('#avatarload').remove();
+		}).fail(function(instance){
+			$('.avatar').show();
+			$('#avatarload').remove();
+		});
+		$('.avatar').eq(0).parent('.episode_image').append('<div class="loadtag" id="avatarload"></div>');
+		Placeload
+			.$('#avatarload')
+			.config({speed: '2s'})
+			.line((element) => element.width(300).height(200))
+			.fold(
+				(err) => console.log('error: ', err),
+				(allElements) => console.log('allElements-avatar: ', allElements)
+			)
 		//load post 
 		var con = 1;
 		$.ajax({
 			url: '/profile/list_post/'+{{profile.id}}+'/'+con,
 			type:'get',
 		}).done(result => {
+			//$('#post_list').html('');
 			let template;
 			result = result.data;
 			result.forEach( item => {
 				template = '';
 				template = template_profile('{{getfile}}',item);
 				$('#post_list').append(template);
+				$('.post:last-child').hide();
+				let load = '<div class="col-xs-12 col-sm-12 lazyload"></div>';
+				$('#post_list').append(load);
+				let placeload = Placeload
+					.$('.lazyload')
+					.config({speed: '2s'})
+					.line((element) => element.width(20).height(90))
+					.config({spaceBetween: '30px'})
+					.line((element) => element.width(70).height(20))
+					.config({spaceBetween: '30px'})
+					.line((element) => element.width(300).height(20))
+					.config({spaceBetween: '30px'})
+					.line((element) => element.width(30).height(20))
+					.config({spaceBetween: '30px'})
+					.line((element) => element.width(300).height(300));
+					placeload.fold(
+						err => console.log('error: ', err),
+						allElements => console.log('allElements: ', allElements)
+					)
 				txttolink();
+			});
+			$('.post').imagesLoaded()
+			.done(function(instance){
+				$('.lazyload').remove();
+				$('.post').show();
+			})
+			.fail(function(instance){
+				$('.lazyload').remove();
+				$('.post').show();
 			});
 			
 		});
@@ -182,9 +235,38 @@
 						template = '';
 						template = template_profile('{{getfile}}',item);
 						$('#post_list').append(template);
+						$('.post:last-child').hide();
+						let load = '<div class="col-xs-12 col-sm-12 lazyload"></div>';
+						$('#post_list').append(load);
 						txttolink();
+						let placeload = Placeload
+						.$('.lazyload')
+						.config({speed: '2s'})
+						.line((element) => element.width(20).height(90))
+						.config({spaceBetween: '30px'})
+						.line((element) => element.width(70).height(20))
+						.config({spaceBetween: '30px'})
+						.line((element) => element.width(300).height(20))
+						.config({spaceBetween: '30px'})
+						.line((element) => element.width(30).height(20))
+						.config({spaceBetween: '30px'})
+						.line((element) => element.width(300).height(300));
+						placeload.fold(
+							err => console.log('error: ', err),
+							allElements => console.log('allElements: ', allElements)
+						)
 					});
 					
+				});
+				$('.post').imagesLoaded()
+				.done(function(instance){
+					$('.lazyload').remove();
+					$('.post').show();
+					console.log('ádasd');
+				})
+				.fail(function(instance){
+					$('.lazyload').remove();
+					$('.post').show();
 				});
 			}
 		});
@@ -308,7 +390,6 @@
 		let text_to_post = $('#post_list p');
 		for(let i=0; i< text_to_post.length; i++){
 			let tmp = Linkify($(text_to_post).eq(i).text());
-			console.log(tmp);
 			$(text_to_post).eq(i).text();
 		}	
 	}

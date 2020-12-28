@@ -4,6 +4,11 @@
 <link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episode.css')}}">
 <link rel="stylesheet" type="text/css" href="{{assetsUrl('css/profile.css')}}">
 <link rel="stylesheet" type="text/css" href="{{assetsUrl('css/nature_svg.css')}}">
+<style>
+	.placeload-background{
+		margin-bottom: 30px;
+	}
+</style>
 @endsection
 
 @section('content')
@@ -62,6 +67,34 @@
 				template = '';
 				template = template_profile('{{getfile}}',item);
 				$('#post_list').append(template);
+				$('.post:last-child').hide();
+				let load = '<div class="col-xs-12 col-sm-12 lazyload" style="margin-top: 30px; margin-bottom: 30px"></div>';
+				$('#post_list').append(load);
+			});
+			let placeload = Placeload
+			.$('.lazyload')
+			.config({speed: '2s'})
+			.line((element) => element.width(20).height(90))
+			.config({spaceBetween: '30px'})
+			.line((element) => element.width(70).height(20))
+			.config({spaceBetween: '30px'})
+			.line((element) => element.width(300).height(20))
+			.config({spaceBetween: '30px'})
+			.line((element) => element.width(30).height(20))
+			.config({spaceBetween: '30px'})
+			.line((element) => element.width(300).height(300));
+			placeload.fold(
+				err => console.log('error: ', err),
+				allElements => console.log('allElements: ', allElements)
+			)
+			$('.post').imagesLoaded()
+			.done(function(instance){
+				$('.lazyload').remove();
+				$('.post').show();
+			})
+			.fail(function(instance){
+				$('.lazyload').remove();
+				$('.post').show();
 			});
 		});
 		//scroll foooter
@@ -80,6 +113,34 @@
 						template = '';
 						template = template_profile('{{getfile}}',item);
 						$('#post_list').append(template);
+						$('.post:last-child').hide();
+						let load = '<div class="col-xs-12 col-sm-12 lazyload" style="margin-bottom: 30px" ></div>';
+						$('#post_list').append(load);
+					});
+					let placeload = Placeload
+					.$('.lazyload')
+					.config({speed: '2s'})
+					.line((element) => element.width(20).height(90))
+					.config({spaceBetween: '30px'})
+					.line((element) => element.width(70).height(20))
+					.config({spaceBetween: '30px'})
+					.line((element) => element.width(300).height(20))
+					.config({spaceBetween: '30px'})
+					.line((element) => element.width(30).height(20))
+					.config({spaceBetween: '30px'})
+					.line((element) => element.width(300).height(300));
+					placeload.fold(
+						err => console.log('error: ', err),
+						allElements => console.log('allElements: ', allElements)
+					)
+					$('.post').imagesLoaded()
+					.done(function(instance){
+						$('.lazyload').remove();
+						$('.post').show();
+					})
+					.fail(function(instance){
+						$('.lazyload').remove();
+						$('.post').show();
 					});
 					
 				});
