@@ -1,0 +1,278 @@
+@layout('layout.main')
+@section('head')
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episodes.css')}}">
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episodes_responsive.css')}}">
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/roomchat.css')}}">
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/profile.css')}}">
+<style>
+    .warning{
+        font-size: 12px;
+        text-align: right;
+
+    }
+    .warning:before{
+        content:"";
+        width:10px;
+        height:10px;
+        border-radius:50%;
+        background: #E91E63;
+        display:inline-block;
+    }
+</style>
+@endsection
+
+@section('content')
+<div class="home">
+<div class="parallax_background parallax-window" data-parallax="scroll" data-speed="0.8">
+    <canvas id="bgCanvas"></canvas>
+</div>
+    <div class="home_container d-flex flex-column align-items-center justify-content-center">
+        <div class="home_content">
+            <div class="home_title"><h1>Room chat</h1></div>
+        </div>
+    </div>
+</div>
+<div class="episodes">
+		<div class="container">
+            <h3 class=" text-center">How can you use these tools safely?</h3>
+                    <p class="warning"><b>Be conscious of what information you reveal</b> - Be wary of revealing personal information unless you know who you are really talking to. You should also be careful about discussing anything you or your employer might consider sensitive business information (even if you are talking to someone you know in a one-to-one conversation).</p>
+<div class="messaging">
+      <div class="inbox_msg">
+        <div class="headind_srch">
+            <div class="recent_heading">
+            <h4>Hello {{username}}</h4> 
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" name="public" id="connchat">
+                    <label>On or off connect server chat</label>
+                </div>
+            </div>
+            <div class="srch_bar">
+              <p></p><span class="dot online"></span>
+            </div>
+          </div>
+        <div class="mesgs">
+          <div class="msg_history" id="form_mess">
+           
+          </div>
+          <div class="type_msg">
+            <div class="input_msg_write">
+              <input type="text" class="write_msg" id="msg_text" placeholder="Type a message" />
+              <button class="msg_send_btn" type="button" id="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      {{--  <p class="text-center top_spac"> Design by <a target="_blank" href="#">Min</a></p>  --}}
+      
+    </div>
+			
+		</div>
+	</div>
+	@endsection
+    @section('script')
+<script src="{{assetsUrl('js/roomchat.js')}}"></script>
+	<script>
+	$(document).ready(function(){
+        $('#connchat').on('change',function(){
+            if(this.checked) {
+                location.reload();
+            }else{
+                $.MessageBox({
+                    buttonDone: "OK",
+                    buttonFail : 'NO',
+                    top: "25%",
+                    message: "Bạn sẽ bị mất kết nối đến server",
+                    speed: 200,
+                }).done(()=>{
+                    ws.close();
+                    $('.dot').addClass('offline');
+                }).fail(function(){
+                    $('#connchat').prop('checked', true);
+                    $.MessageBox("Yeah, sure... ");
+                });
+            }
+        });
+
+        let ws = null;
+
+        $(function () {
+        // Only connect when username is available
+            startChat();
+        })
+        function startChat () {
+            ws = adonis.Ws().connect()
+
+            ws.on('open', () => {
+                $('.dot').addClass('online');
+                $('#connchat').prop('checked', true);
+                subscribeToChannel()
+            })
+
+            ws.on('error', () => {
+                $('.dot').addClass('offline')
+                $('#connchat').prop('checked', false);
+            })
+        }
+        function subscribeToChannel () {
+            const chat = ws.subscribe('chatroom')
+
+            chat.on('error', () => {
+                $('.dot').addClass('offline')
+            })
+
+            chat.on('message', (message) => {
+                console.log(message);
+                $.ajax({
+                   url: '{{route('chatroom.getuser')}}',
+                   type: 'post',
+                   headers: {
+                        'x-csrf-token': '{{ csrfToken }}',
+                    },
+                    data: {
+                        id: message.user
+                    }
+                }).done(result => {
+                    const auth = {{user.id}};
+                    let data_result = {};
+                    data_result.created_at = message.created_at;
+                    data_result.messenges = message.body;
+                    data_result.user = result;
+                    console.log(data_result);
+                    if(result.id == auth){
+                        temp = mess_template('{{getfile}}',data_result,'sent');
+                        $('#form_mess').append(temp);
+                    }else{
+                        temp = mess_template('{{getfile}}',data_result);
+                        $('#form_mess').append(temp);
+                    }
+                    $('#form_mess').scrollTop($('#form_mess').height());
+                });
+
+            })
+        }
+        $('#msg_text').keyup(function (e) {
+            if (e.which === 13) {
+                if($(this).val() != ''){
+                    e.preventDefault();
+
+                    const message = $(this).val();
+                    $(this).val('');
+
+                    ws.getSubscription('chatroom').emit('message', {
+                        user: {{user.id}},
+                        body: message,
+                        created_at: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                    });
+                    postmess(message);
+                }else{
+                    $.MessageBox({
+                        buttonDone: "OK",
+                        buttonFail : undefined,
+                        top: "25%",
+                        message: "Viết gì đó",
+                        speed: 200,
+                    });
+                }
+                
+            }
+            });
+            $('#submit').on('click',function (e) {
+                e.preventDefault()
+                if($('#msg_text').val() != ''){
+                    const message = $('#msg_text').val()
+                    $('#msg_text').val('')
+                    postmess(message);
+                    ws.getSubscription('chatroom').emit('message', {
+                        user: {{user.id}},
+                        body: message,
+                        created_at: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                    },'all sockets');
+                }else{
+                    $.MessageBox({
+                        buttonDone: "OK",
+                        buttonFail : undefined,
+                        top: "25%",
+                        message: "Viết gì đó",
+                        speed: 200,
+                    });
+                }
+            });
+        function postmess(data){
+            $.ajax({
+                    url: '{{route('chatroom.save')}}',
+                    type: 'post',
+                    headers: {
+                        'x-csrf-token': '{{ csrfToken }}',
+                    },
+                    data: {
+                        mess: data
+                    }
+                }).done(result => {
+                });
+        }
+        var page = 1;
+        var limit = 6;
+        $.ajax({
+            url:'room/'+page+'/'+limit,
+            type: 'get',
+        }).done(result => {
+            let auth = result.auth;
+            let temp;
+            result = result.data
+            result.forEach( data => {
+                temp = '';
+                if(data.user.id == auth){
+                    temp = mess_template('{{getfile}}',data,'sent');
+                    $('#form_mess').prepend(temp);
+                    $('#form_mess .outgoing_msg:first-child').hide();
+                    $('#form_mess .outgoing_msg:first-child').fadeIn('slow');
+                }else{
+                    temp = mess_template('{{getfile}}',data);
+                    $('#form_mess').prepend(temp);
+                    $('#form_mess .incoming_msg:first-child').hide();
+                    $('#form_mess .incoming_msg:first-child').fadeIn('slow');
+                }
+                $('#form_mess').scrollTop($('#form_mess').height());
+                //console.log(temp);
+            });
+        });
+
+        $('#form_mess').on('scroll',function(){
+            if($('#form_mess').scrollTop() <= 0){
+                $('#form_mess').prepend('<div id="loading"><img src="{{assetsUrl('images/autoload.svg')}}"/></div>');
+
+                page++;
+                $.ajax({
+                    url:'room/'+page+'/'+limit,
+                    type: 'get',
+                }).done(result => {
+                    $('#loading').remove();
+                    let auth = result.auth;
+                    let temp;
+                    result = result.data
+                    result.forEach( data => {
+                        temp = '';
+                        if(data.user.id == auth){
+                            temp = mess_template('{{getfile}}',data,'sent');
+                            $('#form_mess').prepend(temp);
+                            $('#form_mess .outgoing_msg:first-child').hide();
+                            $('#form_mess .outgoing_msg:first-child').fadeIn('slow');
+                        }else{
+                            temp = mess_template('{{getfile}}',data);
+                            $('#form_mess').prepend(temp);
+                            $('#form_mess .incoming_msg:first-child').hide();
+                            $('#form_mess .incoming_msg:first-child').fadeIn('slow');
+                        }
+                        $('#form_mess').scrollTop(500);
+                        //console.log(temp);
+                    });
+        });
+
+            }
+        });
+    });
+    
+	</script>
+	@endsection

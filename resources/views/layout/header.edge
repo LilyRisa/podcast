@@ -1,0 +1,71 @@
+<header class="header trans_400">
+
+		<!-- Logo -->
+		<div class="logo">
+			<a href="{{route('home.index')}}"><span>podcast</span>me<img src="{{assetsUrl('images/play.png')}}" alt=""></a>
+		</div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="header_content d-flex flex-row align-items-center justify-content-start trans_400">
+						<nav class="main_nav">
+							<ul class="d-flex flex-row align-items-start justify-content-start">
+								<li><a href="{{route('home.index')}}">Home</a></li>
+								<li><a href="{{route('chatroom.index')}}">Room chat</a></li>
+								<li><a href="{{route('episodes.index')}}">Episodes</a></li>
+								<li><a href="{{route('blog.index')}}">Blog</a></li>
+								<li><a href="contact.html">Contact</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Submit & Social -->
+		<div class="header_right d-flex flex-row align-items-start justify-content-start">
+
+			<!-- Submit -->
+			
+			@loggedIn
+				@if(username != null)
+				<div class="submit"><a href="{{route('podcast.index')}}">Submit a Podcast</a></div>
+		<div class="submit" id="login"><a href="{{route('profile.index')}}">{{ username }}</a></div>
+				<div class="submit" id="logout"><a href="#">Logout</a></div>
+				@endif
+			@else
+			<div class="submit" id="login"><a href="{{route('login.index')}}">Login</a></div>
+			@endloggedIn
+			
+			<!-- Social -->
+			<!-- <div class="social">
+				<ul class="d-flex flex-row align-items-start justify-content-start">
+					<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-soundcloud" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+				</ul>
+			</div> -->
+			<script>
+				$(document).ready(function(){
+					$('#logout').on('click',function(){
+						$.MessageBox({
+							buttonDone  : "Yes",
+							buttonFail  : "No",
+							message     : "Are you sure you want to log out?"
+						}).done(function(){
+							window.location.href = '/logout'
+						}).fail(function(){
+							$.MessageBox("Yeah, sure... ");
+						});
+					});
+				});
+			</script>
+
+			<!-- Hamburger -->
+			<div class="hamburger"><i class="fa fa-bars" aria-hidden="true"></i></div>
+			
+		</div>
+	</header>

@@ -1,0 +1,402 @@
+@layout('layout.main')
+@section('head')
+<style>
+  .uploadVideos {
+    background: linear-gradient(-45deg, #fff, #f1f1f1, #fff, #ebebeb);
+}
+.cb-box {
+    background: #fff;
+    padding: 16px;
+    margin: 20px auto 0;
+}
+.flat-tabs .nav-tabs.nav {
+    font-size: 14px;
+    border-bottom: 1px solid #d9d9d9;
+}
+.flat-tabs .nav-tabs.nav>li {
+    margin: 0;
+}
+.flat-tabs .nav-tabs.nav>li>a {
+    border-width: 0 0 3px;
+    border-color: #fff;
+    margin: 0;
+    padding: 8px 15px;
+    color: #007fb3;
+}
+.btn-primary {
+    background: #007fb3;
+    border-color: #007fb3;
+    font-family: "source_sans_proregular",sans-serif;
+    color: #fff;
+}
+.show {
+    border-radius: 3px;
+    overflow: hidden;
+    background: #f6f6f600;
+}
+</style>
+@endsection
+
+@section('content')
+@!component('layout.gallery_include',param={img: 'images/newsletter.jpg',title:'',style: 'height:100px'})
+<div class="shows" style="padding-top: 0px;">
+    <div class="home_player_container">
+        <div class="container cb-box uploadVideos">
+            <div class="progress-container allProgress hidden">
+              
+            <div class="cb-item-desc-container clearfix flat-tabs" id="mainUploadContainer">
+                <div class="video-info-container">
+                  
+                    <!-- the div for upload file remote/normal-->
+                    <div class="tab-content uploadFormDiv">
+                  
+                            <!-- this line call everything related to upload on the page -->
+                            <div class="alert alert-info">
+                                Nếu bạn muốn tải audio lên mà không phải đợi giai đoạn tải lên và xử lý hoàn tất, chỉ cần đặt URL audo (url: https://example.com/audio.mp3) của bạn ở đây cùng với một số chi tiết khác và tận hưởng.
+                            </div>
+
+                            <div class="upload_info" id="upload_form62b88" style="margin-top: 10px; border: none;">
+                                <form name="linkUploadForm62b88">
+                                    <h3>upload audio</h3>
+                                    <div class="form-group">
+                                      <label for="file_audio">Audio file</label>
+                                      <input type="file" name="file_audio" id="file_audio"  class="form-control" accept="audio/*"/>
+                                      <div>can be mp3</div>
+                                  </div>
+                                    <div class="form-group">
+                                        <label for="remote_play_url">Audio Token</label>
+                                        <input type="text" name="remote_play_url" id="remote_play_url" size="15" class="form-control" value="" disabled />
+                                        <div>can be mp3</div>
+                                    </div>
+                                    
+                                    <div class="form-group" id="pre_audio" style="display:none">
+                                    <label for="remote_play_url">Audio preview</label>
+                                        <span class="btn-success" style="padding: 5px 5px 5px 5px;
+                                        border: 1px solid #666;
+                                        color: #000000;
+                                        /* text-decoration: none; */
+                                        background: #d1ecf1 url(icon.png) no-repeat scroll 5px center;
+                                        cursor: pointer;" id="ware_start" onclick="wavesurfer.play();">Start</span>
+                                        <span class="btn-danger" style="padding: 5px 5px 5px 5px;
+                                        border: 1px solid #666;
+                                        color: #000;
+                                        /* text-decoration: none; */
+                                        background: #dcdcdc url(icon.png) no-repeat scroll 5px center;
+                                        cursor: pointer;" id="ware_pause" onclick="wavesurfer.pause();">Pause</span>
+                                        <div id="ware_audio"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="thumb_file">Thumb file</label>
+                                        <input name="thumb_file" type="file" class="filefield" id="thumb_file" accept="image/*"/>
+                                        <img class="img-responsive" src="" style="display: none; max-width: 10%;" id="thumb_url" data-id=""/>
+                                    </div>
+
+                                    <fieldset>
+                                        <span class="form_head">Phần bắt buộc</span>
+
+                                        <div>
+                                            <div class="form-group">
+                                                <label for="title">Tiêu đề</label>
+                                                <input type="text" placeholder="" name="title" id="title" class="form-control" cols="45" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="desc">Miêu tả chi tiết về video</label>
+                                                <textarea name="description" id="desc" class="form-control" cols="35"></textarea>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="tags">Tags</label>
+                                                <input type="text" placeholder="" name="tags" id="tags" data-role="tagsinput" class="form-control" value="no-tag" />
+                                                <div class="hint">Các thẻ được phân tách bằng dấu phẩy ví dụ: VanMin, Awesome, Mangxahoi</div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <div class="field">
+                                                <label for="tags" >Thể loại video</label>
+                                                <div>
+                                                  @each(category in category)
+                                                    <br />
+                                                    <label class="checkbox" title="created at: {{category.created_at}}"><input name="category" type="radio" value="{{category.id}}" /> {{category.name}}</label>
+                                                    @endeach
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="clearfix"></div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <span class="remotePlayTab" onclick="$('#more_fields_sharing_fields62b88').slideToggle()" style="cursor: pointer;">Tùy chọn chia sẻ và quyền riêng tư</span>
+                                        <div id="more_fields_sharing_fields62b88" style="display: none;">
+                                            <div>
+                                                <div class="form-group">
+                                                    <label for="broadcast">Tùy chọn phát sóng</label>
+                                                    <label class="radio">
+                                                        <input
+                                                            name="broadcast"
+                                                            type="radio"
+                                                            value="public"
+                                                            id="broadcast"
+                                                            checked=""
+                                                            onclick="
+                          $('#video_password').attr('disabled','disabled');
+                          $('#video_users').attr('disabled','disabled');
+                          if($(this).val()=='unlisted') 
+                            $('#video_password').attr('disabled',false)
+                          else if($(this).val()=='private') 
+                            $('#video_users').attr('disabled',false)
+
+                          "
+                                                        />
+                                                        Công khai - Chia sẻ video của bạn với mọi người! (Khuyến nghị)
+                                                    </label>
+                                                    
+                                                    <label class="radio">
+                                                        <input
+                                                            name="broadcast"
+                                                            type="radio"
+                                                            value="unlisted"
+                                                            id="broadcast"
+                                                            onclick="
+                          $('#video_password').attr('disabled','disabled');
+                          $('#video_users').attr('disabled','disabled');
+                          if($(this).val()=='unlisted') 
+                            $('#video_password').attr('disabled',false)
+                          else if($(this).val()=='private') 
+                            $('#video_users').attr('disabled',false)
+
+                          "
+                                                        />
+                                                        Không công khai (bất kỳ ai có mật khẩu đều có thể xem)
+                                                    </label>
+                                                    
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="video_password">Mật khẩu video</label>
+                                                    <input type="password" placeholder="" name="video_password" id="video_password" class="form-control" disabled="disabled" />
+                                                    <div class="hint">Nhập mật khẩu video để tạo "password protected"</div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <input name="submit_upload" type="hidden" value="just_do_it" />
+                                    <input id="embed_upload_id" name="submit_upload" type="hidden" value="62b88" />
+                                    <input type="button" name="embed_upload" id="embed_video" value="Upload" class="btn btn-primary" />
+                                </form>
+                            </div>
+
+                            <style>
+                                .remotePlayTab {
+                                    background-color: #47b4d8;
+                                    margin: 5px 0;
+                                    padding: 5px;
+                                    display: block;
+                                    color: #fff;
+                                    font-weight: bold;
+                                }
+                            </style>
+                        </div>
+                    
+                    <!-- ending of the div for upload file remote/normal-->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="loading" class="messagebox_overlay" style="box-sizing: border-box; display: flex; flex-flow: column nowrap; align-items: center; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; justify-content: flex-start;">
+    <div style="position:absolute; top:40%; border-box; flex: 0 1 auto; display: flex; flex-flow: column nowrap; overflow: hidden; width: auto; max-height: 62.5%;">
+    <img src="{{assetsUrl('images/autoload.svg')}}"/>
+    </div>
+</div>
+
+@endsection
+
+@section('script')
+<script>
+    $('#loading').hide();
+    $('ware_pause').on('click',function(e){
+        console.log('sdsad');
+        e.preventDefault();
+    });
+
+    var wavesurfer = WaveSurfer.create({
+        container: '#ware_audio',
+        waveColor: '#5de2fb',
+        progressColor: '#0087a0',
+        mediaControls : true
+    });
+  //$('#tags').tagsinput('items')
+  $('#file_audio').on('change',function(){
+    $('#loading').show();
+    var file = $('#file_audio').prop('files')[0];
+    console.log(file);
+    var data = new FormData();
+    if(typeof file != 'undefined'){
+        if(file.size > 20000000){
+            $.MessageBox({
+                buttonDone: "OK",
+                buttonFail : undefined,
+                top: "25%",
+                input: false,
+                message: "File upload max size 20MB",
+                queue: true,
+                speed: 200,
+            });
+        }else{
+            data.append('file', file);
+            $.ajax({
+            url: '{{storage}}',
+            type:'POST',
+            dataType: 'text',
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            headers: {
+                'x-csrf-token': '{{ csrfToken }}',
+                'Authorization': '{{token}}'
+            }
+            }).done((result) =>{
+                $('#loading').hide();
+                result = JSON.parse(result);
+                if(result.result.status == 'success'){
+                    $('#remote_play_url').val(result.result.token_file);
+                    $('#pre_audio').show();
+                    // $('#pre_audio').find('source').attr('src','{{getfile}}'+result.result.token_file);
+                    // $('#pre_audio').find('iframe').attr('src','{{getfile}}'+result.result.token_file);
+                    wavesurfer.load('{{getfile}}'+result.result.token_file);
+                    wavesurfer.on('ready', function () {
+                        wavesurfer.play();
+                    });
+                }else{
+                    $.MessageBox({
+                        buttonDone: "OK",
+                        buttonFail : undefined,
+                        top: "25%",
+                        input: false,
+                        message: "Server error",
+                        queue: true,
+                        speed: 200,
+                    });
+                }
+            console.log(result);
+            });
+        }
+    }else{
+        $('#loading').hide();
+    }
+    
+  });
+
+  $('#thumb_file').on('change',function(){
+    $('#loading').show();
+    var file = $('#thumb_file').prop('files')[0];
+    console.log(file);
+    var data = new FormData();
+    if (file.size > 5000000) {
+      $.MessageBox({
+        buttonDone: "OK",
+        buttonFail : undefined,
+        top: "25%",
+        input: false,
+        message: "Image upload max size 5MB",
+        queue: true,
+        speed: 200,
+    });
+  }else{
+      data.append('file', file);
+    $.ajax({
+      url: '{{storage}}',
+      type:'POST',
+      dataType: 'text',
+      data: data,
+      cache: false,
+      processData: false,
+      contentType: false,
+      headers: {
+          'x-csrf-token': '{{ csrfToken }}',
+          'Authorization': '{{token}}'
+      }
+    }).done((result) =>{
+        $('#loading').hide();
+        result = JSON.parse(result);
+        if(result.result.status == 'success'){
+            $('#thumb_url').show();
+            $('#thumb_url').attr('src','{{getfile}}'+result.result.token_file);
+            $('#thumb_url').attr('data-id',result.result.token_file);
+        }else{
+            $.MessageBox({
+                buttonDone: "OK",
+                buttonFail : undefined,
+                top: "25%",
+                input: false,
+                message: "Server error",
+                queue: true,
+                speed: 200,
+            });
+        }
+      console.log(result);
+    });
+  }
+  });
+    $('#embed_video').on('click',function(e){
+        e.preventDefault();
+        let check = false;
+        console.log($('input:radio[name=category]:checked').val());
+        if($('#remote_play_url').val() != '' &&  $('#thumb_url').attr('data-id') != '' && $('#title').val() != ''
+         && $('#desc').val() != ''  && $('#tags').val() != '' && $('input:radio[name=category]:checked').val() != ''){
+            let data = {
+                title : $('#title').val(),
+                descriptions: $('#desc').val(),
+                category_id : $('input:radio[name=category]:checked').val(),
+                path_audio: $('#remote_play_url').val(),
+                tags : $('#tags').val(),
+                images: $('#thumb_url').attr('data-id'),
+            }
+            if($('#video_password').val() != ''){
+                data.policy = $('#video_password').val();
+            }else{
+                data.policy = null
+            }
+            console.log(data);
+            $.ajax({
+                url: '{{route('podcast.submit')}}',
+                type: 'post',
+                headers: {
+                    'x-csrf-token': '{{ csrfToken }}',
+                },
+                data:data
+            }).done((result) => {
+                console.log(result);
+                $.MessageBox({
+                    buttonDone: "OK",
+                    buttonFail : undefined,
+                    top: "25%",
+                    input: false,
+                    message: "Submit thành công",
+                    queue: true,
+                    speed: 200,
+                }).done(()=>{
+                    window.location.href = '{{route('home.index')}}';
+                });
+            });
+        }else{
+            $.MessageBox({
+                buttonDone: "OK",
+                buttonFail : undefined,
+                top: "25%",
+                input: false,
+                message: "Vui lòng hoàn tất các trường bắt buộc",
+                queue: true,
+                speed: 200,
+            });
+        }
+    });
+
+
+</script>
+@endsection

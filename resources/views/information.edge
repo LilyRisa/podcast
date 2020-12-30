@@ -1,0 +1,258 @@
+@layout('layout.main')
+
+@section('head')
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episode.css')}}">
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/profile.css')}}">
+@endsection
+
+@section('content')
+<div class="home">
+	<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{{getfile}}{{profile.avatar}}" data-speed="0.8"></div>
+		<div class="home_container">
+					
+		</div>
+		<div class="home_player_container">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-9 offset-lg-3">
+						
+						<!-- Episode -->
+						<div class="player d-flex flex-row align-items-start justify-content-start s1">
+							<div class="player_content">
+								
+								<!-- Player -->
+								<div class="single_player_container">
+									<h2 style="color:white">{{profile.fullname}} <span class="dot online"></span></h2>
+								</div>
+
+								<div class="show_info d-flex flex-row align-items-start justify-content-start" style="margin-top: 12px;">
+									<p style="color:white;text-shadow: rgba(0,0,0,.01) 0 0 1px;font-size: 17px;font-weight: 600;">({{profile.username}})</p>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Episode -->
+
+	<div class="episode_container">
+
+		<!-- Episode Image -->
+		<div class="episode_image_container">
+			<div class="container">
+				<div class="row" style="background: #ababab;max-height: 38px;">
+					<div class="col-lg-3">
+						<!-- Episode Image -->
+						<div class="episode_image" style="width: 115%;margin-left: -22px; height: 262px;"><img src="{{getfile}}{{profile.avatar}}" alt="" class="img-fluid img-thumbnail" style="object-fit:cover"></div>
+					</div>
+					<div class="col-lg-8">
+						<div class="row">
+							<div class="col-lg-6">
+								<button class="btn btn-pimary main_menu" style="width:100%" onclick="window.location.href='{{route('profile.index')}}'"><i class="fa fa-align-left"></i> Timeline <span class="s_warning">{{count_blog}}</span></button>
+							</div>
+							<div class="col-lg-6">
+								<button class="btn btn-pimary main_menu p_select" style="width:100%;"><i class="fa fa-pencil"></i> Edit infomation</button>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row">
+				
+				<!-- Sidebar -->
+				<div class="col-lg-3 order-lg-1 order-2 sidebar_col">
+					<div class="sidebar">
+
+						<!-- Categories -->
+						<div class="sidebar_list" style="min-height: 200px">
+							<div class="sidebar_title" title="{{profile.fullname}}">About me</div>
+							<div class="column">
+								<h4>Address:</h4>{{profile.address}}
+							</div>
+							<div class="column">
+								<h4>Descriptions:</h4>
+								<div id="description">{{profile.descriptions}}</div>
+								<span id="readmore">read more</span>
+							</div>
+							<div class="column">
+								<h4>Joined:</h4>
+								<div id="description">{{profile.created_at}}</div>
+							</div>
+								
+						</div>
+
+						<!-- Tags -->
+						<div class="sidebar_tags">
+							<div class="sidebar_title">Level</div>
+							<div class="tags">
+								<ul class="d-flex flex-row align-items-start justify-content-start flex-wrap">
+									@if(profile.authority == 0)
+										<li><a href="#" style="background: aqua">Member</a></li>
+									@elseif(profile.authority == 1)
+										<li><a href="#" style="background:#FFEB3B">Moderators</a></li>
+									@else 
+										<li><a href="#" style="background:red">Admin</a></li>
+									@endif
+								</ul>
+							</div>
+						</div>
+
+						
+					</div>
+				</div>
+
+				<!-- Episode -->
+				<div class="col-lg-9 episode_col order-lg-2 order-1">
+					<div class="comment_form_container">
+						<div class="section_title">Edit Information</div>
+						<div class="intro">
+							<div class="form-group">
+								<label for="up_avatar">Avatar:</label>
+								<input type="file" class="form-control" id="up_avatar" accept="image/*" />
+								<input type="text" id="avatar" name="avatar" hidden>
+								<img src="" alt="" class="img-thumbnail" id="preview" style="display:none;">
+							</div>
+							<div class="form-group">
+								<label for="fullname">Fullname:</label>
+								<input type="text" class="form-control comment_input" id="fullname" name="fullname" value="{{profile.fullname}}">
+							</div>
+							<div class="form-group">
+								<label for="address">Address:</label>
+								<input type="text" class="form-control comment_input" id="address" name="address" value="{{profile.address}}">
+							</div>
+							<div class="form-group">
+								<label for="address">Address:</label>
+								<textarea class="comment_input comment_textarea" id="des" placeholder="Description" required="required">{{profile.descriptions}}</textarea>
+							</div>
+							
+								<button class="comment_button" style="background: black;" id="edit_submit">Submit</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="loading" class="messagebox_overlay" style="box-sizing: border-box; display: flex; flex-flow: column nowrap; align-items: center; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; justify-content: flex-start;">
+		<div style="position:absolute; top:40%; border-box; flex: 0 1 auto; display: flex; flex-flow: column nowrap; overflow: hidden; width: auto; max-height: 62.5%;">
+		<img src="{{assetsUrl('images/autoload.svg')}}"/>
+		</div>
+	</div>
+@endsection
+
+@section('script')
+<script src="{{assetsUrl('js/episode.js')}}"></script>
+<script>
+	$(document).ready(function(){
+		$('#loading').hide();
+
+		$('#edit_submit').on('click',function(){
+			let avatar = $('#avatar').val() != '' ? $('#avatar').val() : null;
+			let fullname = $('#fullname').val() != '' ? $('#fullname').val() : null;
+			let address = $('#address').val() != '' ? $('#address').val() : null;
+			let descriptions = $('#des').val() != '' ? $('#des').val() : null;
+			let data = {
+				avatar:avatar,
+				fullname:fullname,
+				address:address,
+				descriptions:descriptions
+			};
+			console.log(data);
+			$.ajax({
+				url: '{{route('profile.SaveInfor')}}',
+				type: 'post',
+				headers: {
+					'x-csrf-token': '{{ csrfToken }}',
+				},
+				data: data
+			}).done(result => {
+				window.location.href = '{{route('profile.index')}}';
+			});
+		});
+
+		$('#up_avatar').on('change',function(){
+			$('#loading').show();
+			var file = $('#up_avatar').prop('files')[0];
+			console.log(file);
+			var data = new FormData();
+			if (file.size > 5000000) {
+			$.MessageBox({
+				buttonDone: "OK",
+				buttonFail : undefined,
+				top: "25%",
+				input: false,
+				message: "Image upload max size 5MB",
+				queue: true,
+				speed: 200,
+			});
+		}else{
+			data.append('file', file);
+			$.ajax({
+			url: '{{storage}}',
+			type:'POST',
+			dataType: 'text',
+			data: data,
+			cache: false,
+			processData: false,
+			contentType: false,
+			headers: {
+				'x-csrf-token': '{{ csrfToken }}',
+				'Authorization': '{{token}}'
+			}
+			}).done((result) =>{
+				$('#loading').hide();
+				result = JSON.parse(result);
+				if(result.result.status == 'success'){
+					$('#preview').attr('src','{{getfile}}'+result.result.token_file);
+					$('#preview').show();
+					$('#avatar').val(result.result.token_file);
+
+				}else{
+					$.MessageBox({
+						buttonDone: "OK",
+						buttonFail : undefined,
+						top: "25%",
+						input: false,
+						message: "Server error",
+						queue: true,
+						speed: 200,
+					});
+				}
+			console.log(result);
+			});
+		}
+  });
+
+
+
+		$('#readmore').click(function(e) {
+			if($(this).hasClass("clicked")){
+				$('#description').css({
+					'height': '100px'
+				});
+				$(this).text('read more');
+				$(this).removeClass("clicked");
+			}else{
+				e.stopPropagation();
+				$('#description').css({
+					'height': 'auto'
+				});
+				$(this).text('hidden');
+				$( this).addClass( "clicked" );
+			}
+			
+
+		});
+
+	});
+	
+</script>
+@endsection

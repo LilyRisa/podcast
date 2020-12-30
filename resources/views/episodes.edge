@@ -1,0 +1,266 @@
+@layout('layout.main')
+@section('head')
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episodes.css')}}">
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episodes_responsive.css')}}">
+@endsection
+
+@section('content')
+@include('layout.home_episodes')
+<div class="episodes">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="season_links">
+						<ul class="d-flex flex-row align-items-start justify-content-center flex-wrap">
+							<li class="item_filter_btn" data-filter="*">All Seasons</li>
+							@each(cate in category)
+							<li class="item_filter_btn" data-filter=".s{{cate.id}}">{{cate.name}}</li>
+							@endeach
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="row episodes_row">
+				
+				<!-- Sidebar -->
+				<div class="col-lg-3">
+					<div class="sidebar">
+						
+						<!-- Search -->
+						<div class="sidebar_search">
+							<div class="sidebar_title">Search</div>
+							<div class="ui search">
+								<div class="ui icon input">
+								  <input class="prompt" type="text" placeholder="search episode..." id="search_episode">
+								  <i class="search icon"></i>
+								</div>		
+							  </div>
+						</div>
+
+						<!-- Categories -->
+						<div class="sidebar_list">
+							<div class="sidebar_title">Categories</div>
+							<ul>
+								@each(cate in category)
+								<li><a href="#">{{cate.name}}</a></li>
+								@endeach
+							</ul>
+						</div>
+
+						<!-- Tags -->
+						<div class="sidebar_tags">
+							<div class="sidebar_title">Tags</div>
+							<div class="tags">
+								<ul class="d-flex flex-row align-items-start justify-content-start flex-wrap">
+									@each(tag in tags)
+									<li><a href="#">{{tag.name}}</a></li>
+									@endeach
+									
+								</ul>
+							</div>
+						</div>
+
+						<!-- Archive -->
+						<div class="sidebar_archive">
+							<div class="sidebar_title">Archive</div>
+							<div class="dropdown">
+								<ul>
+									<li class="dropdown_selected d-flex flex-row align-items-center justify-content-start"><span>September 2018</span><i class="fa fa-chevron-down ml-auto" aria-hidden="true"></i>
+										<ul>
+											<li><a href="#">August 2018</a></li>
+											<li><a href="#">July 2018</a></li>
+											<li><a href="#">June 2018</a></li>
+											<li><a href="#">May 2018</a></li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Episodes -->
+				<div class="col-lg-9 episodes_col">
+					<div class="episodes_container">
+					@each(epi in episode)
+						<!-- Episode -->
+						<div class="episode d-flex flex-row align-items-start justify-content-start s{{epi.category.id}}">
+							<div>
+								<div class="episode_image">
+								<img src="{{getfile}}{{epi.images}}" alt="" style="height: 163px;object-fit: cover;">
+									<div class="tags">
+										<ul class="d-flex flex-row align-items-start justify-content-start">		
+											<li><a href="#">{{epi.category.name}}</a></li>										
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="episode_content">
+								<div class="episode_name"><a href="{{ route('episode.index', { id: epi.id }) }}">{{epi.title}}</a></div>
+								<div class="episode_date"><a href="{{ route('episode.index', { id: epi.id }) }}">{{epi.created_at}}</a></div>
+								<div class="show_info d-flex flex-row align-items-start justify-content-start">
+									<!--<div class="show_fav d-flex flex-row align-items-center justify-content-start">
+										<div class="show_fav_icon show_info_icon"><img class="svg" src="images/heart.svg" alt=""></div>
+										<div class="show_fav_count">2371</div>
+									</div>-->
+									<div class="show_comments">
+										<a href="{{ route('episode.index', { id: epi.id }) }}">
+											<div class="d-flex flex-row align-items-center justify-content-start">
+												<div class="show_comments_icon show_info_icon"><img class="svg" src="images/speech-bubble.svg" alt=""></div>
+												<div class="show_comments_count">{{epi.count_cmt}} Comments</div>
+											</div>
+										</a>	
+									</div>
+								</div>
+								<!-- Player -->
+								<div class="single_player_container">
+									
+									<div class="single_player d-flex flex-row align-items-center justify-content-start">
+										<div class="jp-jplayer"></div>
+										<div class="jp-audio" id="seticon_{{epi.id}}" role="application" aria-label="media player"> 
+											<div class="jp-type-single">
+												<div class="player_controls">
+													<div class="jp-gui jp-interface d-flex flex-row align-items-center justify-content-start">
+														<div class="jp-controls-holder time_controls d-flex flex-row align-items-center justify-content-between">
+															<div>
+																<div class="jp-controls-holder play_button ml-auto">
+																	<button class="jp-play" id="jplay_{{epi.id}}" tabindex="0"></button>
+																</div>
+															</div>
+															<div class="audio_pro" id="episode_{{epi.id}}">
+															</div>
+														</div>
+														<script>
+															$(document).ready(function(){
+																var wavesurfer{{epi.id}} = WaveSurfer.create({
+																	container: '#episode_{{epi.id}}',
+																	waveColor: '#5de2fb',
+																	progressColor: '#0087a0',
+																	mediaControls : true,
+																	barWidth: 0.5,
+																	barHeight: 1,
+																	height: 35
+																});
+																wavesurfer{{epi.id}}.on('ready', function () {
+																	const volumn = getVolumn();
+																	if(volumn != null){
+																		wavesurfer{{epi.id}}.setVolume(volumn);
+																		$('#myRange_{{epi.id}}').val(volumn*100);
+																	}
+																});
+																wavesurfer{{epi.id}}.on('pause', function () {
+																	$('#seticon_{{epi.id}}').attr('class','jp-audio');
+																});
+																wavesurfer{{epi.id}}.on('finish', function () {
+																	$('#seticon_{{epi.id}}').attr('class','jp-audio');
+																});
+																wavesurfer{{epi.id}}.on('play', function () {
+																	$('#seticon_{{epi.id}}').attr('class','jp-audio jp-state-playing');
+																});
+																$('#myRange_{{epi.id}}').val(wavesurfer{{epi.id}}.getVolume()*100);
+																wavesurfer{{epi.id}}.load('{{getfile}}'+'{{epi.path_audio}}');
+																$('#jplay_{{epi.id}}').on('click',function(){
+																	if($(this).hasClass("clicked")){
+																		$('#seticon_{{epi.id}}').attr('class','jp-audio');
+																		wavesurfer{{epi.id}}.playPause();
+																		$(this).removeClass("clicked");
+																	}else{
+																		$('#seticon_{{epi.id}}').attr('class','jp-audio jp-state-playing');
+																		wavesurfer{{epi.id}}.playPause();
+																		$( this).addClass( "clicked" );
+																	}		
+																										
+																	
+																});
+																$('#myRange_{{epi.id}}').on('change',function(){
+																	let voluum = $(this).val() / 100;
+																	wavesurfer{{epi.id}}.setVolume(voluum);
+																});
+																$('#jpmute_{{epi.id}}').on('click',function(){
+																	if($(this).hasClass("clicked")){
+																		wavesurfer{{epi.id}}.setMute(false);
+																		wavesurfer{{epi.id}}.setVolume(1);
+																		$('#myRange_{{epi.id}}').val('100');
+																		$(this).removeClass("clicked");
+																	}else{
+																		wavesurfer{{epi.id}}.setMute(true);
+																		$('#myRange_{{epi.id}}').val('1');
+																		$( this).addClass( "clicked" );
+																	}
+																});
+															});
+															
+														</script>
+														<div class="jp-volume-controls d-flex flex-row align-items-center justify-content-between ml-auto">
+															<div class="d-flex flex-row align-items-center justify-content-start">
+																<button class="jp-mute" id="jpmute_{{epi.id}}" data-id="1" tabindex="0"></button>
+															</div>
+															<div class="d-flex flex-row align-items-center justify-content-start">
+																	{{--  <div class="jp-volume-bar-value"></div>  --}}
+																	<div class="slidecontainer">
+																		<input type="range" min="1" max="100" value="100" class="slider" id="myRange_{{epi.id}}"  style="cursor: pointer;width: 90px;margin-left: 6px;margin-top: 4px;">
+																	  </div>
+															</div>
+														</div>
+													</div>
+												</div>
+												
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+					@endeach
+					
+				</div>
+			</div>
+			<div class="row page_nav_row">
+				<div class="col">
+					<div class="page_nav d-flex flex-row align-items-center justify-content-center">
+						<ul class="d-flex flex-row">
+							<li class="active"><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	@endsection
+	@section('script')
+	<script src="{{assetsUrl('js/animation_episode.js')}}"></script>
+	<script>
+	$(document).ready(function(){
+		$('#search_episode').on('input',function(){
+			$.ajax({
+				url: '/search/'+$(this).val(),
+				type:'get',
+			}).done(result => {
+				let data = [];
+				let item = {};
+				for(let i =0; i< result.length; i++){
+					item = {};
+					result[i].descriptions = result[i].descriptions.substr(0, 40)+'...'
+					item.category = result[i].category.name;
+					item.image = '{{getfile}}'+result[i].images;
+					item.title = '<h5>'+result[i].title+'</h5>'+'<br/>'+'<p style="font-size: 13px;margin-top: -20px;">'+result[i].descriptions+'</p>';
+					item.url = '/episode/'+result[i].id
+					data.push(item);
+				}
+				console.log(data);
+				$('.ui.search')
+					.search({
+						type: 'category',
+						source: data
+					});
+			});
+		});
+	});
+	</script>
+	@endsection

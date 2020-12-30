@@ -1,0 +1,281 @@
+@layout('layout.main')
+
+@section('head')
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episode.css')}}">
+<link rel="stylesheet" type="text/css" href="{{assetsUrl('css/profile.css')}}">
+<style>
+	.placeload-background{
+		margin-bottom: 30px;
+	}
+</style>
+@endsection
+
+@section('content')
+<div class="home">
+	<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{{getfile}}{{profile.avatar}}" data-speed="0.8"></div>
+		<div class="home_container">
+					
+		</div>
+		<div class="home_player_container">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-9 offset-lg-3">
+						
+						<!-- Episode -->
+						<div class="player d-flex flex-row align-items-start justify-content-start s1">
+							<div class="player_content">
+								
+								<!-- Player -->
+								<div class="single_player_container">
+									<h2 style="color:white">{{profile.fullname}} <span class="dot online"></span></h2>
+								</div>
+
+								<div class="show_info d-flex flex-row align-items-start justify-content-start" style="margin-top: 12px;">
+									<p style="color:white;text-shadow: rgba(0,0,0,.01) 0 0 1px;font-size: 17px;font-weight: 600;">({{profile.username}})</p>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Episode -->
+
+	<div class="episode_container">
+
+		<!-- Episode Image -->
+		<div class="episode_image_container">
+			<div class="container">
+				<div class="row" style="background: #ababab;max-height: 38px;">
+					<div class="col-lg-3">
+						<!-- Episode Image -->
+						<div class="episode_image" style="width: 115%;margin-left: -22px; height: 262px;"><img src="{{getfile}}{{profile.avatar}}" alt="" class="img-fluid img-thumbnail avatar" style="object-fit:cover"></div>
+					</div>
+					<div class="col-lg-8">
+						<div class="row">
+							<div class="col-lg-6">
+								<button class="btn btn-pimary main_menu p_select" style="width:100%"><i class="fa fa-align-left"></i> Timeline <span class="s_warning">{{count_blog}}</span></button>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row">
+				
+				<!-- Sidebar -->
+				<div class="col-lg-3 order-lg-1 order-2 sidebar_col">
+					<div class="sidebar">
+
+						<!-- Categories -->
+						<div class="sidebar_list" style="min-height: 200px">
+							<div class="sidebar_title" title="{{profile.fullname}}"> introduce </div>
+							<div class="column">
+								<h4>Address:</h4>{{profile.address}}
+							</div>
+							<div class="column">
+								<h4>Descriptions:</h4>
+								<div id="description">{{profile.descriptions}}</div>
+								<span id="readmore">read more</span>
+							</div>
+							<div class="column">
+								<h4>Joined:</h4>
+								<div id="description">{{profile.created_at}}</div>
+							</div>
+								
+						</div>
+
+						<!-- Tags -->
+						<div class="sidebar_tags">
+							<div class="sidebar_title">Level</div>
+							<div class="tags">
+								<ul class="d-flex flex-row align-items-start justify-content-start flex-wrap">
+									@if(profile.authority == 0)
+										<li><a href="#" style="background: aqua">Member</a></li>
+									@elseif(profile.authority == 1)
+										<li><a href="#" style="background:#FFEB3B">Moderators</a></li>
+									@else 
+										<li><a href="#" style="background:red">Admin</a></li>
+									@endif
+								</ul>
+							</div>
+						</div>
+
+						
+					</div>
+				</div>
+
+				<!-- Episode -->
+				<div class="col-lg-9 episode_col order-lg-2 order-1">
+					
+					<div id="post_list">
+						
+					</div>
+				</div>
+				
+			</div>
+			
+		</div>
+	</div>
+	<div id="loading" class="messagebox_overlay" style="box-sizing: border-box; display: flex; flex-flow: column nowrap; align-items: center; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; justify-content: flex-start;">
+		<div style="position:absolute; top:40%; border-box; flex: 0 1 auto; display: flex; flex-flow: column nowrap; overflow: hidden; width: auto; max-height: 62.5%;">
+		<img src="{{assetsUrl('images/autoload.svg')}}"/>
+		</div>
+	</div>
+@endsection
+
+@section('script')
+<script src="{{assetsUrl('js/episode.js')}}"></script>
+<script src="{{assetsUrl('js/profile.js')}}"></script>
+<script>
+	$(document).ready(function(){
+		//load avatar
+		$('.avatar').hide();
+		$('.avatar').imagesLoaded()
+		.done(function(instance) {
+			$('.avatar').show();
+			$('#avatarload').remove();
+		}).fail(function(instance){
+			$('.avatar').show();
+			$('#avatarload').remove();
+		});
+		$('.avatar').eq(0).parent('.episode_image').append('<div class="loadtag" style="margin-top: 30px; margin-bottom: 30px" id="avatarload"></div>');
+		Placeload
+			.$('#avatarload')
+			.config({speed: '2s'})
+			.line((element) => element.width(300).height(200))
+			.fold(
+				(err) => console.log('error: ', err),
+				(allElements) => console.log('allElements-avatar: ', allElements)
+			)
+		//load post 
+		var con = 1;
+		$.ajax({
+			url: '/user/{{profile.username}}/'+con,
+			type:'get',
+		}).done(result => {
+			let template;
+			result = result.data;
+			result.forEach( item => {
+				template = '';
+				template = template_profile('{{getfile}}',item);
+				$('#post_list').append(template);
+				$('.post:last-child').hide();
+				let load = '<div class="col-xs-12 col-sm-12 lazyload"></div>';
+				$('#post_list').append(load);
+				let placeload = Placeload
+					.$('.lazyload')
+					.config({speed: '2s'})
+					.line((element) => element.width(20).height(90))
+					.config({spaceBetween: '30px'})
+					.line((element) => element.width(70).height(20))
+					.config({spaceBetween: '30px'})
+					.line((element) => element.width(300).height(20))
+					.config({spaceBetween: '30px'})
+					.line((element) => element.width(30).height(20))
+					.config({spaceBetween: '30px'})
+					.line((element) => element.width(300).height(300));
+					placeload.fold(
+						err => console.log('error: ', err),
+						allElements => console.log('allElements: ', allElements)
+					)
+				
+			});
+			$('.post').imagesLoaded()
+			.done(function(instance){
+				$('.lazyload').remove();
+				$('.post').show();
+				console.log('ádasd');
+			})
+			.fail(function(instance){
+				$('.lazyload').remove();
+				$('.post').show();
+			});
+			
+		});
+		//scroll foooter
+		$(window).on('scroll',function(){
+			if($(window).scrollTop() + $(window).height() == $(document).height()) {
+				$('#loading').show();
+				con++;
+				$.ajax({
+					url: '/user/{{profile.username}}/	'+con,
+					type:'get',
+				}).done(result => {
+					$('#loading').hide();
+					let template;
+					result = result.data;
+					result.forEach( item => {
+						template = '';
+						template = template_profile('{{getfile}}',item);
+						$('#post_list').append(template);
+						$('.post:last-child').hide();
+						let load = '<div class="col-xs-12 col-sm-12 lazyload"></div>';
+						$('#post_list').append(load);
+						let placeload = Placeload
+						.$('.lazyload')
+						.config({speed: '2s'})
+						.line((element) => element.width(20).height(90))
+						.config({spaceBetween: '30px'})
+						.line((element) => element.width(70).height(20))
+						.config({spaceBetween: '30px'})
+						.line((element) => element.width(300).height(20))
+						.config({spaceBetween: '30px'})
+						.line((element) => element.width(30).height(20))
+						.config({spaceBetween: '30px'})
+						.line((element) => element.width(300).height(300));
+						placeload.fold(
+							err => console.log('error: ', err),
+							allElements => console.log('allElements: ', allElements)
+						)
+					});
+					$('.post').imagesLoaded()
+					.done(function(instance){
+						$('.lazyload').remove();
+						$('.post').show();
+						console.log('ádasd');
+					})
+					.fail(function(instance){
+						$('.lazyload').remove();
+						$('.post').show();
+					});
+					
+				});
+			}
+		});
+
+		$('#loading').hide();
+		$('#readmore').click(function(e) {
+			if($(this).hasClass("clicked")){
+				$('#description').css({
+					'height': '100px'
+				});
+				$(this).text('read more');
+				$(this).removeClass("clicked");
+			}else{
+				e.stopPropagation();
+				$('#description').css({
+					'height': 'auto'
+				});
+				$(this).text('hidden');
+				$( this).addClass( "clicked" );
+			}
+			
+
+		});
+
+	});
+
+	
+	
+</script>
+@endsection

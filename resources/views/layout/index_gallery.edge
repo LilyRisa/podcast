@@ -1,0 +1,161 @@
+<div class="home">
+<div class="background_image" style="background-image:url({{getfile}}{{data.images}})"></div>
+		<div class="home_container">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="home_content">
+							<div class="tags" style="top: -35px;">
+								<ul class="d-flex flex-row align-items-start justify-content-start">
+									@each(tag in data.tag)
+									<li><a href="#">{{tag.name}}</a></li>
+									@endeach
+								</ul>
+							</div>
+						<div class="home_title"><h1>{{data.title}}</h1></div>
+							<div class="home_subtitle">{{data.descriptions}}</div>
+							<div class="track_info">
+								<ul class="d-flex flex-row align-items-start justify-content-start">
+									<li><a href="#">{{data.created_at}}</a></li>
+								</ul>
+							</div>
+							<div class="track track_home">
+								<div class="episode d-flex flex-row align-items-start justify-content-start s{{data.category.id}}">
+									<div>
+										<div class="episode_image">
+										<img src="{{getfile}}{{data.images}}" alt="" style="height: 163px;object-fit: cover;">
+											<div class="tags">
+												<ul class="d-flex flex-row align-items-start justify-content-start">		
+													<li><a href="#">{{data.category.name}}</a></li>										
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="episode_content">
+										<div class="episode_name"><a href="{{ route('episode.index', { id: data.id }) }}">{{data.title}}</a></div>
+										<div class="episode_date"><a href="{{ route('episode.index', { id: data.id }) }}">{{data.created_at}}</a></div>
+										<div class="show_info d-flex flex-row align-items-start justify-content-start">
+											<!-- <div class="show_fav d-flex flex-row align-items-center justify-content-start">
+												<div class="show_fav_icon show_info_icon"><img class="svg" src="images/heart.svg" alt=""></div>
+												<div class="show_fav_count">2371</div>
+											</div> -->
+											<div class="show_comments">
+												<a href="{{ route('episode.index', { id: data.id }) }}">
+													<div class="d-flex flex-row align-items-center justify-content-start">
+														<div class="show_comments_icon show_info_icon"><img class="svg" src="images/speech-bubble.svg" alt=""></div>
+														<div class="show_comments_count">{{count_cmt}} Comments</div>
+													</div>
+												</a>	
+											</div>
+										</div>
+										<!-- Player -->
+										<div class="single_player_container" style="background: #ffffff00">
+											
+											<div class="single_player d-flex flex-row align-items-center justify-content-start">
+												<div class="jp-jplayer"></div>
+												<div class="jp-audio" id="seticon_{{data.id}}" role="application" aria-label="media player"> 
+													<div class="jp-type-single">
+														<div class="player_controls">
+															<div class="jp-gui jp-interface d-flex flex-row align-items-center justify-content-start">
+																<div class="jp-controls-holder time_controls d-flex flex-row align-items-center justify-content-between">
+																	<div>
+																		<div class="jp-controls-holder play_button ml-auto">
+																			<button class="jp-play" id="jplay_{{data.id}}" tabindex="0"></button>
+																		</div>
+																	</div>
+																	<div class="audio_pro" id="episode_{{data.id}}">
+																	</div>
+																</div>
+																<script>
+																	$(document).ready(function(){
+																		var wavesurfer{{data.id}} = WaveSurfer.create({
+																			container: '#episode_{{data.id}}',
+																			waveColor: '#5de2fb',
+																			progressColor: '#0087a0',
+																			mediaControls : true,
+																			barWidth: 0.5,
+																			barHeight: 1,
+																			height: 35
+																		});
+																		wavesurfer{{data.id}}.on('ready', function () {
+																			const volumn = getVolumn();
+																			console.log(volumn);
+																			if(volumn != null){
+																				wavesurfer{{data.id}}.setVolume(volumn);
+																				$('#myRange_{{data.id}}').val(volumn*100);
+																			}
+																			$('#jplay').click();
+																		});
+																		wavesurfer{{data.id}}.on('pause', function () {
+																			$('#seticon_{{data.id}}').attr('class','jp-audio');
+																		});
+																		wavesurfer{{data.id}}.on('finish', function () {
+																			$('#seticon_{{data.id}}').attr('class','jp-audio');
+																		});
+																		wavesurfer{{data.id}}.on('play', function () {
+																			$('#seticon_{{data.id}}').attr('class','jp-audio jp-state-playing');
+																		});
+																		$('#myRange_{{data.id}}').val(wavesurfer{{data.id}}.getVolume()*100);
+																		wavesurfer{{data.id}}.load('{{getfile}}'+'{{data.path_audio}}');
+																		$('#jplay_{{data.id}}').on('click',function(){
+																			if($(this).hasClass("clicked")){
+																				$('#seticon_{{data.id}}').attr('class','jp-audio');
+																				wavesurfer{{data.id}}.playPause();
+																				$(this).removeClass("clicked");
+																			}else{
+																				$('#seticon_{{data.id}}').attr('class','jp-audio jp-state-playing');
+																				wavesurfer{{data.id}}.playPause();
+																				$( this).addClass( "clicked" );
+																			}		
+																												
+																			
+																		});
+																		$('#myRange_{{data.id}}').on('change',function(){
+																			let voluum = $(this).val() / 100;
+																			wavesurfer{{data.id}}.setVolume(voluum);
+																		});
+																		$('#jpmute_{{data.id}}').on('click',function(){
+																			if($(this).hasClass("clicked")){
+																				wavesurfer{{data.id}}.setMute(false);
+																				wavesurfer{{data.id}}.setVolume(1);
+																				$('#myRange_{{data.id}}').val('100');
+																				$(this).removeClass("clicked");
+																			}else{
+																				wavesurfer{{data.id}}.setMute(true);
+																				$('#myRange_{{data.id}}').val('1');
+																				$( this).addClass( "clicked" );
+																			}
+																		});
+																	});
+																	
+																</script>
+																<div class="jp-volume-controls d-flex flex-row align-items-center justify-content-between ml-auto">
+																	<div class="d-flex flex-row align-items-center justify-content-start">
+																		<button class="jp-mute" id="jpmute_{{data.id}}" data-id="1" tabindex="0"></button>
+																	</div>
+																	<div class="d-flex flex-row align-items-center justify-content-start">
+																			{{--  <div class="jp-volume-bar-value"></div>  --}}
+																			<div class="slidecontainer">
+																				<input type="range" min="1" max="100" value="100" class="slider" id="myRange_{{data.id}}"  style="cursor: pointer;width: 90px;margin-left: 6px;margin-top: 4px;">
+																			  </div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														
+													</div>
+												</div>
+											</div>
+		
+										</div>
+									</div>
+		
+								</div>
+							</div>
+							<div class="button_border home_button trans_200"><a href="episode/{{data.id}}">More Info</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

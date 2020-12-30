@@ -1,0 +1,662 @@
+@layout('layout.main')
+@section('head')
+<style>
+	.episodes
+{
+	background: #FFFFFF;
+	padding-top: 79px;
+	padding-bottom: 99px;
+}
+.season_links ul li:not(:last-of-type)
+{
+	margin-right: 25px;
+}
+.season_links ul li
+{
+	font-size: 16px;
+	font-weight: 400;
+	color: #494949;
+	cursor: pointer;
+}
+.season_links ul li:hover
+{
+	color: #ff3500;
+}
+.episodes_row
+{
+	margin-top: 79px;
+}
+.episodes_container
+{
+	overflow: hidden;
+}
+.episode
+{
+	width: 100%;
+	border-radius: 3px;
+	overflow: hidden;
+	background: #f7f7f754;
+}
+.episode:not(:last-child)
+{
+	margin-bottom: 30px;
+}
+.episode_image
+{
+	width: 163px;
+    height: 163px;
+}
+.tags
+{
+	position: absolute;
+	top: 13px;
+	left: 11px;
+}
+.tags ul li
+{
+    display: inline-block;
+    height: 20px;
+    background: #ff3500;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    -webkit-transition: all 200ms ease;
+    -moz-transition: all 200ms ease;
+    -ms-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
+    transition: all 200ms ease;
+}
+.tags ul li:not(:last-of-type)
+{
+    margin-right: 10px;
+}
+.tags ul li:hover
+{
+	background: #2e3038;
+}
+.tags ul li a
+{
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    font-size: 12.73px;
+    line-height: 20px;
+    color: #FFFFFF;
+    font-weight: 500;
+    padding-left: 6px;
+    padding-right: 7px;
+}
+.episode_content
+{
+	width: 100%;
+	padding-left: 32px;
+	padding-top: 18px;
+	padding-right: 30px;
+	padding-bottom: 10px;
+}
+.episode_name a
+{
+	font-size: 18px;
+	font-weight: 500;
+	color: #2e3038;
+	line-height: 1.2;
+}
+.episode_date
+{
+	margin-top: 7px;
+}
+.episode_date a
+{
+	font-size: 14px;
+	font-weight: 300;
+	color: #2e3038;
+}
+.episode_name a:hover,
+.episode_date a:hover
+{
+	color: #ff3500;
+}
+.show_info
+{
+	margin-top: 11px;
+}
+.show_fav
+{
+	margin-left: -3px;
+}
+.show_fav_icon
+{
+	width: 26px;
+	height: 26px;
+	cursor: pointer;
+}
+.show_comments
+{
+	margin-left: 17px;
+}
+.show_comments a
+{
+	display: block;
+}
+.show_comments_icon
+{
+	width: 26px;
+	height: 26px;
+	cursor: pointer;
+}
+.show_info_icon img
+{
+	max-height: 100%;
+}
+.show_info_icon svg
+{
+	max-width: 100%;
+	max-height: 100%;
+}
+.svg path, .svg rect, .svg polygon
+{
+    fill: #7b7b7b;
+    -webkit-transition: all 200ms ease;
+    -moz-transition: all 200ms ease;
+    -ms-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
+    transition: all 200ms ease;
+}
+.show_fav_icon.active .svg path,
+.show_fav_icon:hover .svg path,
+.show_comments:hover .svg path
+{
+	fill: #ff3500;
+}
+.show_fav_count,
+.show_comments_count
+{
+	font-size: 14px;
+	font-weight: 500;
+	color: #2e3038;
+	margin-left: 7px;
+	margin-bottom: 2px;
+}
+.show_comments:hover .show_comments_count
+{
+	color: #ff3500;
+}
+.single_player_container
+{
+	margin-top: 6px;
+}
+.single_player
+{
+	width: 100%;
+	height: 40px;
+}
+.jp-audio
+{
+	width: 100%;
+}
+.time_controls
+{
+	width: calc(100% - 112px);
+}
+.time_controls > div:first-child
+{
+	width: 40px;
+}
+.time_controls > div:last-child
+{
+	width: calc(100% - 40px);
+}
+.play_button
+{
+	width: 100%;
+}
+.jp-play
+{
+	position: relative;
+	width: 26px;
+	height: 26px;
+	background: transparent;
+	border: none;
+	outline: none !important;
+	cursor: pointer;
+	margin-top: 5px;
+}
+.jp-play::after
+{
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	text-align: left;
+	content: url(../images/play-2.png);
+}
+.jp-state-playing .jp-play::after
+{
+	content: url(../images/pause.png);
+}
+.jp-progress
+{
+	width: 100%;
+	height: 13px;
+	background: #e9e9e9;
+	cursor: pointer;
+	border-radius: 7px;
+	overflow: hidden;
+}
+.jp-seek-bar
+{
+	height: 100%;
+}
+.jp-play-bar
+{
+	height: 100%;
+	background: #2e3038;
+}
+.jp-volume-controls
+{
+	width: 97px;
+}
+.jp-volume-controls > div:first-child
+{
+
+}
+.jp-mute
+{
+	position: relative;
+	width: 26px;
+	height: 26px;
+	background: transparent;
+	border: none;
+	outline: none !important;
+	cursor: pointer;
+}
+.jp-mute::after
+{
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	content: url(../images/vol.png);
+}
+.jp-state-muted .jp-mute::after
+{
+	content: url(../images/mute.png);
+}
+.jp-volume-bar
+{
+	width: 58px;
+	height: 13px;
+	background: #e9e9e9;
+	border-radius: 7px;
+	overflow: hidden;
+	cursor: pointer;
+}
+.jp-volume-bar-value
+{
+	height: 100%;
+	background: #2e3038;
+}
+
+/*********************************
+8. Footer
+*********************************/
+
+.footer
+{
+	display: block;
+	background: #1f2128;
+	padding-top: 48px;
+	padding-bottom: 48px;
+}
+.footer .logo
+{
+	position: relative;
+	top: auto;
+	left: auto;
+	-webkit-transform: none;
+	-moz-transform: none;
+	-ms-transform: none;
+	-o-transform: none;
+	transform: none;
+}
+.footer .logo a
+{
+	color: rgba(255,255,255,0.3);
+}
+.footer_content_row
+{
+	margin-top: 34px;
+}
+.footer_title
+{
+	font-size: 24px;
+	color: rgba(255,255,255,0.3);
+	font-weight: 500;
+	line-height: 1.2;
+}
+.footer_list
+{
+	-webkit-column-count: 2;
+	-moz-column-count: 2;
+	column-count: 2;
+	margin-top: 63px;
+}
+.footer_list > div > div
+{
+	display: inline-block;
+	height: 20px;
+	background: #ff3500;
+	border-radius: 3px;
+	margin-bottom: 5px;
+	margin-bottom: 10px;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.footer_list  > div > div:hover
+{
+	background: #2e3038;
+}
+.footer_list  > div > div a
+{
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	font-size: 12.73px;
+	line-height: 20px;
+	color: #FFFFFF;
+	font-weight: 500;
+	padding-left: 6px;
+	padding-right: 7px;
+}
+.latest_container
+{
+	margin-top: 63px;
+}
+.latest:not(:last-child)
+{
+	margin-bottom: 36px;
+}
+.latest_play
+{
+	width: 16px;
+	height: 16px;
+	opacity: 0.5;
+	margin-top: 2px;
+}
+.latest_play svg
+{
+	max-width: 100%;
+	max-height: 100%;
+	vertical-align: top;
+}
+.latest_play svg path
+{
+	fill: rgba(255,255,255,0.5);
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.latest_title_container:hover .latest_play svg path
+{
+	fill: #ff3500;
+}
+.latest_title_content
+{
+	padding-left: 11px;
+}
+.latest_title
+{
+	font-size: 16px;
+	font-weight: 500;
+	color: #FFFFFF;
+	line-height: 1.2;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.latest_title_container:hover .latest_title
+{
+	color: #ff3500;
+}
+.latest_episode_info
+{
+	margin-top: 6px;
+	padding-left: 27px;
+}
+.latest_episode_info ul li:not(:last-of-type)::after
+{
+	display: inline-block;
+	content: '|';
+	font-size: 12px;
+	color: #FFFFFF;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.latest_episode_info ul li a
+{
+	font-size: 12px;
+	font-weight: 300;
+	color: #FFFFFF;
+}
+.latest_episode_info ul li a:hover
+{
+	color: #ff3500;
+}
+.gallery
+{
+	width: calc(100% + 30px);
+	margin-top: 62px;
+}
+.gallery_item
+{
+	width: calc((100% - 90px) / 3);
+	max-width: 98px;
+	border-radius: 3px;
+	overflow: hidden;
+	margin-bottom: 30px;
+	margin-right: 30px;
+}
+.gallery_item::after
+{
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.5);
+	visibility: hidden;
+	opacity: 0;
+	content: '';
+	pointer-events: none;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.gallery_item:hover::after
+{
+	visibility: visible;
+	opacity: 1;
+}
+.gallery_item a
+{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.footer_social_row
+{
+	margin-top: 50px;
+}
+.footer_social ul li
+{
+	width: 45px;
+	height: 45px;
+	border: solid 1px #FFFFFF;
+	box-shadow: 0 0 1px 0px #FFFFFF inset, 0 0 1px 0px #FFFFFF;
+	border-radius: 50%;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.footer_social ul li:not(:last-of-type)
+{
+	margin-right: 7px;
+}
+.footer_social ul li a
+{
+	display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.footer_social ul li a i
+{
+	font-size: 18px;
+	color: #FFFFFF;
+	line-height: 43px;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.footer_social ul li:hover
+{
+	border-color: #ff3500;
+	box-shadow: 0 0 1px 0px #ff3500 inset, 0 0 1px 0px #ff3500;
+}
+.footer_social ul li:hover a i
+{
+	color: #ff3500;
+}
+</style>
+
+@endsection
+
+@section('content')
+@!component('layout.index_gallery', data=episode,getfile=getfile,count_cmt=count_cmt)
+
+<div class="shows">
+		<div class="container">
+
+			<div class="row shows_row" id="episode_header">
+
+			</div>
+
+
+
+			<div class="row">
+				<div class="col text-center">
+					<div class="button_fill shows_button" id="loadmore"><a href="#">browse shows</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bi Weekly -->
+
+
+	<!-- Shows 2 -->
+
+	<div class="shows_2">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="shows_2_title">By Category</div>
+				</div>
+			</div>
+			<div class="row shows_2_row">
+				@each(cate_item in cate_item)
+				<!-- Show -->
+				<div class="col-xl-3 col-md-6">
+					<div class="show">
+						<div class="show_image" style="height: 145px;">
+							<a href="#">
+								<img src="{{getfile}}{{cate_item.episode.images}}" alt="">
+								<div class="show_play_icon"><img src="images/play.svg" alt=""></div>
+								<!-- <div class="show_title_2">{{cate_item.name}}</div> -->
+							</a>
+							 <div class="show_tags">
+								<div class="tags">
+									<ul class="d-flex flex-row align-items-start justify-content-start">
+										<li><a href="#">{{cate_item.name}}</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Show -->
+				@endeach
+
+			</div>
+			<div class="row">
+				<div class="col text-center">
+					<div class="button_fill shows_2_button"><a href="#">browse shows</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="loading" class="messagebox_overlay" style="box-sizing: border-box; display: flex; flex-flow: column nowrap; align-items: center; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; justify-content: flex-start;">
+		<div style="position:absolute; top:40%; border-box; flex: 0 1 auto; display: flex; flex-flow: column nowrap; overflow: hidden; width: auto; max-height: 62.5%;">
+		<img src="{{assetsUrl('images/autoload.svg')}}"/>
+		</div>
+	</div>
+@endsection
+
+@section('script')
+<script src="{{assetsUrl('js/load_episode.js')}}"></script>
+<script>
+$(document).ready(function(){
+	$('#loading').show();
+	(function(){
+		$.ajax({
+			//url: '{{route('episode.pagination', { id: 1 })}}'
+			url: '{{ route('episode.pagination', { id: 1 }) }}',
+			type: 'get',
+		}).done(result => {
+			$('#loading').hide();
+			let data = result.data;
+			data = template(data,'{{getfile}}');
+			$('#episode_header').html(data);
+		});
+	})();
+
+	var page = 1;
+	$('#loadmore').on('click', function(e){
+		$('#loading').show();
+		page++;
+		e.preventDefault();
+		$.ajax({
+			url: 'home_pagination/'+page,
+			type: 'get',
+		}).done(result => {
+			$('#loading').hide();
+			console.log(result);
+			let data = result.data;
+			data = template(data,'{{getfile}}');
+			$('#episode_header').append(data);
+		});
+	});
+});
+
+</script>
+@endsection
