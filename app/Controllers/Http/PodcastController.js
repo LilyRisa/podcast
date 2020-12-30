@@ -11,7 +11,7 @@ class PodcastController {
         const listcategory = category.toJSON()
         const username = auth.user != null ? auth.user.username : 'underfine';
         //console.log(listcategory);
-        const token = Env.get('ETOKEN', ETOKEN)
+        const token = Env.get('ETOKEN', '')
         const storage = StorageApi.GetPathApi('/api/upload');
         const getfile = StorageApi.GetPathApi('/api/getfile/');
         return view.render('podcast',{username: username, category: listcategory, storage: storage, token: token, getfile: getfile})

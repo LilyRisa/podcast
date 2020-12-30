@@ -8,7 +8,7 @@ class ProfileController {
         let user = auth.user
         const username = user != null ? user.username : 'underfine';
         const profile = user.toJSON()
-        const token = Env.get('ETOKEN', ETOKEN)
+        const token = Env.get('ETOKEN', '')
         const storage = StorageApi.GetPathApi('/api/upload')
         const getfile = StorageApi.GetPathApi('/api/getfile/')
         let blog = await Blog.query().where('user_create',auth.user.id).fetch();

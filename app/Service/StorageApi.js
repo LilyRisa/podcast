@@ -2,7 +2,7 @@
 const axios = require('axios')
 const Env = use('Env')
 class StorageApi {
-    static serverip = Env.get('SEVER_IP', SEVER_IP) //laravel storage
+    static serverip = Env.get('SEVER_IP', '') //laravel storage
     constructor(path,method,header = {'Authorization': Env.get('ETOKEN', '')}) {
         this.path = StorageApi.serverip + path;
         this.method = method;

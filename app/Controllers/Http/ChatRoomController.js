@@ -5,7 +5,7 @@ const Env = use('Env')
 const StorageApi = use('App/Service/StorageApi')
 class ChatRoomController {
     index({ view, auth }){
-        const token = Env.get('ETOKEN', ETOKEN)
+        const token = Env.get('ETOKEN', '')
         const getfile = StorageApi.GetPathApi('/api/getfile/');
         const username = auth.user != null ? auth.user.username : 'underfine';
         const userfull = auth.user != null ? auth.user : 'underfine';
