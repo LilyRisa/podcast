@@ -29,6 +29,17 @@ class EpisodesController {
         return response.type('application/json')
                         .send(search_with_title)
     }
+    async api({ response }){
+        let episode = await Episode.query().with('category').orderBy('id','asc').fetch()
+        episode = episode.toJSON()
+        const getfile = StorageApi.GetPathApi('/api/getfile/');
+        for(let i=0; i < episode.length; i++){
+            episode[i].path_audio = getfile+episode[i].path_audio
+            episode[i].images = getfile+episode[i].images
+        }
+        return response.type('application/json')
+                        .send(episode)
+    }
 
 }
 

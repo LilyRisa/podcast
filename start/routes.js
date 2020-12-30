@@ -19,6 +19,9 @@ const Route = use('Route')
 Route.get('/', ({ response })=>{
     response.redirect('home', true)
 })
+//api app
+Route.get('episodes_api', 'EpisodesController.api').as('episodes.api')
+//
 Route.get('home', 'HomeController.index').as('home.index')
 Route.get('episodes', 'EpisodesController.index').as('episodes.index')
 Route.get('episode/:id', 'EpisodeController.index').as('episode.index')
