@@ -12,7 +12,7 @@ class ChatRoomController {
         return view.render('roomchat',{username: username, token: token, getfile: getfile, user: userfull})
     }
     async getmess({response, params, auth}){
-        const token = Env.get('ETOKEN', ETOKEN)
+        const token = Env.get('ETOKEN', '')
         let public_mess = await PublicMess.query().with('user').orderBy('id','desc').paginate(params.page, params.limit)
         public_mess = public_mess.toJSON()
         const username = auth.user != null ? auth.user.id : 'underfine';
