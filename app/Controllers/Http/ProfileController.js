@@ -23,8 +23,7 @@ class ProfileController {
         let user = auth.user
         const username = user != null ? user.username : 'underfine';
         const profile = user.toJSON()
-        const token = Env.get('ETOKEN', '')
-        const storage = StorageApi.GetPathApi('/api/upload');
+        const PathUpload = Route.url('upload');
         const getfile = StorageApi.GetPathApi('/api/getfile/');
         let blog = await Blog.query().where('user_create',auth.user.id).fetch();
         blog = blog.toJSON()
@@ -32,7 +31,7 @@ class ProfileController {
         if(profile.avatar == null){
             profile.avatar = 'VanMin-file--75dc18d3411fcef1fda07d98375a2906-jpg-1607595072'
         }
-        return view.render('information',{username,username, token: token, storage: storage, getfile: getfile, profile: profile, count_blog: count_blog})
+        return view.render('information',{username,username, storage: PathUpload, getfile: getfile, profile: profile, count_blog: count_blog})
     }
     async SaveInfor({auth, request, response}){
         let id_user = auth.user.id
