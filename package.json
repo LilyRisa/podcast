@@ -31,7 +31,8 @@
     "facebook-nodejs-business-sdk": "^9.0.0",
     "form-data": "^3.0.0",
     "mdbootstrap": "^4.19.2",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "url-parse": "^1.4.7"
   },
   "devDependencies": {},
   "autoload": {
@@ -39,5 +40,5 @@
   },
   "engines": {
     "node": "12.16.2"
-}
+  }
 }
