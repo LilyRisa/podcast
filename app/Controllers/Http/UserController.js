@@ -1,6 +1,7 @@
 'use strict'
 const User = use('App/Models/User')
 const Blog = use('App/Models/Blog')
+const Episode = use('App/Models/Episode')
 const StorageApi = use('App/Service/StorageApi')
 class UserController {
     async user({view, auth , params, response}){
@@ -12,7 +13,6 @@ class UserController {
             let blog = await Blog.query().where('user_create',user.id).fetch();
             blog = blog.toJSON()
             let count_blog = blog.length
-            console.log(user);
             return view.render('user',{username: username, getfile: getfile, profile: user, count_blog: count_blog})
         }else{
             if(auth.user.username == params.username){
@@ -25,7 +25,6 @@ class UserController {
                 let blog = await Blog.query().where('user_create',user.id).fetch();
                 blog = blog.toJSON()
                 let count_blog = blog.length
-                console.log(user);
                 return view.render('user',{username: username, getfile: getfile, profile: user, count_blog: count_blog})
             }
         }
@@ -38,6 +37,29 @@ class UserController {
         post = post.toJSON()
         return response.type('application/json')
                         .send(post)
+    }
+    
+    async EpisodeList({view, params}){
+        const getfile = StorageApi.GetPathApi('/api/getfile/')
+        let user = await User.query().where('username',params.username).first()
+        user = user.toJSON()
+        let blog = await Blog.query().where('user_create',user.id).fetch();
+        blog = blog.toJSON()
+        let count_blog = blog.length
+        let episode = await Episode.query().with('category').where('user_create',user.id).fetch()
+        episode = episode.toJSON()
+        return view.render('user_episode',{getfile: getfile, profile: user, count_blog: count_blog , episode: episode})
+    }
+    async redirect({view, auth , params, response}){
+        if(auth.user == null){
+            return response.route('user.episode',{username: params.username})
+        }else{
+            if(auth.user.username == params.username){
+                return response.route('profile.episode')
+            }else{
+                return response.route('user.episode',{username: params.username})
+            }
+        }
     }
 }
 

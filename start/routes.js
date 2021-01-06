@@ -39,7 +39,10 @@ Route.get('blog/:page', 'BlogController.listPost').as('blog.listPost')
 // public profile
 Route.get('user/:username', 'UserController.user').as('user.index')
 Route.get('user/:username/:page', 'UserController.listPost').as('user.listPost')
+Route.get('episode_upload/:username/', 'UserController.EpisodeList').as('user.episode')
 // exception
+Route.get('episode_upload_user/:username/', 'UserController.redirect').as('list_episode.redirect')
+
 Route.get('403', 'ExceptionController.403').as('except.403')
 Route.get('404', 'ExceptionController.404').as('except.404')
 Route.group(() => {
@@ -53,6 +56,7 @@ Route.group(() => {
     // profile
     Route.get('profile', 'ProfileController.index').as('profile.index')
     Route.get('profile_information', 'ProfileController.information').as('profile.information')
+    Route.get('episode_upload', 'ProfileController.EpisodeList').as('profile.episode')
     Route.post('profile/information/post', 'ProfileController.SaveInfor').as('profile.SaveInfor')
     //chat room
     Route.get('room', 'ChatRoomController.index').as('chatroom.index')
@@ -63,7 +67,8 @@ Route.group(() => {
     // post blog profile
     Route.post('profile/post', 'ProfileController.post').as('profile.post')
     Route.get('profile/list_post/:user/:page', 'ProfileController.ListPost').as('profile.list_post')
-
+    // delete episode
+    Route.post('profile/delete_episode', 'ProfileController.DeleteEpisode').as('profile.delete_episode')
     //comment
     Route.post('comment', 'EpisodeController.postComment').as('episode.postComment')
     // upload
