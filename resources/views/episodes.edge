@@ -2,6 +2,23 @@
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episodes.css')}}">
 <link rel="stylesheet" type="text/css" href="{{assetsUrl('css/episodes_responsive.css')}}">
+<style>
+	.usertag{
+		position: relative;
+		width: 100%;
+		height: 100%;
+		font-size: 12.73px;
+		line-height: 20px;
+		color: white !important;
+		font-weight: 500 !important;
+		padding-left: 6px;
+		padding-right: 7px;
+		height: 20px;
+		background:#27d8d8;
+		border-radius: 3px;
+		margin-bottom: 5px;
+	}
+</style>
 @endsection
 
 @section('content')
@@ -98,6 +115,15 @@
 							<div class="episode_content">
 								<div class="episode_name"><a href="{{ route('episode.index', { id: epi.id }) }}">{{epi.title}}</a></div>
 								<div class="episode_date"><a href="{{ route('episode.index', { id: epi.id }) }}">{{epi.created_at}}</a></div>
+								<div class="episode_date">Upload by 
+									@if(epi.user.authority == 0)
+										<a class="usertag" style="background: aqua" href="{{ route('list_episode.redirect', { username: epi.user.username}) }}">{{epi.user.username}}</a></div>
+									@elseif(epi.user.authority == 1)
+										<a class="usertag" style="background: #FFEB3B" href="{{ route('list_episode.redirect', { username: epi.user.username}) }}">{{epi.user.username}}</a></div>
+									@else 
+										<a class="usertag" style="background: red" href="{{ route('list_episode.redirect', { username: epi.user.username}) }}">{{epi.user.username}}</a></div>
+									@endif
+									
 								<div class="show_info d-flex flex-row align-items-start justify-content-start">
 									<!--<div class="show_fav d-flex flex-row align-items-center justify-content-start">
 										<div class="show_fav_icon show_info_icon"><img class="svg" src="images/heart.svg" alt=""></div>
@@ -217,7 +243,7 @@
 					
 				</div>
 			</div>
-			<div class="row page_nav_row">
+			<!--  <div class="row page_nav_row">
 				<div class="col">
 					<div class="page_nav d-flex flex-row align-items-center justify-content-center">
 						<ul class="d-flex flex-row">
@@ -229,7 +255,8 @@
 						</ul>
 					</div>
 				</div>
-			</div>
+			</div> -->
+
 		</div>
 	</div>
 	@endsection

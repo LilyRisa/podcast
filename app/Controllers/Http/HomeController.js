@@ -20,7 +20,6 @@ class HomeController {
         const getfile = StorageApi.GetPathApi('/api/getfile/');
         let cate_item = await Category.query().with('episode').fetch()
         cate_item = cate_item.toJSON()
-        // console.log(cate_item[0].episode)
         return view.render('home', {username: username, category: listcategory, getfile: getfile, episode: episode, cate_item: cate_item, count_cmt: count_cmt})
     }
     async pagination ({response , params}) {

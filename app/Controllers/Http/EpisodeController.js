@@ -3,7 +3,6 @@ const Category = use('App/Models/Category')
 const Episode = use('App/Models/Episode')
 const Comment = use('App/Models/Comment')
 const StorageApi = use('App/Service/StorageApi')
-const Env = use('Env')
 const Tags = use('App/Models/Tags')
 
 class EpisodeController {
@@ -19,9 +18,10 @@ class EpisodeController {
         count_cmt = count_cmt.length
         const username = auth.user != null ? auth.user.username : 'underfine';
         const profile = auth.user;
-        const getfile = StorageApi.GetPathApi('/api/getfile/');   
+        const getfile = StorageApi.GetPathApi('/api/getfile/');
         return view.render('episode',{username: username, category: listcategory, getfile: getfile, episode: episode, tags: tags, profile: profile, count_cmt: count_cmt})
     }
+
     async comment({ response , params }){
         const limit = 3
         let comment = await Comment.query().where('episode_id',params.episode).with('user').orderBy('id','desc').paginate(params.page, limit)

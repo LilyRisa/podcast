@@ -1,15 +1,15 @@
 'use strict'
 const User = use('App/Models/User')
 const Blog = use('App/Models/Blog')
+const Episode = use('App/Models/Episode')
 const StorageApi = use('App/Service/StorageApi')
-const Env = use('Env')
+const Route = use('Route')
 class ProfileController {
     async index({view, auth}){
         let user = auth.user
         const username = user != null ? user.username : 'underfine';
         const profile = user.toJSON()
-        const token = Env.get('ETOKEN', '')
-        const storage = StorageApi.GetPathApi('/api/upload')
+        const PathUpload = Route.url('upload');
         const getfile = StorageApi.GetPathApi('/api/getfile/')
         let blog = await Blog.query().where('user_create',auth.user.id).fetch();
         blog = blog.toJSON()
@@ -17,7 +17,7 @@ class ProfileController {
         if(profile.avatar == null){
             profile.avatar = 'VanMin-file--75dc18d3411fcef1fda07d98375a2906-jpg-1607595072'
         }
-        return view.render('profile',{username: username, token: token, storage: storage, getfile: getfile, profile: profile , count_blog: count_blog})
+        return view.render('profile',{username: username, PathUpload: PathUpload, getfile: getfile, profile: profile , count_blog: count_blog})
     }
     async information({view, auth}){
         let user = auth.user
@@ -66,6 +66,31 @@ class ProfileController {
         post = post.toJSON()
         return response.type('application/json')
                         .send(post)
+    }
+
+    async EpisodeList({view, auth}){
+        let user = auth.user
+        const username = user != null ? user.username : 'underfine';
+        const profile = user.toJSON()
+        const PathUpload = Route.url('upload');
+        const getfile = StorageApi.GetPathApi('/api/getfile/');
+        let blog = await Blog.query().where('user_create',auth.user.id).fetch();
+        let episode = await Episode.query().with('category').where('user_create',auth.user.id).fetch()
+        blog = blog.toJSON()
+        episode = episode.toJSON()
+        let count_blog = blog.length
+        if(profile.avatar == null){
+            profile.avatar = 'VanMin-file--75dc18d3411fcef1fda07d98375a2906-jpg-1607595072'
+        }
+        return view.render('profile_episode',{username,username, storage: PathUpload, getfile: getfile, profile: profile, count_blog: count_blog, episode: episode})
+    }
+
+    async DeleteEpisode({ auth, request, response }){
+        let user = auth.user
+        const iid = user != null ? user.id : 'underfine';
+        let episode = await Episode.query().where('id',request.input('id')).where('user_create',iid).delete()
+        return response.type('application/json')
+                        .send(episode)
     }
 }
 

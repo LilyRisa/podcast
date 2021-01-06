@@ -63,10 +63,10 @@
 								<button class="btn btn-pimary main_menu" style="width:100%" onclick="window.location.href='{{route('profile.index')}}'"><i class="fa fa-align-left"></i> Timeline <span class="s_warning">{{count_blog}}</span></button>
 							</div>
 							<div class="col-lg-4">
-								<button class="btn btn-pimary main_menu p_select" style="width:100%;"><i class="fa fa-pencil"></i> Edit infomation</button>
+								<button class="btn btn-pimary main_menu" style="width:100%" onclick="window.location.href='{{route('profile.information')}}'"><i class="fa fa-pencil"></i> Edit infomation</button>
 							</div>
 							<div class="col-lg-4">
-								<button class="btn btn-pimary main_menu" style="width:100%" onclick="window.location.href='{{route('profile.episode')}}'"><i class="fa fa-audio-description"></i> List episode</button>
+								<button class="btn btn-pimary main_menu p_select" style="width:100%"><i class="fa fa-audio-description"></i> List episode</button>
 							</div>
 						</div>
 						
@@ -123,28 +123,28 @@
 				<!-- Episode -->
 				<div class="col-lg-9 episode_col order-lg-2 order-1">
 					<div class="comment_form_container">
-						<div class="section_title">Edit Information</div>
+						<div class="section_title">List episodes upload</div>
 						<div class="intro">
-							<div class="form-group">
-								<label for="up_avatar">Avatar:</label>
-								<input type="file" class="form-control" id="up_avatar" accept="image/*" />
-								<input type="text" id="avatar" name="avatar" hidden>
-								<img src="" alt="" class="img-thumbnail" id="preview" style="display:none;">
-							</div>
-							<div class="form-group">
-								<label for="fullname">Fullname:</label>
-								<input type="text" class="form-control comment_input" id="fullname" name="fullname" value="{{profile.fullname}}">
-							</div>
-							<div class="form-group">
-								<label for="address">Address:</label>
-								<input type="text" class="form-control comment_input" id="address" name="address" value="{{profile.address}}">
-							</div>
-							<div class="form-group">
-								<label for="address">Address:</label>
-								<textarea class="comment_input comment_textarea" id="des" placeholder="Description" required="required">{{profile.descriptions}}</textarea>
-							</div>
-							
-								<button class="comment_button" style="background: black;" id="edit_submit">Submit</button>
+                            <div class="ui middle aligned divided list" style="margin-top: 50px;">
+                                @if(episode.length > 0)
+                                @each(epi in episode)
+                                <div class="item" style="height: 52px">
+                                  <div class="right floated content">
+                                    <button class="ui inverted red button delete_epi" data-id="{{epi.id}}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Xóa</font></font></button>
+                                  </div>
+                                  <img class="ui avatar image" src="{{getfile}}{{epi.images}}" style="width: 45px;height: 45px;object-fit: cover;">
+                                  <div class="content"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                                    {{epi.title}}
+                                  </font></font>
+                                  <br/>
+                                    <ul class="d-flex flex-row align-items-start justify-content-start">
+                                        <li><a href="#">{{epi.category.name}}</a></li>
+                                    </ul>
+                                </div>
+                                </div>
+                                @endeach
+                                @endif
+                              </div>
 						</div>
 					</div>
 				</div>
@@ -162,105 +162,42 @@
 <script src="{{assetsUrl('js/episode.js')}}"></script>
 <script>
 	$(document).ready(function(){
-		$('#loading').hide();
-
-		$('#edit_submit').on('click',function(){
-			let avatar = $('#avatar').val() != '' ? $('#avatar').val() : null;
-			let fullname = $('#fullname').val() != '' ? $('#fullname').val() : null;
-			let address = $('#address').val() != '' ? $('#address').val() : null;
-			let descriptions = $('#des').val() != '' ? $('#des').val() : null;
-			let data = {
-				avatar:avatar,
-				fullname:fullname,
-				address:address,
-				descriptions:descriptions
-			};
-			console.log(data);
-			$.ajax({
-				url: '{{route('profile.SaveInfor')}}',
-				type: 'post',
-				headers: {
-					'x-csrf-token': '{{ csrfToken }}',
-				},
-				data: data
-			}).done(result => {
-				window.location.href = '{{route('profile.index')}}';
-			});
-		});
-
-		$('#up_avatar').on('change',function(){
-			$('#loading').show();
-			var file = $('#up_avatar').prop('files')[0];
-			console.log(file);
-			var data = new FormData();
-			if (file.size > 5000000) {
-				$('#loading').hide();
-			$.MessageBox({
-				buttonDone: "OK",
-				buttonFail : undefined,
-				top: "25%",
-				input: false,
-				message: "Image upload max size 5MB",
-				queue: true,
-				speed: 200,
-			});
-		}else{
-			data.append('file', file);
-			$.ajax({
-			url: '{{storage}}',
-			type:'POST',
-			dataType: 'text',
-			data: data,
-			cache: false,
-			processData: false,
-			contentType: false,
-			headers: {
-				'x-csrf-token': '{{ csrfToken }}',
-			}
-			}).done((result) =>{
-				$('#loading').hide();
-				result = JSON.parse(result);
-				if(result.result.status == 'success'){
-					$('#preview').attr('src','{{getfile}}'+result.result.token_file);
-					$('#preview').show();
-					$('#avatar').val(result.result.token_file);
-
-				}else{
-					$.MessageBox({
-						buttonDone: "OK",
-						buttonFail : undefined,
-						top: "25%",
-						input: false,
-						message: "Server error",
-						queue: true,
-						speed: 200,
-					});
-				}
-			console.log(result);
-			});
-		}
-  });
-
-
-
-		$('#readmore').click(function(e) {
-			if($(this).hasClass("clicked")){
-				$('#description').css({
-					'height': '100px'
-				});
-				$(this).text('read more');
-				$(this).removeClass("clicked");
-			}else{
-				e.stopPropagation();
-				$('#description').css({
-					'height': 'auto'
-				});
-				$(this).text('hidden');
-				$( this).addClass( "clicked" );
-			}
-			
-
-		});
+        $('#loading').hide();
+        $('.delete_epi').on('click', function(){
+            var id = $(this).attr('data-id');
+            var that = $(this).parents('.item');
+            $.MessageBox({
+                input    : true,
+                message  : 'Xác nhận xóa? <br/>Nhấn <i>YES</i> để thực hiện xóa'
+            }).done(function(data){
+                if ($.trim(data)) {
+                    if(data == 'YES' || data == 'yes'){
+                        // code delete
+                        $.ajax({
+                            url: '{{route('profile.delete_episode')}}',
+                            type: 'post',
+                            headers: {
+                                'x-csrf-token': '{{ csrfToken }}',
+                            },
+                            data:{
+                                id:id
+                            }
+                        }).done((result)=>{
+                            if(result == 1){
+                                $(that).hide(1000);
+                                setTimeout(function(){$(that).remove();},1000); 
+                            }
+                        }).fail((err)=>{
+                            $.MessageBox("Lỗi hệ thống!");
+                        });
+                    }else{
+                        $.MessageBox("Đã hủy thao tác!");
+                    }
+                } else {
+                    $.MessageBox("Đã hủy thao tác!");
+                }
+            });
+        });
 
 	});
 	

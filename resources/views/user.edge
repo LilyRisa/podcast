@@ -7,6 +7,11 @@
 	.placeload-background{
 		margin-bottom: 30px;
 	}
+	.main_menu{
+		-moz-box-shadow: 3px 4px 20px -6px #0000008c;
+		-webkit-box-shadow: 3px 4px 20px -6px #0000008c;
+		box-shadow: 3px 4px 20px -6px #0000008c;
+	}
 </style>
 @endsection
 
@@ -52,7 +57,7 @@
 		<!-- Episode Image -->
 		<div class="episode_image_container">
 			<div class="container">
-				<div class="row" style="background: #ababab;max-height: 38px;">
+				<div class="row" style="max-height: 38px;">
 					<div class="col-lg-3">
 						<!-- Episode Image -->
 						<div class="episode_image" style="width: 115%;margin-left: -22px; height: 262px;"><img src="{{getfile}}{{profile.avatar}}" alt="" class="img-fluid img-thumbnail avatar" style="object-fit:cover"></div>
@@ -61,6 +66,9 @@
 						<div class="row">
 							<div class="col-lg-6">
 								<button class="btn btn-pimary main_menu p_select" style="width:100%"><i class="fa fa-align-left"></i> Timeline <span class="s_warning">{{count_blog}}</span></button>
+							</div>
+							<div class="col-lg-6">
+								<button class="btn btn-pimary main_menu" style="width:100%" onclick="window.location.href='{{route('user.episode', {username: profile.username})}}'"><i class="fa fa-audio-description"></i> List episode</button>
 							</div>
 						</div>
 						

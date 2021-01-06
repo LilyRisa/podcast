@@ -8,7 +8,7 @@ class Episode extends Model {
         return 'episode' // Your table name
     }
     user () {
-        return this.belongsTo('App/Models/User')
+        return this.belongsTo('App/Models/User','user_create', 'id')
     }
     category () {
         return this.belongsTo('App/Models/Category')

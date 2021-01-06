@@ -13,8 +13,8 @@ var template_profile = (url,data) => {
                     </div>
                     <div class="panel-body">
                         <p>${data.blog}</p>
-                        <a class="panel-google-plus-image" href="#">
-                            <img src="${url+data.cover}" />
+                        <a class="panel-google-plus-image" href="javascript:void(0)">
+                            <img class="materialboxed" src="${url+data.cover}" />
                         </a>
                     </div>
                 </div>
