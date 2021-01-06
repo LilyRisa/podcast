@@ -184,6 +184,7 @@
 			console.log(file);
 			var data = new FormData();
 			if (file.size > 5000000) {
+				$('#loading').hide();
 			$.MessageBox({
 				buttonDone: "OK",
 				buttonFail : undefined,
@@ -205,7 +206,6 @@
 			contentType: false,
 			headers: {
 				'x-csrf-token': '{{ csrfToken }}',
-				'Authorization': '{{token}}'
 			}
 			}).done((result) =>{
 				$('#loading').hide();

@@ -66,4 +66,6 @@ Route.group(() => {
 
     //comment
     Route.post('comment', 'EpisodeController.postComment').as('episode.postComment')
+    // upload
+    Route.post('upload_from_server', 'UploadController.UploadFromServer').as('upload')
 }).middleware(['auth'])

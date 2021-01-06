@@ -5,16 +5,16 @@ const Episode = use('App/Models/Episode')
 let Tags = use('App/Models/Tags')
 const StorageApi = use('App/Service/StorageApi')
 const Env = use('Env')
+const Route = use('Route')
 class PodcastController {
     async index({view, auth}){
         const category = await Category.all()
         const listcategory = category.toJSON()
         const username = auth.user != null ? auth.user.username : 'underfine';
         //console.log(listcategory);
-        const token = Env.get('ETOKEN', '')
-        const storage = StorageApi.GetPathApi('/api/upload');
+        const PathUpload = Route.url('upload');
         const getfile = StorageApi.GetPathApi('/api/getfile/');
-        return view.render('podcast',{username: username, category: listcategory, storage: storage, token: token, getfile: getfile})
+        return view.render('podcast',{username: username, category: listcategory, getfile: getfile, PathUpload: PathUpload})
     }
     async put_audio({ request, response }){
         const audio = request.all()

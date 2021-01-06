@@ -20,7 +20,7 @@ module.exports = {
     | is over 1mb it will not be processed.
     |
     */
-    limit: '1mb',
+    limit: '30mb',
 
     /*
     |--------------------------------------------------------------------------
@@ -133,8 +133,8 @@ module.exports = {
     | is to true. Otherwise everything is processed manually.
     |
     */
-    processManually: []
-
+    processManually: ['/upload_from_server']
+    //processManually: []
     /*
     |--------------------------------------------------------------------------
     | Temporary file name
