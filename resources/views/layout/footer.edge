@@ -8,7 +8,20 @@
 				</div>
 			</div>
 			<br/>
-			<a href="{{assetsUrl('podcast_setup.exe')}}">App desktop</a>
+			<div class="wrapper">
+				<button id="download_file">
+				  Download app desktop windows
+				  <span></span>
+				  <span></span>
+				  <span></span>
+				  <span></span>
+				</button>
+			  </div>
+			<script>
+				$('#download_file').on('click', function(){
+					window.location.href = '{{assetsUrl('podcast_setup.exe')}}';
+				});
+			</script>
 		
 		
 
