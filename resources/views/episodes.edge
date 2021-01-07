@@ -18,6 +18,9 @@
 		border-radius: 3px;
 		margin-bottom: 5px;
 	}
+	.episode{
+		display: flex;
+	}
 </style>
 @endsection
 
@@ -59,7 +62,7 @@
 							<div class="sidebar_title">Categories</div>
 							<ul>
 								@each(cate in category)
-								<li><a href="#">{{cate.name}}</a></li>
+								<li><a href="{{route('episodes.index')}}?{{cate.id}}">{{cate.name}}</a></li>
 								@endeach
 							</ul>
 						</div>
@@ -101,7 +104,7 @@
 					<div class="episodes_container">
 					@each(epi in episode)
 						<!-- Episode -->
-						<div class="episode d-flex flex-row align-items-start justify-content-start s{{epi.category.id}}">
+						<div class="episode flex-row align-items-start justify-content-start s{{epi.category.id}}">
 							<div>
 								<div class="episode_image">
 								<img src="{{getfile}}{{epi.images}}" alt="" style="height: 163px;object-fit: cover;">
@@ -288,6 +291,18 @@
 					});
 			});
 		});
+		// category
+		var path = window.location.href;
+		path = path.split('?')[1];
+		if(path !== null){
+			let filter = '.s' + path;
+			let item = $('.item_filter_btn');
+			$.each(item, (key, value) => {
+				if(filter == $(value).attr('data-filter')){
+					$(value).trigger("click");
+				}
+			});
+		}
 	});
 	</script>
 	@endsection

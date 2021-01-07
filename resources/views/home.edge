@@ -588,7 +588,7 @@
 				<div class="col-xl-3 col-md-6">
 					<div class="show">
 						<div class="show_image" style="height: 145px;">
-							<a href="#">
+							<a href="{{route('episodes.index')}}?{{cate_item.id}}">
 								<img src="{{getfile}}{{cate_item.episode.images}}" alt="">
 								<div class="show_play_icon"><img src="images/play.svg" alt=""></div>
 								<!-- <div class="show_title_2">{{cate_item.name}}</div> -->
@@ -596,7 +596,7 @@
 							 <div class="show_tags">
 								<div class="tags">
 									<ul class="d-flex flex-row align-items-start justify-content-start">
-										<li><a href="#">{{cate_item.name}}</a></li>
+										<li><a href="">{{cate_item.name}}</a></li>
 									</ul>
 								</div>
 							</div>
@@ -608,11 +608,11 @@
 				@endeach
 
 			</div>
-			<div class="row">
+			<!-- <div class="row">
 				<div class="col text-center">
 					<div class="button_fill shows_2_button"><a href="#">browse shows</a></div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 	<div id="loading" class="messagebox_overlay" style="box-sizing: border-box; display: flex; flex-flow: column nowrap; align-items: center; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; justify-content: flex-start;">
