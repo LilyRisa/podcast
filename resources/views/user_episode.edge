@@ -59,13 +59,10 @@
 					</div>
 					<div class="col-lg-8">
 						<div class="row">
-							<div class="col-lg-4">
-								<button class="btn btn-pimary main_menu" style="width:100%" onclick="window.location.href='{{route('profile.index')}}'"><i class="fa fa-align-left"></i> Timeline <span class="s_warning">{{count_blog}}</span></button>
+							<div class="col-lg-6">
+								<button class="btn btn-pimary main_menu" style="width:100%" onclick="window.location.href='{{route('user.index', {username: profile.username })}}'"><i class="fa fa-align-left"></i> Timeline <span class="s_warning">{{count_blog}}</span></button>
 							</div>
-							<div class="col-lg-4">
-								<button class="btn btn-pimary main_menu" style="width:100%" onclick="window.location.href='{{route('profile.information')}}'"><i class="fa fa-pencil"></i> Edit infomation</button>
-							</div>
-							<div class="col-lg-4">
+							<div class="col-lg-6">
 								<button class="btn btn-pimary main_menu p_select" style="width:100%"><i class="fa fa-audio-description"></i> List episode</button>
 							</div>
 						</div>
