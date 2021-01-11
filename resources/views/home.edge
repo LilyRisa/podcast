@@ -635,7 +635,7 @@ $(document).ready(function(){
 		}).done(result => {
 			$('#loading').hide();
 			let data = result.data;
-			data = template(data,'{{getfile}}');
+			data = template(data,'{{getfile}}','{{route('episodes.index')}}');
 			$('#episode_header').html(data);
 		});
 	})();
@@ -652,7 +652,7 @@ $(document).ready(function(){
 			$('#loading').hide();
 			console.log(result);
 			let data = result.data;
-			data = template(data,'{{getfile}}');
+			data = template(data,'{{getfile}}','{{route('episodes.index')}}');
 			$('#episode_header').append(data);
 		});
 	});
