@@ -60,7 +60,6 @@
 			type: 'get'
 		}).done(result => {
 			$('#loading').hide();
-			console.log(result);
 			let template;
 			result = result.data;
 			result.forEach( item => {
@@ -84,8 +83,8 @@
 			.config({spaceBetween: '30px'})
 			.line((element) => element.width(300).height(300));
 			placeload.fold(
-				err => console.log('error: ', err),
-				allElements => console.log('allElements: ', allElements)
+				err => console.log(''),
+				allElements => console.log('')
 			)
 			$('.post').imagesLoaded()
 			.done(function(instance){
@@ -99,7 +98,7 @@
 		});
 		//scroll foooter
 		$(window).on('scroll',function(){
-			if($(window).scrollTop() + $(window).height() == $(document).height()) {
+			if(($(window).scrollTop() + $(window).height()) >= $(document).height()) {
 				$('#loading').show();
 				con++;
 				$.ajax({
@@ -130,8 +129,8 @@
 					.config({spaceBetween: '30px'})
 					.line((element) => element.width(300).height(300));
 					placeload.fold(
-						err => console.log('error: ', err),
-						allElements => console.log('allElements: ', allElements)
+						err => console.log(''),
+						allElements => console.log('')
 					)
 					$('.post').imagesLoaded()
 					.done(function(instance){

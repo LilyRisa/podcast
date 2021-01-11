@@ -219,7 +219,6 @@
 <script>
     $('#loading').hide();
     $('ware_pause').on('click',function(e){
-        console.log('sdsad');
         e.preventDefault();
     });
 
@@ -233,7 +232,6 @@
   $('#file_audio').on('change',function(){
     $('#loading').show();
     var file = $('#file_audio').prop('files')[0];
-    console.log(file);
     var data = new FormData();
     if(typeof file != 'undefined'){
         if(file.size > 20000000){
@@ -283,7 +281,6 @@
                         speed: 200,
                     });
                 }
-            console.log(result);
             });
         }
     }else{
@@ -295,7 +292,6 @@
   $('#thumb_file').on('change',function(){
     $('#loading').show();
     var file = $('#thumb_file').prop('files')[0];
-    console.log(file);
     var data = new FormData();
     if (file.size > 5000000) {
         $('#loading').hide();
@@ -339,14 +335,12 @@
                 speed: 200,
             });
         }
-      console.log(result);
     });
   }
   });
     $('#embed_video').on('click',function(e){
         e.preventDefault();
         let check = false;
-        console.log($('input:radio[name=category]:checked').val());
         if($('#remote_play_url').val() != '' &&  $('#thumb_url').attr('data-id') != '' && $('#title').val() != ''
          && $('#desc').val() != ''  && $('#tags').val() != '' && $('input:radio[name=category]:checked').val() != ''){
             let data = {
@@ -362,7 +356,6 @@
             }else{
                 data.policy = null
             }
-            console.log(data);
             $.ajax({
                 url: '{{route('podcast.submit')}}',
                 type: 'post',
@@ -371,7 +364,6 @@
                 },
                 data:data
             }).done((result) => {
-                console.log(result);
                 $.MessageBox({
                     buttonDone: "OK",
                     buttonFail : undefined,

@@ -650,7 +650,6 @@ $(document).ready(function(){
 			type: 'get',
 		}).done(result => {
 			$('#loading').hide();
-			console.log(result);
 			let data = result.data;
 			data = template(data,'{{getfile}}','{{route('episodes.index')}}');
 			$('#episode_header').append(data);

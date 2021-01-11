@@ -162,8 +162,8 @@
 			.config({speed: '2s'})
 			.line((element) => element.width(300).height(200))
 			.fold(
-				(err) => console.log('error: ', err),
-				(allElements) => console.log('allElements-avatar: ', allElements)
+				(err) => console.log(''),
+				(allElements) => console.log('')
 			)
 		//load post 
 		var con = 1;
@@ -193,8 +193,8 @@
 					.config({spaceBetween: '30px'})
 					.line((element) => element.width(300).height(300));
 					placeload.fold(
-						err => console.log('error: ', err),
-						allElements => console.log('allElements: ', allElements)
+						err => console.log(''),
+						allElements => console.log('')
 					)
 				
 			});
@@ -202,7 +202,6 @@
 			.done(function(instance){
 				$('.lazyload').remove();
 				$('.post').show();
-				console.log('ádasd');
 			})
 			.fail(function(instance){
 				$('.lazyload').remove();
@@ -242,15 +241,14 @@
 						.config({spaceBetween: '30px'})
 						.line((element) => element.width(300).height(300));
 						placeload.fold(
-							err => console.log('error: ', err),
-							allElements => console.log('allElements: ', allElements)
+							err => console.log(''),
+							allElements => console.log('')
 						)
 					});
 					$('.post').imagesLoaded()
 					.done(function(instance){
 						$('.lazyload').remove();
 						$('.post').show();
-						console.log('ádasd');
 					})
 					.fail(function(instance){
 						$('.lazyload').remove();

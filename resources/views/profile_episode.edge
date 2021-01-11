@@ -197,7 +197,25 @@
                     $.MessageBox("Đã hủy thao tác!");
                 }
             });
-        });
+		});
+		$('#readmore').click(function(e) {
+			if($(this).hasClass("clicked")){
+				$('#description').css({
+					'height': '100px'
+				});
+				$(this).text('read more');
+				$(this).removeClass("clicked");
+			}else{
+				e.stopPropagation();
+				$('#description').css({
+					'height': 'auto'
+				});
+				$(this).text('hidden');
+				$( this).addClass( "clicked" );
+			}
+			
+
+		});
 
 	});
 	

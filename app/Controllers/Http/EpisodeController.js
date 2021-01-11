@@ -16,10 +16,10 @@ class EpisodeController {
         let count_cmt = await Comment.query().where('episode_id',episode.id).fetch()
         count_cmt = count_cmt.toJSON()
         count_cmt = count_cmt.length
-        const username = auth.user != null ? auth.user.username : 'underfine';
+        const user = auth.user != null ? auth.user : 'underfine';
         const profile = auth.user;
         const getfile = StorageApi.GetPathApi('/api/getfile/');
-        return view.render('episode',{username: username, category: listcategory, getfile: getfile, episode: episode, tags: tags, profile: profile, count_cmt: count_cmt})
+        return view.render('episode',{user: user, category: listcategory, getfile: getfile, episode: episode, tags: tags, profile: profile, count_cmt: count_cmt})
     }
 
     async comment({ response , params }){

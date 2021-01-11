@@ -7,25 +7,25 @@ class UserController {
     async user({view, auth , params, response}){
         if(auth.user == null){
             const getfile = StorageApi.GetPathApi('/api/getfile/')
-            const username = auth.user != null ? auth.user.username : 'underfine';
+            const user = auth.user != null ? auth.user: 'underfine';
             let user = await User.query().where('username',params.username).first()
             user = user.toJSON()
             let blog = await Blog.query().where('user_create',user.id).fetch();
             blog = blog.toJSON()
             let count_blog = blog.length
-            return view.render('user',{username: username, getfile: getfile, profile: user, count_blog: count_blog})
+            return view.render('user',{user: user, getfile: getfile, profile: user, count_blog: count_blog})
         }else{
             if(auth.user.username == params.username){
                 return response.route('profile.index')
             }else{
                 const getfile = StorageApi.GetPathApi('/api/getfile/')
-                const username = auth.user != null ? auth.user.username : 'underfine';
+                const user = auth.user != null ? auth.user: 'underfine';
                 let user = await User.query().where('username',params.username).first()
                 user = user.toJSON()
                 let blog = await Blog.query().where('user_create',user.id).fetch();
                 blog = blog.toJSON()
                 let count_blog = blog.length
-                return view.render('user',{username: username, getfile: getfile, profile: user, count_blog: count_blog})
+                return view.render('user',{user: user, getfile: getfile, profile: user, count_blog: count_blog})
             }
         }
     }

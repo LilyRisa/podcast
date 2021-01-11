@@ -7,7 +7,7 @@ const Route = use('Route')
 class ProfileController {
     async index({view, auth}){
         let user = auth.user
-        const username = user != null ? user.username : 'underfine';
+        user = user != null ? user : 'underfine';
         const profile = user.toJSON()
         const PathUpload = Route.url('upload');
         const getfile = StorageApi.GetPathApi('/api/getfile/')
@@ -17,11 +17,11 @@ class ProfileController {
         if(profile.avatar == null){
             profile.avatar = 'VanMin-file--75dc18d3411fcef1fda07d98375a2906-jpg-1607595072'
         }
-        return view.render('profile',{username: username, PathUpload: PathUpload, getfile: getfile, profile: profile , count_blog: count_blog})
+        return view.render('profile',{user: user, PathUpload: PathUpload, getfile: getfile, profile: profile , count_blog: count_blog})
     }
     async information({view, auth}){
         let user = auth.user
-        const username = user != null ? user.username : 'underfine';
+        user = user != null ? user : 'underfine';
         const profile = user.toJSON()
         const PathUpload = Route.url('upload');
         const getfile = StorageApi.GetPathApi('/api/getfile/');
@@ -31,7 +31,7 @@ class ProfileController {
         if(profile.avatar == null){
             profile.avatar = 'VanMin-file--75dc18d3411fcef1fda07d98375a2906-jpg-1607595072'
         }
-        return view.render('information',{username,username, storage: PathUpload, getfile: getfile, profile: profile, count_blog: count_blog})
+        return view.render('information',{user: user, storage: PathUpload, getfile: getfile, profile: profile, count_blog: count_blog})
     }
     async SaveInfor({auth, request, response}){
         let id_user = auth.user.id
@@ -70,7 +70,7 @@ class ProfileController {
 
     async EpisodeList({view, auth}){
         let user = auth.user
-        const username = user != null ? user.username : 'underfine';
+        user = user != null ? user : 'underfine';
         const profile = user.toJSON()
         const PathUpload = Route.url('upload');
         const getfile = StorageApi.GetPathApi('/api/getfile/');
@@ -82,7 +82,7 @@ class ProfileController {
         if(profile.avatar == null){
             profile.avatar = 'VanMin-file--75dc18d3411fcef1fda07d98375a2906-jpg-1607595072'
         }
-        return view.render('profile_episode',{username,username, storage: PathUpload, getfile: getfile, profile: profile, count_blog: count_blog, episode: episode})
+        return view.render('profile_episode',{user: user, storage: PathUpload, getfile: getfile, profile: profile, count_blog: count_blog, episode: episode})
     }
 
     async DeleteEpisode({ auth, request, response }){
