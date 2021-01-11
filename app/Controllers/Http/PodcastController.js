@@ -10,11 +10,11 @@ class PodcastController {
     async index({view, auth}){
         const category = await Category.all()
         const listcategory = category.toJSON()
-        const username = auth.user != null ? auth.user.username : 'underfine';
+        const user = auth.user != null ? auth.user : 'underfine';
         //console.log(listcategory);
         const PathUpload = Route.url('upload');
         const getfile = StorageApi.GetPathApi('/api/getfile/');
-        return view.render('podcast',{username: username, category: listcategory, getfile: getfile, PathUpload: PathUpload})
+        return view.render('podcast',{user: user, category: listcategory, getfile: getfile, PathUpload: PathUpload})
     }
     async put_audio({ request, response }){
         const audio = request.all()

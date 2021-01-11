@@ -3,10 +3,10 @@ const Blog = use('App/Models/Blog')
 const StorageApi = use('App/Service/StorageApi')
 const Env = use('Env')
 class BlogController {
-    async index({ view, auth }){
-        const username = auth.user != null ? auth.user.username : 'underfine';
+    index({ view, auth }){
+        const user= auth.user != null ? auth.user : 'underfine';
         const getfile = StorageApi.GetPathApi('/api/getfile/');
-        return view.render('blog', {username: username, getfile: getfile});
+        return view.render('blog', {user: user, getfile: getfile});
     }
     async listPost({response, params}){
         const limit = 3

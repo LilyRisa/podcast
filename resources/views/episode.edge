@@ -313,7 +313,6 @@
 			}).done(result => {
 				let tmp;
 				result = result.data;
-				console.log(result);
 				result.forEach(item => {
 					tmp = '';
 					tmp = template_comment('{{getfile}}',item);
@@ -347,7 +346,6 @@
 					},
 					data:data
 				}).done(result => {
-					console.log(result);
 					let data = {};	
 					let user = {};	
 					data.comment = result.comment;

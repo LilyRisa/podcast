@@ -18,7 +18,7 @@
 <script src="{{assetsUrl('js/bootstrap-tagsinput.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-message-box@3.2.2/dist/messagebox.min.js"></script>
-<script src="https://unpkg.com/wavesurfer.js"></script>
+<script src="{{assetsUrl('js/wavesurfer.js')}}"></script>
 <script src="{{assetsUrl('js/audioplayer.js')}}"></script>
 <script src="{{assetsUrl('js/volumn_storage.js')}}"></script>
 <script src="{{assetsUrl('semantic/semantic.min.js')}}"></script>
@@ -29,19 +29,19 @@
 <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 <script src="{{assetsUrl('js/BootConfirm.min.js')}}"></script>
 <script>
-var icon_text = {
-   ":HEAD:": "\u2764\uFE0F",
-   ":HAHA:": "\uD83D\uDE00",
-   ":SMILE:": "\uD83D\uDE03",
- };
- function escapeSpecialChars(regex) {
-   return regex.replace(/:([A-Z0-9]+):/gmi, '\\$1');
- }
- document.getElementById('post').oninput = function() {
-   for (var i in icon_text) {
-     var regex = new RegExp(escapeSpecialChars(i), 'gim');
-     this.value = this.value = this.value.replace(regex, icon_text[i]);
-   }
- };
+// var icon_text = {
+//    ":HEAD:": "\u2764\uFE0F",
+//    ":HAHA:": "\uD83D\uDE00",
+//    ":SMILE:": "\uD83D\uDE03",
+//  };
+//  function escapeSpecialChars(regex) {
+//    return regex.replace(/:([A-Z0-9]+):/gmi, '\\$1');
+//  }
+//  document.getElementById('post').oninput = function() {
+//    for (var i in icon_text) {
+//      var regex = new RegExp(escapeSpecialChars(i), 'gim');
+//      this.value = this.value = this.value.replace(regex, icon_text[i]);
+//    }
+//  };
 
 </script>

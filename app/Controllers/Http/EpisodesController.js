@@ -18,9 +18,9 @@ class EpisodesController {
             count_cmt = count_cmt.toJSON()
             episode[i].count_cmt = count_cmt.length
         }
-        const username = auth.user != null ? auth.user.username : 'underfine';
+        const user = auth.user != null ? auth.user : 'underfine';
         const getfile = StorageApi.GetPathApi('/api/getfile/');
-        return view.render('episodes',{username: username, category: listcategory, getfile: getfile, episode: episode, tags: tags})
+        return view.render('episodes',{user: user, category: listcategory, getfile: getfile, episode: episode, tags: tags})
     }
 
     async search({response, params}){

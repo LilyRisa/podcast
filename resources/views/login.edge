@@ -3633,7 +3633,6 @@ $('#form_reg').on('submit',function(e){
         password: $('#c_pass').val(),
         _csrf: '{{ csrfToken }}'
     };
-	console.log(data);
     if(data.username == '' || data.email == '' || data.fullname == '' || data.password == '' || data.username == null || data.email == null || data.fullname == null || data.password == null){
         $('#reg_mess').text('vui lòng không để trống các trường yêu cầu');
     }else{

@@ -29,9 +29,12 @@
 			<!-- Submit -->
 			
 			@loggedIn
-				@if(username != null)
+				@if(user.username != null)
+					@if(user.authority == 2)
+					<div class="submit"><a href="{{route('admin.index')}}">Admin panel</a></div>
+					@endif
 				<div class="submit"><a href="{{route('podcast.index')}}">Submit a Podcast</a></div>
-		<div class="submit" id="login"><a href="{{route('profile.index')}}">{{ username }}</a></div>
+		<div class="submit" id="login"><a href="{{route('profile.index')}}">{{ user.username }}</a></div>
 				<div class="submit" id="logout"><a href="#">Logout</a></div>
 				@endif
 			@else

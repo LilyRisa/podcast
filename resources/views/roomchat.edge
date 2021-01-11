@@ -123,7 +123,6 @@
             })
 
             chat.on('message', (message) => {
-                console.log(message);
                 $.ajax({
                    url: '{{route('chatroom.getuser')}}',
                    type: 'post',
@@ -139,7 +138,6 @@
                     data_result.created_at = message.created_at;
                     data_result.messenges = message.body;
                     data_result.user = result;
-                    console.log(data_result);
                     if(result.id == auth){
                         temp = mess_template('{{getfile}}',data_result,'sent');
                         $('#form_mess').append(temp);
@@ -235,7 +233,6 @@
                     $('#form_mess .incoming_msg:first-child').fadeIn('slow');
                 }
                 $('#form_mess').scrollTop($('#form_mess').height());
-                //console.log(temp);
             });
         });
 
@@ -266,7 +263,6 @@
                             $('#form_mess .incoming_msg:first-child').fadeIn('slow');
                         }
                         $('#form_mess').scrollTop(500);
-                        //console.log(temp);
                     });
         });
 

@@ -79,7 +79,6 @@
 																		});
 																		wavesurfer{{data.id}}.on('ready', function () {
 																			const volumn = getVolumn();
-																			console.log(volumn);
 																			if(volumn != null){
 																				wavesurfer{{data.id}}.setVolume(volumn);
 																				$('#myRange_{{data.id}}').val(volumn*100);

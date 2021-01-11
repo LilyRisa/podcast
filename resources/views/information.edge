@@ -175,7 +175,6 @@
 				address:address,
 				descriptions:descriptions
 			};
-			console.log(data);
 			$.ajax({
 				url: '{{route('profile.SaveInfor')}}',
 				type: 'post',
@@ -191,7 +190,6 @@
 		$('#up_avatar').on('change',function(){
 			$('#loading').show();
 			var file = $('#up_avatar').prop('files')[0];
-			console.log(file);
 			var data = new FormData();
 			if (file.size > 5000000) {
 				$('#loading').hide();
@@ -236,7 +234,6 @@
 						speed: 200,
 					});
 				}
-			console.log(result);
 			});
 		}
   });
