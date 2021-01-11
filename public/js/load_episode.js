@@ -1,4 +1,4 @@
-function template(data, url){
+function template(data, url, route_cate){
 	let tmp = '';
 	for(let i=0; i < data.length; i++){
 		tmp += `
@@ -11,7 +11,7 @@ function template(data, url){
 										<div class="show_tags">
 											<div class="tags">
 												<ul class="d-flex flex-row align-items-start justify-content-start">
-													<li><a href="#">${data[i].category.name}</a></li>
+													<li><a href="${route_cate + '?' + data[i].category.id}">${data[i].category.name}</a></li>
 												</ul>
 											</div>
 										</div>

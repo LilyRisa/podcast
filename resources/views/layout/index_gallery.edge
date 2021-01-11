@@ -8,7 +8,7 @@
 							<div class="tags" style="top: -35px;">
 								<ul class="d-flex flex-row align-items-start justify-content-start">
 									@each(tag in data.tag)
-									<li><a href="#">{{tag.name}}</a></li>
+									<li class="meta-tag"><a href="#">{{tag.name}}</a></li>
 									@endeach
 								</ul>
 							</div>
@@ -26,7 +26,7 @@
 										<img src="{{getfile}}{{data.images}}" alt="" style="height: 163px;object-fit: cover;">
 											<div class="tags">
 												<ul class="d-flex flex-row align-items-start justify-content-start">		
-													<li><a href="#">{{data.category.name}}</a></li>										
+													<li><a href="{{route('episodes.index')}}?{{data.category.id}}">{{data.category.name}}</a></li>										
 												</ul>
 											</div>
 										</div>
