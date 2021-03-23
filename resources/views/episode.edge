@@ -256,6 +256,14 @@
 <script src="{{assetsUrl('js/episode.js')}}"></script>
 <script>
 	$(document).ready(function(){
+		$('.episode_image').on('click',()=>{
+			$.magnificPopup.open({
+				items: {
+					src: '{{getfile}}{{episode.images}}'
+				},
+				type: 'image'
+			});
+		})
 		//load detect audio
 		$('#detect').on('click', function(){
 			$('#search_load').show();
