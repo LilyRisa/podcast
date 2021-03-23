@@ -7,7 +7,7 @@ var template_profile = (url,data) => {
             <div class="col-xs-12 col-sm-12 post">
                 <div class="panel panel-default panel-google-plus">
                     <div class="panel-heading">
-                        <img class="img-circle pull-left img-thumbnail" style="width: 70px;height: 70px;object-fit: cover;" src="${url + data.user.avatar}" alt="Mouse0270" />
+                        <img class="img-circle pull-left img-thumbnail img-profile" style="width: 70px;height: 70px;object-fit: cover;" src="${url + data.user.avatar}" alt="Mouse0270" />
                         <h3><a href="/user/${data.user.username}">${data.user.fullname}</a></h3>
                         <h5><span>Shared publicly</span> - <span>${data.created_at}</span> </h5>
                     </div>
@@ -26,7 +26,7 @@ var template_profile = (url,data) => {
             <div class="col-xs-12 col-sm-12 post">
                 <div class="panel panel-default panel-google-plus">
                     <div class="panel-heading">
-                        <img class="img-circle pull-left img-thumbnail" style="width: 70px;height: 70px;object-fit: cover;" src="${url + data.user.avatar}" alt="Mouse0270" />
+                        <img class="img-circle pull-left img-thumbnail img-profile" style="width: 70px;height: 70px;object-fit: cover;" src="${url + data.user.avatar}" alt="Mouse0270" />
                         <h3><a href="/user/${data.user.username}">${data.user.fullname}</a></h3>
                         <h5><span>Shared publicly</span> - <span>${data.created_at}</span> </h5>
                     </div>
