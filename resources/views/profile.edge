@@ -283,7 +283,7 @@
 			if(img == ''){
 				img = null;
 			}else{
-				img = img.split('/')[5];
+				img = img.split('/').pop();
 			}
 			if(post != ''){
 				let data = {
