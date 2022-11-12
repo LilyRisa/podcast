@@ -1270,3 +1270,6 @@ section
 .meta-tag{
 	background: #673ab7 !important;
 }
+audio{
+	display: none !important;
+}
