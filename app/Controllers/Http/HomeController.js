@@ -4,6 +4,7 @@ const Episode = use('App/Models/Episode')
 const Comment = use('App/Models/Comment')
 const StorageApi = use('App/Service/StorageApi')
 const Database = use('Database')
+const Env = use('Env');
 
 class HomeController {
     async index ({ view, auth}) {
@@ -19,8 +20,9 @@ class HomeController {
         const user = auth.user != null ? auth.user : 'underfine';
         const getfile = StorageApi.GetPathApi('/api/getfile/');
         let cate_item = await Category.query().with('episode').fetch()
-        cate_item = cate_item.toJSON()
-        return view.render('home', {user: user, category: listcategory, getfile: getfile, episode: episode, cate_item: cate_item, count_cmt: count_cmt})
+        cate_item = cate_item.toJSON();
+        const serverip = Env.get('SEVER_IP', 'http://127.0.0.1');
+        return view.render('home', {user: user, category: listcategory, getfile: getfile, episode: episode, cate_item: cate_item, count_cmt: count_cmt, serverip: serverip})
     }
     async pagination ({response , params}) {
         const page = params.id

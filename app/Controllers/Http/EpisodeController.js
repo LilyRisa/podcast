@@ -4,6 +4,7 @@ const Episode = use('App/Models/Episode')
 const Comment = use('App/Models/Comment')
 const StorageApi = use('App/Service/StorageApi')
 const Tags = use('App/Models/Tags')
+const Env = use('Env');
 
 class EpisodeController {
     async index({view, auth , params}){
@@ -19,7 +20,8 @@ class EpisodeController {
         const user = auth.user != null ? auth.user : 'underfine';
         const profile = auth.user;
         const getfile = StorageApi.GetPathApi('/api/getfile/');
-        return view.render('episode',{user: user, category: listcategory, getfile: getfile, episode: episode, tags: tags, profile: profile, count_cmt: count_cmt})
+        const serverip = Env.get('SEVER_IP', 'http://127.0.0.1');
+        return view.render('episode',{user: user, category: listcategory, getfile: getfile, episode: episode, tags: tags, profile: profile, count_cmt: count_cmt, serverip: serverip})
     }
 
     async comment({ response , params }){

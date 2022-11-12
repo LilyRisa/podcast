@@ -67,6 +67,7 @@
 																	</div>
 																</div>
 																<script>
+																	wavesurfer.load('{{serverip + "/api/getfile/" + data.path_audio}}');
 																	$(document).ready(function(){
 																		var wavesurfer{{data.id}} = WaveSurfer.create({
 																			container: '#episode_{{data.id}}',

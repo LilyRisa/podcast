@@ -371,7 +371,7 @@
 			
 		});
 
-
+		wavesurfer.load('{{serverip + "/api/getfile/" + episode.path_audio}}');
 		var wavesurfer = WaveSurfer.create({
 			container: '#episode',
 			waveColor: '#5de2fb',

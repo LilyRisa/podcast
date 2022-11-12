@@ -18,9 +18,10 @@ class EpisodesController {
             count_cmt = count_cmt.toJSON()
             episode[i].count_cmt = count_cmt.length
         }
+        const serverip = Env.get('SEVER_IP', 'http://127.0.0.1');
         const user = auth.user != null ? auth.user : 'underfine';
         const getfile = StorageApi.GetPathApi('/api/getfile/');
-        return view.render('episodes',{user: user, category: listcategory, getfile: getfile, episode: episode, tags: tags})
+        return view.render('episodes',{user: user, category: listcategory, getfile: getfile, episode: episode, tags: tags, serverip: serverip})
     }
 
     async search({response, params}){
