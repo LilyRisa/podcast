@@ -12,6 +12,8 @@ database/*.sqlite
 
 # VSCode & Webstorm history directories
 .env
+.htaccess
+stderr.log
 .history
 .idea
 .vscode
