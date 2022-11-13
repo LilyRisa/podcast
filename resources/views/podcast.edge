@@ -235,14 +235,14 @@
     var file = $('#file_audio').prop('files')[0];
     var data = new FormData();
     if(typeof file != 'undefined'){
-        if(file.size > 20000000){
+        if(file.size > 500000000){
             $('#loading').hide();
             $.MessageBox({
                 buttonDone: "OK",
                 buttonFail : undefined,
                 top: "25%",
                 input: false,
-                message: "File upload max size 20MB",
+                message: "File upload max size 500MB",
                 queue: true,
                 speed: 200,
             });
