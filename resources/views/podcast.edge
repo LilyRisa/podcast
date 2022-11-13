@@ -232,7 +232,7 @@
   //$('#tags').tagsinput('items')
   $('#file_audio').on('change',function(){
     // $('#loading').show();
-    $('.loading_upload').html(`<img class="img-fluid mx-2" width="20" height="20" src="/loading.svg">Đang tải lên ...`);
+    $('.loading_upload').html('<img class="img-fluid mx-2" width="20" height="20" src="/loading.svg">Đang tải lên ...');
     var file = $('#file_audio').prop('files')[0];
     var data = new FormData();
     if(typeof file != 'undefined'){
@@ -261,7 +261,7 @@
                 'x-csrf-token': '{{ csrfToken }}',
             }
             }).done((result) =>{
-                $('.loading_upload').html(`Tải lên thành công`);
+                $('.loading_upload').html('Tải lên thành công');
                 result = JSON.parse(result);
                 if(result.result.status == 'success'){
                     $('#remote_play_url').val(result.result.token_file);
@@ -285,11 +285,10 @@
                 }
             }).fail(e => {
                 $('#file_audio').val('');
-                $('.loading_upload').html(`Lỗi server hoặc lỗi mạng`);
+                $('.loading_upload').html('Lỗi server hoặc lỗi mạng');
             });
         }
     }
-    
   });
 
   $('#thumb_file').on('change',function(){
