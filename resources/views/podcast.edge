@@ -258,6 +258,7 @@
             cache: false,
             processData: false,
             contentType: false,
+            timeout: Infinity,
             headers: {
                 'x-csrf-token': '{{ csrfToken }}',
             }
@@ -284,7 +285,8 @@
                         speed: 200,
                     });
                 }
-            }).fail(e => {
+            }).fail((jqXHR, textStatus) => {
+                console.log(jqXHR, textStatus);
                 $('#file_audio').val('');
                 $('.loading_upload').html('Lỗi server hoặc lỗi mạng');
             }).always(function( xhr, status ) {
