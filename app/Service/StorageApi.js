@@ -13,12 +13,17 @@ class StorageApi {
         return json
     }
     async post(data, type){
-        let json = await axios.post(this.path, data, {
+        let json = await axios({
+            method: 'post',
+            url: this.path,
+            data: data,
             headers: {
                 Authorization: this.header,
                 'Content-Type': type
-            }
-          })
+            },
+            maxContentLength: 100000000,
+            maxBodyLength: 1000000000
+        });
         return json.data
     }
 
