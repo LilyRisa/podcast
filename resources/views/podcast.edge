@@ -252,13 +252,11 @@
             $.ajax({
             url: '{{PathUpload}}',
             type:'POST',
-            dataType: 'JSON',
-            mimeType: "multipart/form-data",
+            dataType: 'text',
             data: data,
             cache: false,
             processData: false,
             contentType: false,
-            timeout: Infinity,
             headers: {
                 'x-csrf-token': '{{ csrfToken }}',
             }
