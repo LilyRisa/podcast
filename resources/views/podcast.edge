@@ -61,7 +61,7 @@
                                     <div class="form-group">
                                       <label for="file_audio">Audio file</label>
                                       <input type="file" name="file_audio" id="file_audio"  class="form-control" accept="audio/*"/>
-                                      <div>can be mp3</div>
+                                      <div class="loading_upload">can be mp3</div>
                                   </div>
                                     <div class="form-group">
                                         <label for="remote_play_url">Audio Token</label>
@@ -231,7 +231,8 @@
     });
   //$('#tags').tagsinput('items')
   $('#file_audio').on('change',function(){
-    $('#loading').show();
+    // $('#loading').show();
+    $('.loading_upload').html(`<img class="img-fluid mx-2" width="20" height="20" src="/loading.svg">Đang tải lên ...`);
     var file = $('#file_audio').prop('files')[0];
     var data = new FormData();
     if(typeof file != 'undefined'){
@@ -260,7 +261,7 @@
                 'x-csrf-token': '{{ csrfToken }}',
             }
             }).done((result) =>{
-                $('#loading').hide();
+                $('.loading_upload').html(`Tải lên thành công`);
                 result = JSON.parse(result);
                 if(result.result.status == 'success'){
                     $('#remote_play_url').val(result.result.token_file);
@@ -282,10 +283,11 @@
                         speed: 200,
                     });
                 }
+            }).fail(e => {
+                $('#file_audio').val('');
+                $('.loading_upload').html(`Lỗi server hoặc lỗi mạng`);
             });
         }
-    }else{
-        $('#loading').hide();
     }
     
   });
