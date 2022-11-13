@@ -290,7 +290,7 @@
                 $('#file_audio').val('');
                 $('.loading_upload').html('Lỗi server hoặc lỗi mạng');
             }).always(function( xhr, status ) {
-                axhr.addEventListener("progress", function (evt) {
+                xhr.addEventListener("progress", function (evt) {
                     if (evt.lengthComputable) {
                         var percentComplete = evt.loaded / evt.total;
                         console.log(percentComplete);
