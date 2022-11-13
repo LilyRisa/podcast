@@ -1273,3 +1273,7 @@ section
 audio{
 	display: none !important;
 }
+wave{
+	background: #a2c7ff61;
+    border-radius: 11px;
+}
