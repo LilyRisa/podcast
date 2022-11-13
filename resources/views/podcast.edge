@@ -232,7 +232,7 @@
   //$('#tags').tagsinput('items')
   $('#file_audio').on('change',function(){
     // $('#loading').show();
-    $('.loading_upload').html('<img class="img-fluid mx-2" width="20" height="20" src="/loading.svg">Đang tải lên ...');
+    $('.loading_upload').html('<img class="img-fluid mx-2" width="20" height="20" src="/loading.svg">Đang tải lên ... <p id="progress"></p>');
     var file = $('#file_audio').prop('files')[0];
     var data = new FormData();
     if(typeof file != 'undefined'){
@@ -287,6 +287,14 @@
             }).fail(e => {
                 $('#file_audio').val('');
                 $('.loading_upload').html('Lỗi server hoặc lỗi mạng');
+            }).always(function( xhr, status ) {
+                axhr.addEventListener("progress", function (evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        console.log(percentComplete);
+                        $('$progress').text(percentComplete * 100 + '%');
+                    }
+                }, false);
             });
         }
     }
