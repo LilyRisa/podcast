@@ -252,7 +252,8 @@
             $.ajax({
             url: '{{PathUpload}}',
             type:'POST',
-            dataType: 'text',
+            dataType: 'JSON',
+            mimeType: "multipart/form-data",
             data: data,
             cache: false,
             processData: false,
